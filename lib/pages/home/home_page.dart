@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:market_list/components/card_product_component.dart';
 import 'package:market_list/components/floating_button_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
+import 'package:market_list/models/product_model.dart';
+import 'package:market_list/repositories/data_test.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
@@ -10,6 +13,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<ProductModel> list = DataTest.listProducts;
+
     return StatusBarComponent(
       child: Scaffold(
         backgroundColor: AppColors.celeste[200],
@@ -19,16 +24,16 @@ class HomePage extends StatelessWidget {
               vertical: AppDimension.dm_16,
               horizontal: AppDimension.dm_24,
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: AppDimension.dm_8),
-                  _buildHeader(),
-                  const SizedBox(height: AppDimension.dm_32),
-                  _buildPurchaseInfo(),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: AppDimension.dm_8),
+                _buildHeader(),
+                // const SizedBox(height: AppDimension.dm_32),
+                // _buildPurchaseInfo(),
+                const SizedBox(height: 150),
+                _buildListView(list),
+              ],
             ),
           ),
         ),
@@ -92,6 +97,44 @@ class HomePage extends StatelessWidget {
             'Detalhes da sua compra',
             style: AppFonts.size_4(color: AppColors.neutral[700]),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListView(List<ProductModel> list) {
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Seus Produtos',
+                style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
+              ),
+              Text(
+                '11/09/2021',
+                style: AppFonts.size_2(),
+              )
+            ],
+          ),
+          const SizedBox(height: AppDimension.dm_16),
+          Expanded(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                final ProductModel productModel = list[index];
+                return Padding(
+                  padding: const EdgeInsets.only(top: AppDimension.dm_8),
+                  child: CardProductComponent(
+                    productModel: productModel,
+                  ),
+                );
+              },
+              itemCount: list.length,
+            ),
+          ),
         ],
       ),
     );

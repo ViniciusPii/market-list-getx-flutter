@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ProductModel {
   ProductModel({
     required this.id,
@@ -15,7 +17,12 @@ class ProductModel {
   final double fullPrice;
   final DateTime timestamp;
 
-  double changeFullPrice(double price, int quantity) {
+  static double changeFullPrice(double price, int quantity) {
     return price * quantity;
+  }
+
+  static String formatCurrency(double value) {
+    final String real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(value);
+    return real;
   }
 }
