@@ -45,4 +45,16 @@ class DataTest {
       timestamp: DateTime.now(),
     ),
   ];
+
+  static int listAmountsCalculate() {
+    return listProducts
+        .map((ProductModel product) => product.quantity)
+        .reduce((int firstValue, int lastValue) => firstValue + lastValue);
+  }
+
+  static double listFullPriceCalculate() {
+    return listProducts
+        .map((ProductModel product) => product.fullPrice)
+        .reduce((double firstValue, double lastValue) => firstValue + lastValue);
+  }
 }

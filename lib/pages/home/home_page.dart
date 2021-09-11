@@ -29,9 +29,9 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 const SizedBox(height: AppDimension.dm_8),
                 _buildHeader(),
-                // const SizedBox(height: AppDimension.dm_32),
-                // _buildPurchaseInfo(),
-                const SizedBox(height: 150),
+                const SizedBox(height: AppDimension.dm_48),
+                _buildPurchaseInfo(),
+                const SizedBox(height: AppDimension.dm_48),
                 _buildListView(list),
               ],
             ),
@@ -94,8 +94,12 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Detalhes da sua compra',
-            style: AppFonts.size_4(color: AppColors.neutral[700]),
+            'Valor total',
+            style: AppFonts.size_2(color: AppColors.neutral[600]),
+          ),
+          Text(
+            ProductModel.formatCurrency(DataTest.listFullPriceCalculate()),
+            style: AppFonts.size_10(color: AppColors.pink[400]),
           )
         ],
       ),
@@ -105,21 +109,13 @@ class HomePage extends StatelessWidget {
   Widget _buildListView(List<ProductModel> list) {
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Seus Produtos',
-                style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
-              ),
-              Text(
-                '11/09/2021',
-                style: AppFonts.size_2(),
-              )
-            ],
+          Text(
+            '${DataTest.listAmountsCalculate()} itens no seu carrinho!',
+            style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
           ),
-          const SizedBox(height: AppDimension.dm_16),
+          const SizedBox(height: AppDimension.dm_8),
           Expanded(
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
