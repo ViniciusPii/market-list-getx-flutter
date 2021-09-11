@@ -5,7 +5,6 @@ class AppRoutes {
   Map<String, WidgetBuilder> appRoutes = <String, WidgetBuilder>{
     // default
     '/': (_) => const HomePage(),
-
     // app
     //auth
   };

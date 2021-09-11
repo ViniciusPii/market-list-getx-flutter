@@ -1,8 +1,10 @@
 import 'package:market_list/models/product_model.dart';
 
 class DataTest {
-  final Map<String, ProductModel> listProducts = <String, ProductModel>{
-    '1': ProductModel(
+  DataTest._();
+
+  static List<ProductModel> listProducts = <ProductModel>[
+    ProductModel(
       id: '1',
       productName: 'Abacate',
       price: 7.99,
@@ -10,7 +12,7 @@ class DataTest {
       fullPrice: 7.99,
       timestamp: DateTime.now(),
     ),
-    '2': ProductModel(
+    ProductModel(
       id: '2',
       productName: 'Banana',
       price: 4.50,
@@ -18,7 +20,7 @@ class DataTest {
       fullPrice: 9,
       timestamp: DateTime.now(),
     ),
-    '3': ProductModel(
+    ProductModel(
       id: '3',
       productName: 'Tomate',
       price: 5.49,
@@ -26,7 +28,7 @@ class DataTest {
       fullPrice: 5.49,
       timestamp: DateTime.now(),
     ),
-    '4': ProductModel(
+    ProductModel(
       id: '4',
       productName: 'Veja',
       price: 3.50,
@@ -34,7 +36,7 @@ class DataTest {
       fullPrice: 7,
       timestamp: DateTime.now(),
     ),
-    '5': ProductModel(
+    ProductModel(
       id: '5',
       productName: 'Chá gelado',
       price: 5.50,
@@ -42,5 +44,5 @@ class DataTest {
       fullPrice: 11,
       timestamp: DateTime.now(),
     ),
-  };
+  ];
 }

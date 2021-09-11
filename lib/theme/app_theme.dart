@@ -16,9 +16,6 @@ class AppTheme {
         primarySwatch: _primary,
         accentColor: _accent,
         primaryColor: _primary,
-        // textTheme: GoogleFonts.architectsDaughterTextTheme(
-        //   Theme.of(context).textTheme,
-        // ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
