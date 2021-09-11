@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:market_list/models/product_model.dart';
 
-class DataTest {
-  DataTest._();
+class ProductListRepository extends ChangeNotifier {
+  ProductListRepository();
 
-  static List<ProductModel> listProducts = <ProductModel>[
+  final List<ProductModel> _productList = <ProductModel>[
     ProductModel(
       id: '1',
       productName: 'Abacate',
@@ -46,14 +47,31 @@ class DataTest {
     ),
   ];
 
-  static int listAmountsCalculate() {
-    return listProducts
+  List<ProductModel> get productList => _productList.reversed.toList();
+
+  void add() {
+    _productList.add(
+      ProductModel(
+        id: '6',
+        productName: 'Abacaxi',
+        price: 5.75,
+        quantity: 1,
+        fullPrice: 100,
+        timestamp: DateTime.now(),
+      ),
+    );
+
+    notifyListeners();
+  }
+
+  int listAmountsCalculate() {
+    return _productList
         .map((ProductModel product) => product.quantity)
         .reduce((int firstValue, int lastValue) => firstValue + lastValue);
   }
 
-  static double listFullPriceCalculate() {
-    return listProducts
+  double listFullPriceCalculate() {
+    return _productList
         .map((ProductModel product) => product.fullPrice)
         .reduce((double firstValue, double lastValue) => firstValue + lastValue);
   }
