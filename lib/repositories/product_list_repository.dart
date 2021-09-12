@@ -64,6 +64,12 @@ class ProductListRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  void delete(ProductModel product) {
+    _productList.remove(product);
+
+    notifyListeners();
+  }
+
   int listAmountsCalculate() {
     return _productList
         .map((ProductModel product) => product.quantity)

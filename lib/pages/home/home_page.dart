@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/components/card_product_component.dart';
 import 'package:market_list/components/floating_button_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
@@ -25,17 +27,19 @@ class HomePage extends StatelessWidget {
                   vertical: AppDimension.dm_16,
                   horizontal: AppDimension.dm_24,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const SizedBox(height: AppDimension.dm_8),
-                    _buildHeader(),
-                    const SizedBox(height: AppDimension.dm_48),
-                    _buildPurchaseInfo(productListRepository),
-                    const SizedBox(height: AppDimension.dm_48),
-                    _buildListView(productListRepository),
-                  ],
-                ),
+                child: productListRepository.productList.isNotEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: AppDimension.dm_8),
+                          _buildHeader(),
+                          const SizedBox(height: AppDimension.dm_48),
+                          _buildPurchaseInfo(productListRepository),
+                          const SizedBox(height: AppDimension.dm_48),
+                          _buildListView(productListRepository),
+                        ],
+                      )
+                    : _buildEmptyView(),
               ),
             ),
             floatingActionButton: FloatingButtonComponent(
@@ -90,6 +94,41 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _buildEmptyView() {
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: AppDimension.dm_8),
+        _buildHeader(),
+        Expanded(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  FontAwesomeIcons.exclamationTriangle,
+                  color: AppColors.neutral[800],
+                  size: AppDimension.dm_32,
+                ),
+                const SizedBox(height: AppDimension.dm_16),
+                Text(
+                  'Carrinho vazio!',
+                  style: AppFonts.size_10(),
+                ),
+                const SizedBox(height: AppDimension.dm_16),
+                Text(
+                  'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
+                  style: AppFonts.size_3(color: AppColors.neutral[600]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _buildPurchaseInfo(ProductListRepository productListRepository) {
     return Container(
       width: double.infinity,
@@ -115,7 +154,9 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '${productListRepository.listAmountsCalculate()} itens no seu carrinho!',
+            productListRepository.listAmountsCalculate() == 1
+                ? '${productListRepository.listAmountsCalculate()} item no seu carrinho!'
+                : '${productListRepository.listAmountsCalculate()} itens no seu carrinho!',
             style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
           ),
           const SizedBox(height: AppDimension.dm_8),
@@ -123,12 +164,35 @@ class HomePage extends StatelessWidget {
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                final ProductModel productModel = productListRepository.productList[index];
+                final ProductModel product = productListRepository.productList[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: AppDimension.dm_8),
-                  child: CardProductComponent(
-                    productModel: productModel,
-                    action: () {},
+                  child: Slidable(
+                    actionPane: const SlidableDrawerActionPane(),
+                    child: Builder(
+                      builder: (BuildContext context) => CardProductComponent(
+                        productModel: product,
+                        action: () => _slidableCloseOrOpen(context),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Editar',
+                        color: Colors.transparent,
+                        icon: FontAwesomeIcons.edit,
+                        foregroundColor: AppColors.pink[400],
+                        onTap: () {},
+                      ),
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Excluir',
+                        color: Colors.transparent,
+                        icon: FontAwesomeIcons.trashAlt,
+                        foregroundColor: AppColors.pink[400],
+                        onTap: () => productListRepository.delete(product),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -138,5 +202,12 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _slidableCloseOrOpen(BuildContext context) {
+    final SlidableState slidable = Slidable.of(context)!;
+    final bool isClosed = slidable.renderingMode == SlidableRenderingMode.none;
+
+    isClosed ? slidable.open() : slidable.close();
   }
 }
