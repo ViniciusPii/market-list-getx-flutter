@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
@@ -16,6 +17,7 @@ class AppTheme {
         primarySwatch: _primary,
         accentColor: _accent,
         primaryColor: _primary,
+        primaryTextTheme: GoogleFonts.montserratTextTheme(),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
