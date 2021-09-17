@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class ProductModel {
   ProductModel({
-    required this.id,
+    this.id = '',
     required this.productName,
     required this.price,
     required this.quantity,

@@ -20,40 +20,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-    final ProductListRepository productListRepository = context.read();
-    productListRepository.readAll();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StatusBarComponent(
-      child: Consumer<ProductListRepository>(
-        builder: (__, ProductListRepository productListRepository, _) {
-          return Scaffold(
-            backgroundColor: AppColors.celeste[200],
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppDimension.dm_16,
-                  horizontal: AppDimension.dm_24,
-                ),
-                child: Column(
+      child: Scaffold(
+        backgroundColor: AppColors.celeste[200],
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppDimension.dm_16,
+              horizontal: AppDimension.dm_24,
+            ),
+            child: Consumer<ProductListRepository>(
+              builder: (_, ProductListRepository productListRepository, __) {
+                return Column(
                   children: <Widget>[
                     _buildHeader(),
                     _buildView(productListRepository),
                   ],
-                ),
-              ),
-            ),
-            floatingActionButton: FloatingButtonComponent(
-              action: () {
-                Navigator.pushNamed(context, '/forms');
+                );
               },
             ),
-          );
-        },
+          ),
+        ),
+        floatingActionButton: FloatingButtonComponent(
+          action: () {
+            Navigator.pushNamed(context, '/forms');
+          },
+        ),
       ),
     );
   }
@@ -170,11 +163,9 @@ class _HomePageState extends State<HomePage> {
             ),
             child: const CircleAvatar(
               radius: AppDimension.dm_32,
-              backgroundImage: NetworkImage(
-                'https://scontent.fcpq14-1.fna.fbcdn.net/v/t39.30808-6/233338025_4343486219051381_6788940961759058423_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=60Ia-7KSizEAX-DKwqy&_nc_ht=scontent.fcpq14-1.fna&oh=61b5b9c6b8772e756a1dd6cb520b52fa&oe=6141AB82',
-              ),
+              backgroundImage: AssetImage('assets/tais.jpeg'),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -241,7 +232,9 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.trashAlt,
                         foregroundColor: AppColors.pink[400],
-                        onTap: () => productListRepository.remove(product),
+                        onTap: () async {
+                          await productListRepository.remove(product);
+                        },
                       ),
                     ],
                   ),
