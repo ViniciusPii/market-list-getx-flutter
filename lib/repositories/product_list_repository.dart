@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:market_list/models/product_model.dart';
 
 class ProductListRepository extends ChangeNotifier {
-  ProductListRepository();
+  ProductListRepository() {
+    readAll();
+  }
 
   List<ProductModel> _productList = <ProductModel>[];
   final CollectionReference<Map<String, dynamic>> _productCL =
       FirebaseFirestore.instance.collection('products');
 
   List<ProductModel> get productList => _productList;
+
   bool isLoading = false;
 
   bool _isLoading() {
@@ -41,27 +44,39 @@ class ProductListRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> save() async {
+  Future<void> save(ProductModel product) async {
+    _isLoading();
+    notifyListeners();
+
     final String id = _productCL.doc().id;
 
-    await _productCL.doc(id).set(
-      <String, dynamic>{
-        'id': id,
-        'productName': 'Abacaxi',
-        'quantity': 1,
-        'price': 5.99,
-        'fullPrice': 5.99,
-        'timestamp': DateTime.now(),
-      },
-    );
+    final Map<String, dynamic> productData = <String, dynamic>{
+      'id': id,
+      'productName': product.productName,
+      'quantity': product.quantity,
+      'price': product.price,
+      'fullPrice': ProductModel.changeFullPrice(
+        product.price,
+        product.quantity,
+      ),
+      'timestamp': DateTime.now(),
+    };
 
+    await _productCL.doc(id).set(productData);
+
+    _isLoading();
+    await readAll();
     notifyListeners();
   }
 
   Future<void> remove(ProductModel product) async {
+    _isLoading();
+    notifyListeners();
+
     await _productCL.doc(product.id).delete();
     _productList.remove(product);
 
+    _isLoading();
     notifyListeners();
   }
 
