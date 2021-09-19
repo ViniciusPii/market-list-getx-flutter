@@ -1,84 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:market_list/models/product_model.dart';
 
 class ProductListRepository extends ChangeNotifier {
-  ProductListRepository();
+  ProductListRepository() {
+    readAll();
+  }
 
-  final List<ProductModel> _productList = <ProductModel>[
-    ProductModel(
-      id: '1',
-      productName: 'Abacate',
-      price: 7.99,
-      quantity: 1,
-      fullPrice: 7.99,
-      timestamp: DateTime.now(),
-    ),
-    ProductModel(
-      id: '2',
-      productName: 'Banana',
-      price: 4.50,
-      quantity: 2,
-      fullPrice: 9,
-      timestamp: DateTime.now(),
-    ),
-    ProductModel(
-      id: '3',
-      productName: 'Tomate',
-      price: 5.49,
-      quantity: 1,
-      fullPrice: 5.49,
-      timestamp: DateTime.now(),
-    ),
-    ProductModel(
-      id: '4',
-      productName: 'Veja',
-      price: 3.50,
-      quantity: 2,
-      fullPrice: 7,
-      timestamp: DateTime.now(),
-    ),
-    ProductModel(
-      id: '5',
-      productName: 'Chá gelado',
-      price: 5.50,
-      quantity: 2,
-      fullPrice: 11,
-      timestamp: DateTime.now(),
-    ),
-  ];
+  List<ProductModel> _productList = <ProductModel>[];
 
-  List<ProductModel> get productList => _productList.reversed.toList();
+  final CollectionReference<Map<String, dynamic>> _productCL =
+      FirebaseFirestore.instance.collection('products');
 
-  void add() {
-    _productList.add(
-      ProductModel(
-        id: '6',
-        productName: 'Abacaxi',
-        price: 5.75,
-        quantity: 1,
-        fullPrice: 100,
-        timestamp: DateTime.now(),
-      ),
-    );
+  List<ProductModel> get productList => _productList;
 
+  bool isLoading = false;
+
+  void _isLoading() {
+    isLoading = !isLoading;
     notifyListeners();
   }
 
-  void delete(ProductModel product) {
+  Future<void> readAll() async {
+    _isLoading();
+
+    final QuerySnapshot<Map<String, dynamic>> snapshot =
+        await _productCL.orderBy('timestamp', descending: true).get();
+
+    final List<ProductModel> _newProductList = <ProductModel>[];
+
+    for (final QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      final ProductModel _product = ProductModel.fromDocument(doc);
+      _newProductList.add(_product);
+      _productList = <ProductModel>[..._newProductList];
+    }
+
+    _isLoading();
+  }
+
+  Future<void> save(ProductModel product) async {
+    _isLoading();
+    await _productCL.doc().set(product.toJson());
+    _isLoading();
+    await readAll();
+  }
+
+  Future<void> remove(ProductModel product) async {
+    _isLoading();
+    await _productCL.doc(product.id).delete();
     _productList.remove(product);
-
-    notifyListeners();
+    _isLoading();
   }
 
-  int listAmountsCalculate() {
-    return _productList
-        .map((ProductModel product) => product.quantity)
-        .reduce((int firstValue, int lastValue) => firstValue + lastValue);
-  }
+  int listAmountsCalculate() => _productList
+      .map((ProductModel product) => product.quantity)
+      .reduce((int firstValue, int lastValue) => firstValue + lastValue);
 
-  double listFullPriceCalculate() {
-    return _productList
-        .map((ProductModel product) => product.fullPrice)
-        .reduce((double firstValue, double lastValue) => firstValue + lastValue);
-  }
+  double listFullPriceCalculate() => _productList
+      .map((ProductModel product) => product.fullPrice)
+      .reduce((double firstValue, double lastValue) => firstValue + lastValue);
 }

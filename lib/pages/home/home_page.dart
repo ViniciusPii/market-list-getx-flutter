@@ -11,121 +11,163 @@ import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
     return StatusBarComponent(
-      child: Consumer<ProductListRepository>(
-        builder: (__, ProductListRepository productListRepository, _) {
-          return Scaffold(
-            backgroundColor: AppColors.celeste[200],
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppDimension.dm_16,
-                  horizontal: AppDimension.dm_24,
-                ),
-                child: productListRepository.productList.isNotEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(height: AppDimension.dm_8),
-                          _buildHeader(),
-                          const SizedBox(height: AppDimension.dm_48),
-                          _buildPurchaseInfo(productListRepository),
-                          const SizedBox(height: AppDimension.dm_48),
-                          _buildListView(productListRepository),
-                        ],
-                      )
-                    : _buildEmptyView(),
+      child: Scaffold(
+        backgroundColor: AppColors.celeste[200],
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppDimension.dm_16,
+              horizontal: AppDimension.dm_24,
+            ),
+            child: Column(
+              children: <Widget>[
+                _buildHeader(),
+                Consumer<ProductListRepository>(
+                  builder: (_, ProductListRepository productListRepository, __) {
+                    return _buildView(productListRepository);
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingButtonComponent(
+          action: () {
+            Navigator.pushNamed(context, '/forms');
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildView(ProductListRepository productListRepository) {
+    if (productListRepository.isLoading) {
+      return _buildIsLoadingView();
+    }
+
+    if (productListRepository.productList.isEmpty) {
+      return _buildEmptyView();
+    }
+
+    return _buildContentView(productListRepository);
+  }
+
+  Widget _buildIsLoadingView() {
+    return Expanded(
+      child: Column(
+        children: const <Widget>[
+          SizedBox(height: AppDimension.dm_8),
+          Expanded(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.exclamationTriangle,
+                    color: AppColors.neutral[800],
+                    size: AppDimension.dm_32,
+                  ),
+                  const SizedBox(height: AppDimension.dm_16),
+                  Text(
+                    'Carrinho vazio!',
+                    style: AppFonts.size_10(),
+                  ),
+                  const SizedBox(height: AppDimension.dm_16),
+                  Text(
+                    'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
+                    style: AppFonts.size_3(color: AppColors.neutral[600]),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
-            floatingActionButton: FloatingButtonComponent(
-              action: () => productListRepository.add(),
-            ),
-          );
-        },
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContentView(ProductListRepository productListRepository) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const SizedBox(height: AppDimension.dm_48),
+          _buildPurchaseInfo(productListRepository),
+          const SizedBox(height: AppDimension.dm_48),
+          _buildListView(productListRepository),
+        ],
       ),
     );
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Olá, Tais!',
-              style: AppFonts.size_8(),
-            ),
-            Text(
-              'Seja bem-vinda',
-              style: AppFonts.size_4(
-                color: AppColors.neutral[600],
+    return Padding(
+      padding: const EdgeInsets.only(top: AppDimension.dm_8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Olá, Tais!',
+                style: AppFonts.size_8(),
               ),
-            ),
-          ],
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(AppDimension.dm_32),
-            ),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: AppColors.neutral,
-                blurRadius: 10,
-                offset: const Offset(3, 3),
+              Text(
+                'Seja bem-vinda',
+                style: AppFonts.size_4(
+                  color: AppColors.neutral[600],
+                ),
               ),
             ],
           ),
-          child: const CircleAvatar(
-            radius: AppDimension.dm_32,
-            backgroundImage: NetworkImage(
-              'https://scontent.fcpq14-1.fna.fbcdn.net/v/t39.30808-6/233338025_4343486219051381_6788940961759058423_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=60Ia-7KSizEAX-DKwqy&_nc_ht=scontent.fcpq14-1.fna&oh=61b5b9c6b8772e756a1dd6cb520b52fa&oe=6141AB82',
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildEmptyView() {
-    return Column(
-      children: <Widget>[
-        const SizedBox(height: AppDimension.dm_8),
-        _buildHeader(),
-        Expanded(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.exclamationTriangle,
-                  color: AppColors.neutral[800],
-                  size: AppDimension.dm_32,
-                ),
-                const SizedBox(height: AppDimension.dm_16),
-                Text(
-                  'Carrinho vazio!',
-                  style: AppFonts.size_10(),
-                ),
-                const SizedBox(height: AppDimension.dm_16),
-                Text(
-                  'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
-                  style: AppFonts.size_3(color: AppColors.neutral[600]),
-                  textAlign: TextAlign.center,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppDimension.dm_32),
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: AppColors.neutral,
+                  blurRadius: 10,
+                  offset: const Offset(3, 3),
                 ),
               ],
             ),
+            child: const CircleAvatar(
+              radius: AppDimension.dm_32,
+              backgroundImage: AssetImage('assets/tais.jpeg'),
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
@@ -190,7 +232,7 @@ class HomePage extends StatelessWidget {
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.trashAlt,
                         foregroundColor: AppColors.pink[400],
-                        onTap: () => productListRepository.delete(product),
+                        onTap: () async => await productListRepository.remove(product),
                       ),
                     ],
                   ),
