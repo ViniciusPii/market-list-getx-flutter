@@ -11,7 +11,7 @@ class AppTheme {
   final MaterialColor _primary = AppColors.neutral;
   final Color _accent = AppColors.pink[400]!;
 
-  static const double _buttonHeight = 40;
+  static const double _buttonHeight = 45;
 
   ThemeData get defaultTheme => ThemeData(
         primarySwatch: _primary,
