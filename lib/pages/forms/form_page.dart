@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:market_list/components/text_input_component.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/utils/masks/currency_mask_formatter.dart';
+import 'package:market_list/utils/validators/form_validators.dart';
 import 'package:provider/provider.dart';
 
 class FormPage extends StatefulWidget {
@@ -15,6 +19,17 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final TextEditingController _productEC = TextEditingController();
+  final TextEditingController _quantityEC = TextEditingController(text: '1');
+  final TextEditingController _priceEC = TextEditingController();
+
+  @override
+  void dispose() {
+    _productEC.dispose();
+    _quantityEC.dispose();
+    _priceEC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,59 +45,60 @@ class _FormPageState extends State<FormPage> {
             child: Form(
               key: _form,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                      fillColor: AppColors.white,
-                      filled: true,
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: AppDimension.dm_32, top: AppDimension.dm_32),
-                      border: const OutlineInputBorder(),
-                      hintText: 'Produto',
-                      hintStyle: AppFonts.size_4(color: AppColors.neutral[500]),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppDimension.dm_32),
-                        borderSide: BorderSide(color: AppColors.celeste[200]!),
+                  const SizedBox(height: AppDimension.dm_24),
+                  TextInputComponent(
+                    label: 'Produto',
+                    hint: 'Ex: Tomate',
+                    formatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                        RegExp('[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+|s'),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppDimension.dm_32),
-                        borderSide: BorderSide(color: AppColors.celeste[200]!),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppDimension.dm_32),
-                        borderSide: BorderSide(color: AppColors.celeste[200]!),
-                      ),
-                    ),
+                    ],
+                    validators: FormValidators.checkNotEmptyProductName,
+                    controller: _productEC,
+                  ),
+                  const SizedBox(height: AppDimension.dm_8),
+                  TextInputComponent(
+                    label: 'Quantidade',
+                    hint: 'Ex: 1',
+                    formatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    type: TextInputType.number,
+                    validators: FormValidators.checkAmount,
+                    controller: _quantityEC,
+                  ),
+                  const SizedBox(height: AppDimension.dm_8),
+                  TextInputComponent(
+                    label: 'Preço',
+                    hint: 'Ex: R\$ 2,50',
+                    formatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      CurrencyMaskFormatter(),
+                    ],
+                    type: TextInputType.number,
+                    validators: FormValidators.checkPrice,
+                    controller: _priceEC,
                   ),
                   const SizedBox(height: AppDimension.dm_24),
                   Consumer<ProductListRepository>(
                     builder: (_, ProductListRepository productListRepository, __) {
-                      return ElevatedButton(
-                        onPressed: () async {
-                          await productListRepository.save(
-                            ProductModel(
-                              productName: 'productName',
-                              price: 5,
-                              quantity: 1,
-                              fullPrice: 5,
-                              timestamp: DateTime.now(),
-                            ),
-                          );
-
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Adicionar'),
-                        style: ElevatedButton.styleFrom(
-                          primary: AppColors.pink[400],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppDimension.dm_32),
-                          ),
-                          textStyle: AppFonts.size_3(),
-                        ),
-                      );
+                      return productListRepository.isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.pink[400],
+                              ),
+                            )
+                          : ElevatedButton(
+                              onPressed: () => _saveProduct(productListRepository),
+                              child: const Text('Adicionar'),
+                              style: ElevatedButton.styleFrom(
+                                primary: AppColors.pink[400],
+                                textStyle: AppFonts.size_3(),
+                              ),
+                            );
                     },
                   )
                 ],
@@ -92,5 +108,27 @@ class _FormPageState extends State<FormPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _saveProduct(ProductListRepository productListRepository) async {
+    if (_form.currentState!.validate()) {
+      final String productName = _productEC.text.trim();
+      final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
+      final int quantity = int.parse(_quantityEC.text);
+      final double fullPrice = ProductModel.changeFullPrice(price, quantity);
+      final DateTime timestamp = DateTime.now();
+
+      await productListRepository.save(
+        ProductModel(
+          productName: productName,
+          price: price,
+          quantity: quantity,
+          fullPrice: fullPrice,
+          timestamp: timestamp,
+        ),
+      );
+
+      Navigator.pop(context);
+    }
   }
 }

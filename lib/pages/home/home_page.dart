@@ -30,15 +30,15 @@ class _HomePageState extends State<HomePage> {
               vertical: AppDimension.dm_16,
               horizontal: AppDimension.dm_24,
             ),
-            child: Consumer<ProductListRepository>(
-              builder: (_, ProductListRepository productListRepository, __) {
-                return Column(
-                  children: <Widget>[
-                    _buildHeader(),
-                    _buildView(productListRepository),
-                  ],
-                );
-              },
+            child: Column(
+              children: <Widget>[
+                _buildHeader(),
+                Consumer<ProductListRepository>(
+                  builder: (_, ProductListRepository productListRepository, __) {
+                    return _buildView(productListRepository);
+                  },
+                )
+              ],
             ),
           ),
         ),
@@ -232,9 +232,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.trashAlt,
                         foregroundColor: AppColors.pink[400],
-                        onTap: () async {
-                          await productListRepository.remove(product);
-                        },
+                        onTap: () async => await productListRepository.remove(product),
                       ),
                     ],
                   ),
