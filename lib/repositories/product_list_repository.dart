@@ -45,6 +45,13 @@ class ProductListRepository extends ChangeNotifier {
     await readAll();
   }
 
+  Future<void> update(ProductModel product) async {
+    _isLoading();
+    await _productCL.doc(product.id).update(product.toJson());
+    _isLoading();
+    await readAll();
+  }
+
   Future<void> remove(ProductModel product) async {
     _isLoading();
     await _productCL.doc(product.id).delete();

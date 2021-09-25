@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.edit,
                         foregroundColor: AppColors.pink[400],
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(context, '/forms', arguments: product),
                       ),
                     ],
                     secondaryActions: <Widget>[
