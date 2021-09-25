@@ -11,7 +11,12 @@ import 'package:market_list/utils/validators/form_validators.dart';
 import 'package:provider/provider.dart';
 
 class FormPage extends StatefulWidget {
-  const FormPage({Key? key}) : super(key: key);
+  const FormPage({
+    Key? key,
+    this.product,
+  }) : super(key: key);
+
+  final ProductModel? product;
 
   @override
   _FormPageState createState() => _FormPageState();
@@ -19,9 +24,9 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  final TextEditingController _productEC = TextEditingController();
-  final TextEditingController _quantityEC = TextEditingController(text: '1');
-  final TextEditingController _priceEC = TextEditingController();
+  TextEditingController _productEC = TextEditingController();
+  TextEditingController _quantityEC = TextEditingController(text: '1');
+  TextEditingController _priceEC = TextEditingController();
 
   @override
   void dispose() {
@@ -29,6 +34,16 @@ class _FormPageState extends State<FormPage> {
     _quantityEC.dispose();
     _priceEC.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    if (widget.product != null) {
+      _productEC = TextEditingController(text: widget.product!.productName);
+      _quantityEC = TextEditingController(text: widget.product!.quantity.toString());
+      _priceEC = TextEditingController(text: ProductModel.formatCurrency(widget.product!.price));
+    }
+    super.initState();
   }
 
   @override
@@ -45,9 +60,16 @@ class _FormPageState extends State<FormPage> {
             child: Form(
               key: _form,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(height: AppDimension.dm_24),
+                  Text(
+                    widget.product == null
+                        ? 'Adicione seu produto!'
+                        : 'Editando ${widget.product!.productName}!',
+                    style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
+                  ),
+                  const SizedBox(height: AppDimension.dm_32),
                   TextInputComponent(
                     label: 'Produto',
                     hint: 'Ex: Tomate',
@@ -86,13 +108,17 @@ class _FormPageState extends State<FormPage> {
                   Consumer<ProductListRepository>(
                     builder: (_, ProductListRepository productListRepository, __) {
                       return productListRepository.isLoading
-                          ? Center(
+                          ? Container(
+                              width: AppDimension.dm_24,
+                              height: AppDimension.dm_24,
                               child: CircularProgressIndicator(
                                 color: AppColors.pink[400],
                               ),
                             )
                           : ElevatedButton(
-                              onPressed: () => _saveProduct(productListRepository),
+                              onPressed: () => widget.product == null
+                                  ? _saveProduct(productListRepository)
+                                  : _updateProduct(productListRepository),
                               child: const Text('Adicionar'),
                               style: ElevatedButton.styleFrom(
                                 primary: AppColors.pink[400],
@@ -100,6 +126,15 @@ class _FormPageState extends State<FormPage> {
                               ),
                             );
                     },
+                  ),
+                  const SizedBox(height: AppDimension.dm_16),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Voltar ao inicio'),
+                    style: TextButton.styleFrom(
+                      primary: AppColors.pink[400],
+                      textStyle: AppFonts.size_3(),
+                    ),
                   )
                 ],
               ),
@@ -120,6 +155,30 @@ class _FormPageState extends State<FormPage> {
 
       await productListRepository.save(
         ProductModel(
+          productName: productName,
+          price: price,
+          quantity: quantity,
+          fullPrice: fullPrice,
+          timestamp: timestamp,
+        ),
+      );
+
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> _updateProduct(ProductListRepository productListRepository) async {
+    if (_form.currentState!.validate()) {
+      final String id = widget.product!.id;
+      final String productName = _productEC.text.trim();
+      final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
+      final int quantity = int.parse(_quantityEC.text);
+      final double fullPrice = ProductModel.changeFullPrice(price, quantity);
+      final DateTime timestamp = DateTime.now();
+
+      await productListRepository.update(
+        ProductModel(
+          id: id,
           productName: productName,
           price: price,
           quantity: quantity,
