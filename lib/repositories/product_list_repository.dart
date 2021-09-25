@@ -59,6 +59,16 @@ class ProductListRepository extends ChangeNotifier {
     _isLoading();
   }
 
+  Future<void> removeAll() async {
+    _isLoading();
+    final QuerySnapshot<Map<String, dynamic>> snapshot = await _productCL.get();
+    for (final QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      doc.reference.delete();
+    }
+    _productList.clear();
+    _isLoading();
+  }
+
   int listAmountsCalculate() => _productList
       .map((ProductModel product) => product.quantity)
       .reduce((int firstValue, int lastValue) => firstValue + lastValue);
