@@ -9,6 +9,8 @@ class ProductModel {
     required this.quantity,
     required this.fullPrice,
     required this.timestamp,
+    required this.weight,
+    this.isSelected = false,
   });
 
   factory ProductModel.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
@@ -19,6 +21,8 @@ class ProductModel {
       price: double.parse(doc['price'].toString()),
       fullPrice: double.parse(doc['fullPrice'].toString()),
       timestamp: DateTime.parse(doc['timestamp'].toDate().toString()),
+      weight: double.parse(doc['weight'].toString()),
+      isSelected: doc['isSelected'].toString() == 'true',
     );
   }
 
@@ -29,6 +33,8 @@ class ProductModel {
       'price': price,
       'fullPrice': fullPrice,
       'timestamp': timestamp,
+      'weight': weight,
+      'isSelected': isSelected,
     };
   }
 
@@ -38,13 +44,18 @@ class ProductModel {
   final int quantity;
   final double fullPrice;
   final DateTime timestamp;
+  final double weight;
+  final bool isSelected;
 
-  static double changeFullPrice(double price, int quantity) {
-    return quantity * price;
-  }
+  static double changeFullPriceQuantity(double price, int quantity) => quantity * price;
 
-  static String formatCurrency(double value) {
-    final String real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(value);
-    return real;
-  }
+  static double changeFullPriceWeight(double price, double weight) => weight * price;
+
+  static String formatCurrency(double value) =>
+      NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(value);
+
+  static String formatWeight(double value) =>
+      NumberFormat.currency(locale: 'pt_BR', name: 'Kg ', decimalDigits: 3).format(value);
+
+  static String formatGrams(double value) => (value * 1000).toStringAsFixed(0);
 }
