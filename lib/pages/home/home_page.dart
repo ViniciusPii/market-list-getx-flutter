@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingButtonComponent(
           action: () {
-            Navigator.pushNamed(context, '/forms');
+            Navigator.pushNamed(context, '/save');
           },
         ),
       ),
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.edit,
                         foregroundColor: AppColors.pink[400],
-                        onTap: () => Navigator.pushNamed(context, '/forms', arguments: product),
+                        onTap: () => Navigator.pushNamed(context, '/edit', arguments: product),
                       ),
                     ],
                     secondaryActions: <Widget>[

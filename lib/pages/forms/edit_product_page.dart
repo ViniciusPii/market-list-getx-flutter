@@ -7,42 +7,44 @@ import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import 'package:market_list/utils/masks/currency_mask_formatter.dart';
+import 'package:market_list/utils/masks/weight_mask_formatter.dart';
 import 'package:market_list/utils/validators/form_validators.dart';
 import 'package:provider/provider.dart';
 
-class FormPage extends StatefulWidget {
-  const FormPage({
+class EditProductPage extends StatefulWidget {
+  const EditProductPage({
     Key? key,
-    this.product,
+    required this.product,
   }) : super(key: key);
 
-  final ProductModel? product;
+  final ProductModel product;
 
   @override
-  _FormPageState createState() => _FormPageState();
+  _EditProductPageState createState() => _EditProductPageState();
 }
 
-class _FormPageState extends State<FormPage> {
+class _EditProductPageState extends State<EditProductPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController _productEC = TextEditingController();
   TextEditingController _quantityEC = TextEditingController(text: '1');
   TextEditingController _priceEC = TextEditingController();
+  TextEditingController _weightEC = TextEditingController(text: '0');
 
   @override
   void dispose() {
     _productEC.dispose();
     _quantityEC.dispose();
     _priceEC.dispose();
+    _weightEC.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    if (widget.product != null) {
-      _productEC = TextEditingController(text: widget.product!.productName);
-      _quantityEC = TextEditingController(text: widget.product!.quantity.toString());
-      _priceEC = TextEditingController(text: ProductModel.formatCurrency(widget.product!.price));
-    }
+    _productEC = TextEditingController(text: widget.product.productName);
+    _quantityEC = TextEditingController(text: widget.product.quantity.toString());
+    _priceEC = TextEditingController(text: ProductModel.formatCurrency(widget.product.price));
+    _weightEC = TextEditingController(text: ProductModel.formatWeight(widget.product.weight));
     super.initState();
   }
 
@@ -64,9 +66,7 @@ class _FormPageState extends State<FormPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    widget.product == null
-                        ? 'Adicione seu produto!'
-                        : 'Editando ${widget.product!.productName}!',
+                    'Editando ${widget.product.productName}!',
                     style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
                   ),
                   const SizedBox(height: AppDimension.dm_32),
@@ -82,16 +82,29 @@ class _FormPageState extends State<FormPage> {
                     controller: _productEC,
                   ),
                   const SizedBox(height: AppDimension.dm_8),
-                  TextInputComponent(
-                    label: 'Quantidade',
-                    hint: 'Ex: 1',
-                    formatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    type: TextInputType.number,
-                    validators: FormValidators.checkAmount,
-                    controller: _quantityEC,
-                  ),
+                  if (widget.product.isSelected)
+                    TextInputComponent(
+                      label: 'Peso',
+                      hint: 'Ex: Kg 0,500',
+                      formatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                        WeightMaskFormatter(),
+                      ],
+                      type: TextInputType.number,
+                      validators: FormValidators.checkWeight,
+                      controller: _weightEC,
+                    )
+                  else
+                    TextInputComponent(
+                      label: 'Quantidade',
+                      hint: 'Ex: 1',
+                      formatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      type: TextInputType.number,
+                      validators: FormValidators.checkAmount,
+                      controller: _quantityEC,
+                    ),
                   const SizedBox(height: AppDimension.dm_8),
                   TextInputComponent(
                     label: 'Preço',
@@ -116,9 +129,7 @@ class _FormPageState extends State<FormPage> {
                               ),
                             )
                           : ElevatedButton(
-                              onPressed: () => widget.product == null
-                                  ? _saveProduct(productListRepository)
-                                  : _updateProduct(productListRepository),
+                              onPressed: () => _updateProduct(productListRepository),
                               child: const Text('Adicionar'),
                               style: ElevatedButton.styleFrom(
                                 primary: AppColors.pink[400],
@@ -145,35 +156,16 @@ class _FormPageState extends State<FormPage> {
     );
   }
 
-  Future<void> _saveProduct(ProductListRepository productListRepository) async {
-    if (_form.currentState!.validate()) {
-      final String productName = _productEC.text.trim();
-      final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
-      final int quantity = int.parse(_quantityEC.text);
-      final double fullPrice = ProductModel.changeFullPrice(price, quantity);
-      final DateTime timestamp = DateTime.now();
-
-      await productListRepository.save(
-        ProductModel(
-          productName: productName,
-          price: price,
-          quantity: quantity,
-          fullPrice: fullPrice,
-          timestamp: timestamp,
-        ),
-      );
-
-      Navigator.pop(context);
-    }
-  }
-
   Future<void> _updateProduct(ProductListRepository productListRepository) async {
     if (_form.currentState!.validate()) {
-      final String id = widget.product!.id;
+      final String id = widget.product.id;
       final String productName = _productEC.text.trim();
       final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
+      final double weight = WeightMaskFormatter.unMaskFormatted(_weightEC.text);
       final int quantity = int.parse(_quantityEC.text);
-      final double fullPrice = ProductModel.changeFullPrice(price, quantity);
+      final double fullPrice = widget.product.isSelected
+          ? ProductModel.changeFullPriceWeight(price, weight)
+          : ProductModel.changeFullPriceQuantity(price, quantity);
       final DateTime timestamp = DateTime.now();
 
       await productListRepository.update(
@@ -184,6 +176,8 @@ class _FormPageState extends State<FormPage> {
           quantity: quantity,
           fullPrice: fullPrice,
           timestamp: timestamp,
+          weight: weight,
+          isSelected: widget.product.isSelected,
         ),
       );
 
