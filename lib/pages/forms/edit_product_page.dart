@@ -130,7 +130,7 @@ class _EditProductPageState extends State<EditProductPage> {
                             )
                           : ElevatedButton(
                               onPressed: () => _updateProduct(productListRepository),
-                              child: const Text('Adicionar'),
+                              child: const Text('Editar'),
                               style: ElevatedButton.styleFrom(
                                 primary: AppColors.pink[400],
                                 textStyle: AppFonts.size_3(),

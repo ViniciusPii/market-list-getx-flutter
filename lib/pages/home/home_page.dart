@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:market_list/components/alert_dialog_component.dart';
 import 'package:market_list/components/card_product_component.dart';
 import 'package:market_list/components/floating_button_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
@@ -195,11 +196,35 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            productListRepository.listAmountsCalculate() == 1
-                ? '${productListRepository.listAmountsCalculate()} item no seu carrinho!'
-                : '${productListRepository.listAmountsCalculate()} itens no seu carrinho!',
-            style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                productListRepository.listAmountsCalculate() == 1
+                    ? '${productListRepository.listAmountsCalculate()} item no seu carrinho!'
+                    : '${productListRepository.listAmountsCalculate()} itens no seu carrinho!',
+                style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
+              ),
+              IconButton(
+                onPressed: () {
+                  showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialogComponent(
+                      title: 'Atenção!',
+                      content: 'Você deseja realmente excluir todos itens da lista?',
+                      primaryButtonText: 'Não',
+                      primaryFunction: () => Navigator.pop(context),
+                      secondaryButtonText: 'Sim',
+                      secondaryFunction: () {
+                        productListRepository.removeAll();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                },
+                icon: Icon(FontAwesomeIcons.trashAlt, color: AppColors.pink[400]),
+              )
+            ],
           ),
           const SizedBox(height: AppDimension.dm_8),
           Expanded(
