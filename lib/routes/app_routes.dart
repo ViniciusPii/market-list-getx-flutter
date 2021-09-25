@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/pages/forms/form_page.dart';
+import 'package:market_list/pages/forms/edit_product_page.dart';
+import 'package:market_list/pages/forms/save_product_page.dart';
 import 'package:market_list/pages/home/home_page.dart';
 
 class AppRoutes {
@@ -10,8 +11,8 @@ class AppRoutes {
     // default
     '/': (_) => const HomePage(),
     // app
-    '/forms': (BuildContext context) =>
-        FormPage(product: ModalRoute.of(context)!.settings.arguments as ProductModel?),
-    //auth
+    '/save': (_) => const SaveProductPage(),
+    '/edit': (BuildContext context) =>
+        EditProductPage(product: ModalRoute.of(context)!.settings.arguments as ProductModel),
   };
 }

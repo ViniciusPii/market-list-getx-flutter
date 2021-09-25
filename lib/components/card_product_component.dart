@@ -63,14 +63,14 @@ class CardProductComponent extends StatelessWidget {
                             AppFonts.size_4(weight: FontWeight.w500, color: AppColors.neutral[700]),
                       ),
                       Text(
-                        productModel.quantity == 1
-                            ? '${productModel.quantity} unidade'
-                            : '${productModel.quantity} unidades',
+                        _changeText(),
                         style: AppFonts.size_2(color: AppColors.neutral[700]),
                       ),
                       const SizedBox(height: AppDimension.dm_4),
                       Text(
-                        '${ProductModel.formatCurrency(productModel.price)} cada',
+                        productModel.isSelected
+                            ? '${ProductModel.formatCurrency(productModel.price)} Kg'
+                            : '${ProductModel.formatCurrency(productModel.price)} cada',
                         style: AppFonts.size_1(color: AppColors.pink[400]),
                       ),
                     ],
@@ -101,5 +101,18 @@ class CardProductComponent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _changeText() {
+    if (productModel.quantity > 1) {
+      return '${productModel.quantity} unidades';
+    } else if (productModel.isSelected) {
+      if (productModel.weight >= 1) {
+        return '${productModel.weight} Kg';
+      } else {
+        return '${ProductModel.formatGrams(productModel.weight)} gramas';
+      }
+    }
+    return '${productModel.quantity} unidade';
   }
 }
