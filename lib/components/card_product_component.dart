@@ -39,44 +39,51 @@ class CardProductComponent extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: AppColors.pink[100],
-                      borderRadius: BorderRadius.circular(AppDimension.dm_16),
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: AppColors.pink[100],
+                        borderRadius: BorderRadius.circular(AppDimension.dm_16),
+                      ),
+                      child: Icon(
+                        FontAwesomeIcons.shoppingBasket,
+                        color: AppColors.pink[300],
+                      ),
                     ),
-                    child: Icon(
-                      FontAwesomeIcons.shoppingBasket,
-                      color: AppColors.pink[300],
+                    const SizedBox(width: AppDimension.dm_16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            productModel.productName,
+                            style: AppFonts.size_4(
+                              weight: FontWeight.w500,
+                              color: AppColors.neutral[700],
+                            ),
+                          ),
+                          Text(
+                            _changeText(),
+                            style: AppFonts.size_2(color: AppColors.neutral[700]),
+                          ),
+                          const SizedBox(height: AppDimension.dm_4),
+                          Text(
+                            productModel.isSelected
+                                ? '${ProductModel.formatCurrency(productModel.price)} Kg'
+                                : '${ProductModel.formatCurrency(productModel.price)} cada',
+                            style: AppFonts.size_1(color: AppColors.pink[400]),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: AppDimension.dm_16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        productModel.productName,
-                        style:
-                            AppFonts.size_4(weight: FontWeight.w500, color: AppColors.neutral[700]),
-                      ),
-                      Text(
-                        _changeText(),
-                        style: AppFonts.size_2(color: AppColors.neutral[700]),
-                      ),
-                      const SizedBox(height: AppDimension.dm_4),
-                      Text(
-                        productModel.isSelected
-                            ? '${ProductModel.formatCurrency(productModel.price)} Kg'
-                            : '${ProductModel.formatCurrency(productModel.price)} cada',
-                        style: AppFonts.size_1(color: AppColors.pink[400]),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: AppDimension.dm_8),
               Container(
                 decoration: BoxDecoration(
                   color: AppColors.pink[50],

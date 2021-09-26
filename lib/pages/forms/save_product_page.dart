@@ -63,9 +63,7 @@ class _SaveProductPageState extends State<SaveProductPage> {
                     label: 'Produto',
                     hint: 'Ex: Tomate',
                     formatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                        RegExp('[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+|s'),
-                      ),
+                      TextInputMasks.productNameMask,
                     ],
                     validators: FormValidators.checkNotEmptyProductName,
                     controller: _productEC,
@@ -76,7 +74,6 @@ class _SaveProductPageState extends State<SaveProductPage> {
                       label: 'Peso',
                       hint: 'Ex: Kg 0,500',
                       formatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
                         TextInputMasks.weightMask,
                       ],
                       type: TextInputType.number,
@@ -99,7 +96,6 @@ class _SaveProductPageState extends State<SaveProductPage> {
                     label: 'Preço',
                     hint: 'Ex: R\$ 2,50',
                     formatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
                       TextInputMasks.currencyMask,
                     ],
                     type: TextInputType.number,

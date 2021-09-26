@@ -1,4 +1,5 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter/services.dart';
 
 class TextInputMasks {
   TextInputMasks._();
@@ -13,6 +14,10 @@ class TextInputMasks {
     locale: 'pt_Br',
     decimalDigits: 3,
     symbol: 'Kg',
+  );
+
+  static FilteringTextInputFormatter productNameMask = FilteringTextInputFormatter.allow(
+    RegExp('[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+|s'),
   );
 
   static double unMaskCurrencyFormatted(String value) {
