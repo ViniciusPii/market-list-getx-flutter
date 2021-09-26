@@ -25,9 +25,9 @@ class EditProductPage extends StatefulWidget {
 class _EditProductPageState extends State<EditProductPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController _productEC = TextEditingController();
-  TextEditingController _quantityEC = TextEditingController(text: '1');
+  TextEditingController _quantityEC = TextEditingController();
   TextEditingController _priceEC = TextEditingController();
-  TextEditingController _weightEC = TextEditingController(text: '0');
+  TextEditingController _weightEC = TextEditingController();
 
   @override
   void dispose() {
@@ -73,9 +73,7 @@ class _EditProductPageState extends State<EditProductPage> {
                     label: 'Produto',
                     hint: 'Ex: Tomate',
                     formatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                        RegExp('[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+|s'),
-                      ),
+                      TextInputMasks.productNameMask,
                     ],
                     validators: FormValidators.checkNotEmptyProductName,
                     controller: _productEC,
@@ -86,7 +84,6 @@ class _EditProductPageState extends State<EditProductPage> {
                       label: 'Peso',
                       hint: 'Ex: Kg 0,500',
                       formatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
                         TextInputMasks.weightMask,
                       ],
                       type: TextInputType.number,
@@ -109,7 +106,6 @@ class _EditProductPageState extends State<EditProductPage> {
                     label: 'Preço',
                     hint: 'Ex: R\$ 2,50',
                     formatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
                       TextInputMasks.currencyMask,
                     ],
                     type: TextInputType.number,
@@ -166,6 +162,7 @@ class _EditProductPageState extends State<EditProductPage> {
           ? ProductModel.changeFullPriceWeight(price, weight)
           : ProductModel.changeFullPriceQuantity(price, quantity);
       final DateTime timestamp = DateTime.now();
+      final bool isSelected = widget.product.isSelected;
 
       await productListRepository.update(
         ProductModel(
@@ -176,7 +173,7 @@ class _EditProductPageState extends State<EditProductPage> {
           fullPrice: fullPrice,
           timestamp: timestamp,
           weight: weight,
-          isSelected: widget.product.isSelected,
+          isSelected: isSelected,
         ),
       );
 
