@@ -40,6 +40,7 @@ class TextInputComponent extends StatelessWidget {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.pink),
         ),
+        errorStyle: AppFonts.size_1(color: AppColors.red),
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validators,
@@ -47,6 +48,7 @@ class TextInputComponent extends StatelessWidget {
       keyboardType: type,
       autofocus: true,
       inputFormatters: formatters,
+      textInputAction: TextInputAction.next,
     );
   }
 }

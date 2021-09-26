@@ -24,5 +24,10 @@ class AppTheme {
             minimumSize: const Size(double.infinity, _buttonHeight),
           ),
         ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColors.pink[400],
+          selectionColor: AppColors.pink[200],
+          selectionHandleColor: AppColors.pink[400],
+        ),
       );
 }
