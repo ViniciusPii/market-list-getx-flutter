@@ -23,7 +23,7 @@ class SaveProductPage extends StatefulWidget {
 class _SaveProductPageState extends State<SaveProductPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _productEC = TextEditingController();
-  final TextEditingController _quantityEC = TextEditingController(text: '1');
+  TextEditingController _quantityEC = TextEditingController(text: '1');
   final TextEditingController _priceEC = TextEditingController();
   final TextEditingController _weightEC = TextEditingController();
 
@@ -114,6 +114,8 @@ class _SaveProductPageState extends State<SaveProductPage> {
                         value: _isSelected,
                         onChanged: (bool? value) {
                           setState(() => _isSelected = value!);
+                          _quantityEC.clear();
+                          _weightEC.clear();
                         },
                       ),
                       Text(
@@ -167,7 +169,7 @@ class _SaveProductPageState extends State<SaveProductPage> {
       final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
       final double weight =
           _weightEC.text.isEmpty ? 0 : WeightMaskFormatter.unMaskFormatted(_weightEC.text);
-      final int quantity = int.parse(_quantityEC.text);
+      final int quantity = _isSelected ? 1 : int.parse(_quantityEC.text);
       final double fullPrice = _isSelected
           ? ProductModel.changeFullPriceWeight(price, weight)
           : ProductModel.changeFullPriceQuantity(price, quantity);
