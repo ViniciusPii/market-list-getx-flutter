@@ -52,7 +52,7 @@ class ProductModel {
   static double changeFullPriceWeight(double price, double weight) => weight * price;
 
   static String formatCurrency(double value) =>
-      NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(value);
+      NumberFormat.currency(locale: 'pt_BR', name: 'R\$', decimalDigits: 2).format(value);
 
   static String formatWeight(double value) =>
       NumberFormat.currency(locale: 'pt_BR', name: 'Kg ', decimalDigits: 3).format(value);

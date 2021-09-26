@@ -6,8 +6,7 @@ import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/utils/masks/currency_mask_formatter.dart';
-import 'package:market_list/utils/masks/weight_mask_formatter.dart';
+import 'package:market_list/utils/masks/text_input_masks.dart';
 import 'package:market_list/utils/validators/form_validators.dart';
 import 'package:provider/provider.dart';
 
@@ -88,7 +87,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       hint: 'Ex: Kg 0,500',
                       formatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
-                        WeightMaskFormatter(),
+                        TextInputMasks.weightMask,
                       ],
                       type: TextInputType.number,
                       validators: FormValidators.checkWeight,
@@ -111,7 +110,7 @@ class _EditProductPageState extends State<EditProductPage> {
                     hint: 'Ex: R\$ 2,50',
                     formatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
-                      CurrencyMaskFormatter(),
+                      TextInputMasks.currencyMask,
                     ],
                     type: TextInputType.number,
                     validators: FormValidators.checkPrice,
@@ -160,8 +159,8 @@ class _EditProductPageState extends State<EditProductPage> {
     if (_form.currentState!.validate()) {
       final String id = widget.product.id;
       final String productName = _productEC.text.trim();
-      final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
-      final double weight = WeightMaskFormatter.unMaskFormatted(_weightEC.text);
+      final double price = TextInputMasks.unMaskCurrencyFormatted(_priceEC.text);
+      final double weight = TextInputMasks.unMaskWeightFormatted(_weightEC.text);
       final int quantity = int.parse(_quantityEC.text);
       final double fullPrice = widget.product.isSelected
           ? ProductModel.changeFullPriceWeight(price, weight)

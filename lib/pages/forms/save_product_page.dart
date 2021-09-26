@@ -6,8 +6,7 @@ import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/utils/masks/currency_mask_formatter.dart';
-import 'package:market_list/utils/masks/weight_mask_formatter.dart';
+import 'package:market_list/utils/masks/text_input_masks.dart';
 import 'package:market_list/utils/validators/form_validators.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +22,7 @@ class SaveProductPage extends StatefulWidget {
 class _SaveProductPageState extends State<SaveProductPage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _productEC = TextEditingController();
-  TextEditingController _quantityEC = TextEditingController(text: '1');
+  final TextEditingController _quantityEC = TextEditingController(text: '1');
   final TextEditingController _priceEC = TextEditingController();
   final TextEditingController _weightEC = TextEditingController();
 
@@ -78,7 +77,7 @@ class _SaveProductPageState extends State<SaveProductPage> {
                       hint: 'Ex: Kg 0,500',
                       formatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
-                        WeightMaskFormatter(),
+                        TextInputMasks.weightMask,
                       ],
                       type: TextInputType.number,
                       validators: FormValidators.checkWeight,
@@ -101,7 +100,7 @@ class _SaveProductPageState extends State<SaveProductPage> {
                     hint: 'Ex: R\$ 2,50',
                     formatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
-                      CurrencyMaskFormatter(),
+                      TextInputMasks.currencyMask,
                     ],
                     type: TextInputType.number,
                     validators: FormValidators.checkPrice,
@@ -166,9 +165,9 @@ class _SaveProductPageState extends State<SaveProductPage> {
   Future<void> _saveProduct(ProductListRepository productListRepository) async {
     if (_form.currentState!.validate()) {
       final String productName = _productEC.text.trim();
-      final double price = CurrencyMaskFormatter.unMaskFormatted(_priceEC.text);
+      final double price = TextInputMasks.unMaskCurrencyFormatted(_priceEC.text);
       final double weight =
-          _weightEC.text.isEmpty ? 0 : WeightMaskFormatter.unMaskFormatted(_weightEC.text);
+          _weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(_weightEC.text);
       final int quantity = _isSelected ? 1 : int.parse(_quantityEC.text);
       final double fullPrice = _isSelected
           ? ProductModel.changeFullPriceWeight(price, weight)
