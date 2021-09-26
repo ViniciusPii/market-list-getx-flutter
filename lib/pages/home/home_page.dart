@@ -64,6 +64,50 @@ class _HomePageState extends State<HomePage> {
     return _buildContentView(productListRepository);
   }
 
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(top: AppDimension.dm_8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Olá, Tais!',
+                style: AppFonts.size_8(),
+              ),
+              Text(
+                'Seja bem-vinda',
+                style: AppFonts.size_4(
+                  color: AppColors.neutral[600],
+                ),
+              ),
+            ],
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppDimension.dm_32),
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: AppColors.neutral,
+                  blurRadius: 10,
+                  offset: const Offset(3, 3),
+                ),
+              ],
+            ),
+            child: const CircleAvatar(
+              radius: AppDimension.dm_32,
+              backgroundImage: AssetImage('assets/tais.jpeg'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildIsLoadingView() {
     return Expanded(
       child: Column(
@@ -123,50 +167,6 @@ class _HomePageState extends State<HomePage> {
           _buildPurchaseInfo(productListRepository),
           const SizedBox(height: AppDimension.dm_48),
           _buildListView(productListRepository),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppDimension.dm_8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Olá, Tais!',
-                style: AppFonts.size_8(),
-              ),
-              Text(
-                'Seja bem-vinda',
-                style: AppFonts.size_4(
-                  color: AppColors.neutral[600],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(AppDimension.dm_32),
-              ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: AppColors.neutral,
-                  blurRadius: 10,
-                  offset: const Offset(3, 3),
-                ),
-              ],
-            ),
-            child: const CircleAvatar(
-              radius: AppDimension.dm_32,
-              backgroundImage: AssetImage('assets/tais.jpeg'),
-            ),
-          ),
         ],
       ),
     );
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                     child: Builder(
                       builder: (BuildContext context) => CardProductComponent(
                         productModel: product,
-                        action: () => _slidableCloseOrOpen(context),
+                        action: () => Slidable.of(context)!.close(),
                       ),
                     ),
                     actions: <Widget>[
@@ -269,12 +269,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  void _slidableCloseOrOpen(BuildContext context) {
-    final SlidableState slidable = Slidable.of(context)!;
-    final bool isClosed = slidable.renderingMode == SlidableRenderingMode.none;
-
-    isClosed ? slidable.open() : slidable.close();
   }
 }
