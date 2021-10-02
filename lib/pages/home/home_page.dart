@@ -228,42 +228,45 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: AppDimension.dm_8),
           Expanded(
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                final ProductModel product = productListRepository.productList[index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: AppDimension.dm_8),
-                  child: Slidable(
-                    actionPane: const SlidableDrawerActionPane(),
-                    child: Builder(
-                      builder: (BuildContext context) => CardProductComponent(
-                        productModel: product,
-                        action: () => Slidable.of(context)!.close(),
+            child: RefreshIndicator(
+              onRefresh: () async => await productListRepository.readAll(),
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  final ProductModel product = productListRepository.productList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: AppDimension.dm_8),
+                    child: Slidable(
+                      actionPane: const SlidableDrawerActionPane(),
+                      child: Builder(
+                        builder: (BuildContext context) => CardProductComponent(
+                          productModel: product,
+                          action: () => Slidable.of(context)!.close(),
+                        ),
                       ),
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Editar',
+                          color: Colors.transparent,
+                          icon: FontAwesomeIcons.edit,
+                          foregroundColor: AppColors.pink[400],
+                          onTap: () => Navigator.pushNamed(context, '/edit', arguments: product),
+                        ),
+                      ],
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Excluir',
+                          color: Colors.transparent,
+                          icon: FontAwesomeIcons.trashAlt,
+                          foregroundColor: AppColors.pink[400],
+                          onTap: () async => await productListRepository.remove(product),
+                        ),
+                      ],
                     ),
-                    actions: <Widget>[
-                      IconSlideAction(
-                        caption: 'Editar',
-                        color: Colors.transparent,
-                        icon: FontAwesomeIcons.edit,
-                        foregroundColor: AppColors.pink[400],
-                        onTap: () => Navigator.pushNamed(context, '/edit', arguments: product),
-                      ),
-                    ],
-                    secondaryActions: <Widget>[
-                      IconSlideAction(
-                        caption: 'Excluir',
-                        color: Colors.transparent,
-                        icon: FontAwesomeIcons.trashAlt,
-                        foregroundColor: AppColors.pink[400],
-                        onTap: () async => await productListRepository.remove(product),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              itemCount: productListRepository.productList.length,
+                  );
+                },
+                itemCount: productListRepository.productList.length,
+              ),
             ),
           ),
         ],
