@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:market_list/components/checkbox_component.dart';
 import 'package:market_list/components/text_input_component.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
@@ -102,23 +103,33 @@ class _SaveProductPageState extends State<SaveProductPage> {
                     validators: FormValidators.checkPrice,
                     controller: _priceEC,
                   ),
-                  const SizedBox(height: AppDimension.dm_8),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        value: _isSelected,
-                        onChanged: (bool? value) {
-                          setState(() => _isSelected = value!);
-                          _quantityEC.clear();
-                          _weightEC.clear();
-                        },
-                      ),
-                      Text(
-                        'Calcular valor por peso',
-                        style: AppFonts.size_4(color: AppColors.neutral[600]),
-                      )
-                    ],
+                  const SizedBox(height: AppDimension.dm_16),
+                  CheckboxComponent(
+                    action: () {
+                      setState(() => _isSelected = !_isSelected);
+                      _quantityEC.clear();
+                      _weightEC.clear();
+                    },
+                    isSelected: _isSelected,
+                    label: 'Calcular por peso',
                   ),
+                  // CheckboxListTile(
+                  //   value: _isSelected,
+                  //   onChanged: (bool? value) {
+                  //     setState(() {
+                  //       _isSelected = value!;
+                  //     });
+                  //     _quantityEC.clear();
+                  //     _weightEC.clear();
+                  //   },
+                  //   title: Text(
+                  //     'Calcule por peso',
+                  //     style: AppFonts.size_4(color: AppColors.neutral[700]),
+                  //   ),
+                  //   controlAffinity: ListTileControlAffinity.leading,
+                  //   dense: true,
+                  //   selectedTileColor: AppColors.aquaBlue,
+                  // ),
                   const SizedBox(height: AppDimension.dm_24),
                   Consumer<ProductListRepository>(
                     builder: (_, ProductListRepository productListRepository, __) {
