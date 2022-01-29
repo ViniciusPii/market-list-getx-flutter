@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:market_list/components/alert_dialog_component.dart';
 import 'package:market_list/components/card_product_component.dart';
 import 'package:market_list/components/floating_button_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:provider/provider.dart';
+import './home_controller.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return StatusBarComponent(
@@ -34,34 +29,28 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: <Widget>[
                 _buildHeader(),
-                Consumer<ProductListRepository>(
-                  builder: (_, ProductListRepository productListRepository, __) {
-                    return _buildView(productListRepository);
-                  },
-                )
+                Obx(() => _buildView(context)),
               ],
             ),
           ),
         ),
         floatingActionButton: FloatingButtonComponent(
-          action: () {
-            Navigator.pushNamed(context, '/save');
-          },
+          action: () => controller.goToSavePage(),
         ),
       ),
     );
   }
 
-  Widget _buildView(ProductListRepository productListRepository) {
-    if (productListRepository.isLoading) {
+  Widget _buildView(BuildContext context) {
+    if (controller.loading.value) {
       return _buildIsLoadingView();
     }
 
-    if (productListRepository.productList.isEmpty) {
+    if (controller.productList.isEmpty) {
       return _buildEmptyView();
     }
 
-    return _buildContentView(productListRepository);
+    return _buildContentView(context);
   }
 
   Widget _buildHeader() {
@@ -158,21 +147,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildContentView(ProductListRepository productListRepository) {
+  Widget _buildContentView(BuildContext context) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: AppDimension.dm_48),
-          _buildPurchaseInfo(productListRepository),
+          _buildPurchaseInfo(),
           const SizedBox(height: AppDimension.dm_48),
-          _buildListView(productListRepository),
+          _buildListView(context),
         ],
       ),
     );
   }
 
-  Widget _buildPurchaseInfo(ProductListRepository productListRepository) {
+  Widget _buildPurchaseInfo() {
     return Container(
       width: double.infinity,
       child: Column(
@@ -183,7 +172,7 @@ class _HomePageState extends State<HomePage> {
             style: AppFonts.size_2(color: AppColors.neutral[600]),
           ),
           Text(
-            ProductModel.formatCurrency(productListRepository.listFullPriceCalculate()),
+            ProductModel.formatCurrency(controller.listFullPriceCalculate()),
             style: AppFonts.size_10(color: AppColors.pink[400]),
           ),
         ],
@@ -191,7 +180,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildListView(ProductListRepository productListRepository) {
+  Widget _buildListView(BuildContext context) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,9 +189,9 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                productListRepository.listAmountsCalculate() == 1
-                    ? '${productListRepository.listAmountsCalculate()} item no seu carrinho!'
-                    : '${productListRepository.listAmountsCalculate()} itens no seu carrinho!',
+                controller.listAmountsCalculate() == 1
+                    ? '${controller.listAmountsCalculate()} item no seu carrinho!'
+                    : '${controller.listAmountsCalculate()} itens no seu carrinho!',
                 style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
               ),
               IconButton(
@@ -216,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                       primaryFunction: () => Navigator.pop(context),
                       secondaryButtonText: 'Sim',
                       secondaryFunction: () {
-                        productListRepository.removeAll();
+                        controller.removeAll();
                         Navigator.pop(context);
                       },
                     ),
@@ -229,11 +218,11 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: AppDimension.dm_8),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () async => await productListRepository.readAll(),
+              onRefresh: () => controller.readAll(),
               child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  final ProductModel product = productListRepository.productList[index];
+                  final ProductModel product = controller.productList[index];
                   return Padding(
                     padding: const EdgeInsets.only(top: AppDimension.dm_8),
                     child: Slidable(
@@ -250,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.transparent,
                           icon: FontAwesomeIcons.edit,
                           foregroundColor: AppColors.pink[400],
-                          onTap: () => Navigator.pushNamed(context, '/edit', arguments: product),
+                          onTap: () => controller.goToEditPage(product),
                         ),
                       ],
                       secondaryActions: <Widget>[
@@ -259,13 +248,13 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.transparent,
                           icon: FontAwesomeIcons.trashAlt,
                           foregroundColor: AppColors.pink[400],
-                          onTap: () async => await productListRepository.remove(product),
+                          onTap: () => controller.remove(product),
                         ),
                       ],
                     ),
                   );
                 },
-                itemCount: productListRepository.productList.length,
+                itemCount: controller.productList.length,
               ),
             ),
           ),

@@ -14,9 +14,6 @@ class AppTheme {
   static const double _buttonHeight = 45;
 
   ThemeData get defaultTheme => ThemeData(
-        primarySwatch: _primary,
-        accentColor: _accent,
-        primaryColor: _primary,
         primaryTextTheme: GoogleFonts.montserratTextTheme(),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -28,6 +25,9 @@ class AppTheme {
           cursorColor: AppColors.pink[400],
           selectionColor: AppColors.pink[200],
           selectionHandleColor: AppColors.pink[400],
+        ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: _primary).copyWith(
+          secondary: _accent,
         ),
       );
 }

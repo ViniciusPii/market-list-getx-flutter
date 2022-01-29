@@ -1,6 +1,6 @@
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
-class FormValidators {
+mixin FormValidators {
   static String? checkNotEmptyProductName(String? itemName) {
     if (itemName!.isEmpty) {
       return 'Informe Produto';
