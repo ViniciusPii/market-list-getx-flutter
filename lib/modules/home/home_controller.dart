@@ -3,7 +3,9 @@ import 'package:market_list/models/product_model.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 
 class HomeController extends GetxController {
-  HomeController(this._productListRepository);
+  HomeController({
+    required ProductListRepository productListRepository,
+  }) : _productListRepository = productListRepository;
 
   final ProductListRepository _productListRepository;
 

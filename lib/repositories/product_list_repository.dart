@@ -7,14 +7,6 @@ class ProductListRepository {
   final CollectionReference<Map<String, dynamic>> _productCL =
       FirebaseFirestore.instance.collection('products');
 
-  // Stream<List<ProductModel>> readAll() {
-  //   return _productCL.orderBy('timestamp', descending: true).snapshots().map(
-  //         (QuerySnapshot<Map<String, dynamic>> event) => event.docs
-  //             .map((QueryDocumentSnapshot<Map<String, dynamic>> e) => ProductModel.fromDocument(e))
-  //             .toList(),
-  //       );
-  // }
-
   final List<ProductModel> _productList = <ProductModel>[];
 
   Future<List<ProductModel>> readAll() async {

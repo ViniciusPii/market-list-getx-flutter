@@ -6,10 +6,11 @@ import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class SaveController extends GetxController {
-  SaveController(
-    this._productListRepository,
-    this._homeController,
-  );
+  SaveController({
+    required ProductListRepository productListRepository,
+    required HomeController homeController,
+  })  : _productListRepository = productListRepository,
+        _homeController = homeController;
 
   final ProductListRepository _productListRepository;
   final HomeController _homeController;
@@ -68,8 +69,9 @@ class SaveController extends GetxController {
         ),
       );
 
-      _homeController.readAll();
       isLoading();
+      _homeController.readAll();
+
       Get.back<dynamic>();
     }
   }

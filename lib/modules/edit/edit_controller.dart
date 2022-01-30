@@ -6,15 +6,17 @@ import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class EditController extends GetxController {
-  EditController(
-    this._productListRepository,
-    this._homeController,
-  );
+  EditController({
+    required ProductListRepository productListRepository,
+    required HomeController homeController,
+  })  : _productListRepository = productListRepository,
+        _homeController = homeController;
 
   final ProductListRepository _productListRepository;
   final HomeController _homeController;
 
-  final ProductModel product = Get.arguments as ProductModel;
+  final ProductModel _product = Get.arguments as ProductModel;
+  ProductModel get product => _product;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
   final TextEditingController productEC = TextEditingController();
@@ -25,10 +27,10 @@ class EditController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    productEC.text = product.productName;
-    quantityEC.text = product.quantity.toString();
-    priceEC.text = ProductModel.formatCurrency(product.price);
-    weightEC.text = ProductModel.formatWeight(product.weight);
+    productEC.text = _product.productName;
+    quantityEC.text = _product.quantity.toString();
+    priceEC.text = ProductModel.formatCurrency(_product.price);
+    weightEC.text = ProductModel.formatWeight(_product.weight);
   }
 
   @override
@@ -49,17 +51,17 @@ class EditController extends GetxController {
   Future<void> editProduct() async {
     if (form.currentState!.validate()) {
       isLoading();
-      final String id = product.id;
+      final String id = _product.id;
       final String productName = productEC.text.trim();
       final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);
       final double weight =
           weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(weightEC.text);
-      final int quantity = product.isSelected ? 1 : int.parse(quantityEC.text);
-      final double fullPrice = product.isSelected
+      final int quantity = _product.isSelected ? 1 : int.parse(quantityEC.text);
+      final double fullPrice = _product.isSelected
           ? ProductModel.changeFullPriceWeight(price, weight)
           : ProductModel.changeFullPriceQuantity(price, quantity);
       final DateTime timestamp = DateTime.now();
-      final bool isSelected = product.isSelected;
+      final bool isSelected = _product.isSelected;
 
       await _productListRepository.update(
         ProductModel(
@@ -74,8 +76,8 @@ class EditController extends GetxController {
         ),
       );
 
-      _homeController.readAll();
       isLoading();
+      _homeController.readAll();
 
       Get.back<dynamic>();
     }
