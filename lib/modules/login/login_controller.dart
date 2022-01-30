@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:market_list/repositories/login_repository.dart';
 
@@ -16,7 +18,13 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     isLoading();
-    await _loginRepository.login();
-    isLoading();
+    try {
+      await _loginRepository.login();
+      isLoading();
+    } catch (e) {
+      log('Error $e');
+    } finally {
+      isLoading();
+    }
   }
 }
