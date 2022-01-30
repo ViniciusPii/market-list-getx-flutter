@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_list/application/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/modules/home/home_controller.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
@@ -9,11 +11,14 @@ class SaveController extends GetxController {
   SaveController({
     required ProductListRepository productListRepository,
     required HomeController homeController,
+    required AuthService authService,
   })  : _productListRepository = productListRepository,
-        _homeController = homeController;
+        _homeController = homeController,
+        _authService = authService;
 
   final ProductListRepository _productListRepository;
   final HomeController _homeController;
+  final AuthService _authService;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
   final TextEditingController productEC = TextEditingController();
@@ -32,6 +37,7 @@ class SaveController extends GetxController {
 
   final RxBool loading = false.obs;
   final RxBool selected = false.obs;
+  late final User _user = _authService.user!;
 
   bool isLoading() {
     return loading.value = !loading.value;
@@ -58,6 +64,7 @@ class SaveController extends GetxController {
       final bool isSelected = selected.value;
 
       await _productListRepository.save(
+        _user.uid,
         ProductModel(
           productName: productName,
           price: price,

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:market_list/application/auth_service.dart';
+import 'package:market_list/repositories/login_repository.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 
 class AppBinding implements Bindings {
@@ -8,5 +10,12 @@ class AppBinding implements Bindings {
       () => ProductListRepository(),
       fenix: true,
     );
+    Get.lazyPut(
+      () => LoginRepository(),
+      fenix: true,
+    );
+    Get.put(
+      AuthService(),
+    ).init();
   }
 }

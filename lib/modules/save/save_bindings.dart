@@ -8,6 +8,7 @@ class SaveBindings implements Bindings {
       () => SaveController(
         productListRepository: Get.find(),
         homeController: Get.find(),
+        authService: Get.find(),
       ),
     );
   }

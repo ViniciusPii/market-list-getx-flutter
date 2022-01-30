@@ -28,7 +28,7 @@ class HomePage extends GetView<HomeController> {
             ),
             child: Column(
               children: <Widget>[
-                _buildHeader(),
+                _buildHeader(context),
                 Obx(() => _buildView(context)),
               ],
             ),
@@ -53,27 +53,30 @@ class HomePage extends GetView<HomeController> {
     return _buildContentView(context);
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: AppDimension.dm_8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Olá, Tais!',
-                style: AppFonts.size_8(),
-              ),
-              Text(
-                'Seja bem-vinda',
-                style: AppFonts.size_4(
-                  color: AppColors.neutral[600],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Olá, ${controller.user.displayName}!',
+                  style: AppFonts.size_8(),
                 ),
-              ),
-            ],
+                Text(
+                  'Seja bem-vindo(a)',
+                  style: AppFonts.size_4(
+                    color: AppColors.neutral[600],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: AppDimension.dm_16),
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(
@@ -87,9 +90,22 @@ class HomePage extends GetView<HomeController> {
                 ),
               ],
             ),
-            child: const CircleAvatar(
-              radius: AppDimension.dm_32,
-              backgroundImage: AssetImage('assets/tais.jpeg'),
+            child: GestureDetector(
+              onTap: () => showDialog<AlertDialog>(
+                context: context,
+                builder: (BuildContext context) => AlertDialogComponent(
+                  title: 'Atenção!',
+                  content: 'Voce deseja realmente sair?',
+                  primaryButtonText: 'Não',
+                  primaryFunction: () => Get.back<dynamic>(),
+                  secondaryButtonText: 'Sim',
+                  secondaryFunction: () => controller.signOut(),
+                ),
+              ),
+              child: CircleAvatar(
+                radius: AppDimension.dm_32,
+                backgroundImage: NetworkImage('${controller.user.photoURL}'),
+              ),
             ),
           ),
         ],
@@ -195,22 +211,17 @@ class HomePage extends GetView<HomeController> {
                 style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
               ),
               IconButton(
-                onPressed: () {
-                  showDialog<AlertDialog>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialogComponent(
-                      title: 'Atenção!',
-                      content: 'Você deseja realmente excluir todos itens da lista?',
-                      primaryButtonText: 'Não',
-                      primaryFunction: () => Navigator.pop(context),
-                      secondaryButtonText: 'Sim',
-                      secondaryFunction: () {
-                        controller.removeAll();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  );
-                },
+                onPressed: () => showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialogComponent(
+                    title: 'Atenção!',
+                    content: 'Você deseja realmente excluir todos itens da lista?',
+                    primaryButtonText: 'Não',
+                    primaryFunction: () => Get.back<dynamic>(),
+                    secondaryButtonText: 'Sim',
+                    secondaryFunction: () => controller.removeAll(),
+                  ),
+                ),
                 icon: Icon(FontAwesomeIcons.trashAlt, color: AppColors.pink[400]),
               )
             ],

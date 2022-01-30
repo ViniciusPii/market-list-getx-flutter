@@ -5,13 +5,16 @@ import 'package:market_list/models/product_model.dart';
 
 class ProductListRepository {
   final CollectionReference<Map<String, dynamic>> _productCL =
-      FirebaseFirestore.instance.collection('products');
+      FirebaseFirestore.instance.collection('users');
 
   final List<ProductModel> _productList = <ProductModel>[];
 
-  Future<List<ProductModel>> readAll() async {
-    final QuerySnapshot<Map<String, dynamic>> snap =
-        await _productCL.orderBy('timestamp', descending: true).get();
+  Future<List<ProductModel>> readAll(String userId) async {
+    final QuerySnapshot<Map<String, dynamic>> snap = await _productCL
+        .doc(userId)
+        .collection('products')
+        .orderBy('timestamp', descending: true)
+        .get();
 
     _productList.clear();
 
@@ -22,20 +25,23 @@ class ProductListRepository {
     return _productList;
   }
 
-  Future<void> save(ProductModel product) async {
-    await _productCL.doc().set(product.toJson());
+  Future<void> save(String userId, ProductModel product) async {
+    await _productCL.doc(userId).collection('products').doc().set(product.toJson());
   }
 
-  Future<void> update(ProductModel product) async {
-    await _productCL.doc(product.id).update(product.toJson());
+  Future<void> update(String userId, ProductModel product) async {
+    await _productCL.doc(userId).collection('products').doc(product.id).update(
+          product.toJson(),
+        );
   }
 
-  Future<void> remove(ProductModel product) async {
-    await _productCL.doc(product.id).delete();
+  Future<void> remove(String userId, ProductModel product) async {
+    await _productCL.doc(userId).collection('products').doc(product.id).delete();
   }
 
-  Future<void> removeAll() async {
-    final QuerySnapshot<Map<String, dynamic>> snapshot = await _productCL.get();
+  Future<void> removeAll(String userId) async {
+    final QuerySnapshot<Map<String, dynamic>> snapshot =
+        await _productCL.doc(userId).collection('products').get();
     for (final QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
       doc.reference.delete();
     }

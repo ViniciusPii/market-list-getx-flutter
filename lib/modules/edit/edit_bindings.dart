@@ -8,6 +8,7 @@ class EditBindings implements Bindings {
       () => EditController(
         productListRepository: Get.find(),
         homeController: Get.find(),
+        authService: Get.find(),
       ),
     );
   }

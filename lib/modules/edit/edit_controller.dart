@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_list/application/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/modules/home/home_controller.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
@@ -9,11 +11,16 @@ class EditController extends GetxController {
   EditController({
     required ProductListRepository productListRepository,
     required HomeController homeController,
+    required AuthService authService,
   })  : _productListRepository = productListRepository,
-        _homeController = homeController;
+        _homeController = homeController,
+        _authService = authService;
 
   final ProductListRepository _productListRepository;
   final HomeController _homeController;
+  final AuthService _authService;
+
+  late final User _user = _authService.user!;
 
   final ProductModel _product = Get.arguments as ProductModel;
   ProductModel get product => _product;
@@ -64,6 +71,7 @@ class EditController extends GetxController {
       final bool isSelected = _product.isSelected;
 
       await _productListRepository.update(
+        _user.uid,
         ProductModel(
           id: id,
           productName: productName,

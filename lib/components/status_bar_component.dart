@@ -5,16 +5,18 @@ class StatusBarComponent extends StatelessWidget {
   const StatusBarComponent({
     Key? key,
     required this.child,
+    this.brightness = Brightness.dark,
   }) : super(key: key);
 
   final Widget child;
+  final Brightness? brightness;
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: brightness,
       ),
       child: child,
     );
