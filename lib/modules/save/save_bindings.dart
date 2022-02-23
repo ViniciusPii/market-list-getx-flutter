@@ -6,9 +6,8 @@ class SaveBindings implements Bindings {
   void dependencies() {
     Get.lazyPut(
       () => SaveController(
-        productListRepository: Get.find(),
-        homeController: Get.find(),
         authService: Get.find(),
+        productListRepository: Get.find(),
       ),
     );
   }

@@ -6,9 +6,8 @@ class EditBindings implements Bindings {
   void dependencies() {
     Get.lazyPut(
       () => EditController(
-        productListRepository: Get.find(),
-        homeController: Get.find(),
         authService: Get.find(),
+        productListRepository: Get.find(),
       ),
     );
   }

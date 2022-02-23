@@ -30,8 +30,8 @@ class CheckboxComponent extends StatelessWidget {
             decoration: BoxDecoration(
               color: isSelected ? AppColors.primary : null,
               border: isSelected
-                  ? Border.all(color: AppColors.pink[400]!)
-                  : Border.all(color: AppColors.neutral[600]!),
+                  ? Border.all(color: AppColors.primary)
+                  : Border.all(color: AppColors.textLightColor),
               borderRadius: BorderRadius.circular(AppDimension.dm_16),
             ),
             child: isSelected
@@ -46,7 +46,7 @@ class CheckboxComponent extends StatelessWidget {
           Text(
             label,
             style: AppFonts.size_4(
-              color: AppColors.neutral[600],
+              color: AppColors.textLightColor,
             ),
           ),
         ],

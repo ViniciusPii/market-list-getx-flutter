@@ -61,8 +61,8 @@ class CardProductComponent extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             productModel.productName,
-                            style: AppFonts.sizeBold_4(
-                              color: AppColors.textColor,
+                            style: AppFonts.sizeMedium_4(
+                              color: AppColors.neutral.shade700,
                             ),
                           ),
                           Text(

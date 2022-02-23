@@ -3,45 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/modules/home/home_controller.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class SaveController extends GetxController {
   SaveController({
-    required ProductListRepository productListRepository,
-    required HomeController homeController,
     required AuthService authService,
-  })  : _productListRepository = productListRepository,
-        _homeController = homeController,
-        _authService = authService;
+    required ProductListRepository productListRepository,
+  })  : _authService = authService,
+        _productListRepository = productListRepository;
 
-  final ProductListRepository _productListRepository;
-  final HomeController _homeController;
   final AuthService _authService;
+  final ProductListRepository _productListRepository;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
-  final TextEditingController productEC = TextEditingController();
-  final TextEditingController quantityEC = TextEditingController(text: '1');
   final TextEditingController priceEC = TextEditingController();
   final TextEditingController weightEC = TextEditingController();
+  final TextEditingController productEC = TextEditingController();
+  final TextEditingController quantityEC = TextEditingController(text: '1');
 
   @override
   void onClose() {
-    productEC.dispose();
-    quantityEC.dispose();
     priceEC.dispose();
     weightEC.dispose();
+    productEC.dispose();
+    quantityEC.dispose();
     super.onClose();
   }
 
-  final RxBool loading = false.obs;
-  final RxBool selected = false.obs;
-  late final User _user = _authService.user!;
+  final RxBool loading = RxBool(false);
+  final RxBool selected = RxBool(false);
 
-  bool isLoading() {
-    return loading.value = !loading.value;
-  }
+  User? get user => _authService.user!;
 
   bool isSelected() {
     quantityEC.clear();
@@ -51,7 +44,7 @@ class SaveController extends GetxController {
 
   Future<void> saveProduct() async {
     if (form.currentState!.validate()) {
-      isLoading();
+      loading.toggle();
       final String productName = productEC.text.trim();
       final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);
       final double weight =
@@ -64,7 +57,7 @@ class SaveController extends GetxController {
       final bool isSelected = selected.value;
 
       await _productListRepository.save(
-        _user.uid,
+        user!.uid,
         ProductModel(
           productName: productName,
           price: price,
@@ -75,9 +68,6 @@ class SaveController extends GetxController {
           isSelected: isSelected,
         ),
       );
-
-      isLoading();
-      _homeController.readAll();
 
       Get.back<dynamic>();
     }

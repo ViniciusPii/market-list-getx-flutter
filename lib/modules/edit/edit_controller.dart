@@ -3,26 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/modules/home/home_controller.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class EditController extends GetxController {
   EditController({
-    required ProductListRepository productListRepository,
-    required HomeController homeController,
     required AuthService authService,
-  })  : _productListRepository = productListRepository,
-        _homeController = homeController,
-        _authService = authService;
+    required ProductListRepository productListRepository,
+  })  : _authService = authService,
+        _productListRepository = productListRepository;
 
-  final ProductListRepository _productListRepository;
-  final HomeController _homeController;
   final AuthService _authService;
-
-  late final User _user = _authService.user!;
+  final ProductListRepository _productListRepository;
 
   final ProductModel _product = Get.arguments as ProductModel;
+
+  User? get user => _authService.user!;
   ProductModel get product => _product;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
@@ -71,7 +67,7 @@ class EditController extends GetxController {
       final bool isSelected = _product.isSelected;
 
       await _productListRepository.update(
-        _user.uid,
+        user!.uid,
         ProductModel(
           id: id,
           productName: productName,
@@ -83,9 +79,6 @@ class EditController extends GetxController {
           isSelected: isSelected,
         ),
       );
-
-      isLoading();
-      _homeController.readAll();
 
       Get.back<dynamic>();
     }
