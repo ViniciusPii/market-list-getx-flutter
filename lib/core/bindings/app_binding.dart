@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:market_list/application/auth_service.dart';
+import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/repositories/login_repository.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 

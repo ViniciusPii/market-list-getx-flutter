@@ -42,11 +42,11 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget _buildView(BuildContext context) {
-    if (controller.loading.value) {
+    if (controller.productList == null) {
       return _buildIsLoadingView();
     }
 
-    if (controller.productList.isEmpty) {
+    if (controller.productList!.isEmpty) {
       return _buildEmptyView();
     }
 
@@ -64,7 +64,7 @@ class HomePage extends GetView<HomeController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Olá, ${controller.user.displayName}!',
+                  'Olá, ${controller.user?.displayName}!',
                   style: AppFonts.size_8(),
                 ),
                 Text(
@@ -104,7 +104,7 @@ class HomePage extends GetView<HomeController> {
               ),
               child: CircleAvatar(
                 radius: AppDimension.dm_32,
-                backgroundImage: NetworkImage('${controller.user.photoURL}'),
+                backgroundImage: NetworkImage('${controller.user?.photoURL}'),
               ),
             ),
           ),
@@ -228,45 +228,42 @@ class HomePage extends GetView<HomeController> {
           ),
           const SizedBox(height: AppDimension.dm_8),
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: () => controller.readAll(),
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  final ProductModel product = controller.productList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(top: AppDimension.dm_8),
-                    child: Slidable(
-                      actionPane: const SlidableDrawerActionPane(),
-                      child: Builder(
-                        builder: (BuildContext context) => CardProductComponent(
-                          productModel: product,
-                          action: () => Slidable.of(context)!.close(),
-                        ),
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                final ProductModel product = controller.productList![index];
+                return Padding(
+                  padding: const EdgeInsets.only(top: AppDimension.dm_8),
+                  child: Slidable(
+                    actionPane: const SlidableDrawerActionPane(),
+                    child: Builder(
+                      builder: (BuildContext context) => CardProductComponent(
+                        productModel: product,
+                        action: () => Slidable.of(context)!.close(),
                       ),
-                      actions: <Widget>[
-                        IconSlideAction(
-                          caption: 'Editar',
-                          color: Colors.transparent,
-                          icon: FontAwesomeIcons.edit,
-                          foregroundColor: AppColors.primary,
-                          onTap: () => controller.goToEditPage(product),
-                        ),
-                      ],
-                      secondaryActions: <Widget>[
-                        IconSlideAction(
-                          caption: 'Excluir',
-                          color: Colors.transparent,
-                          icon: FontAwesomeIcons.trashAlt,
-                          foregroundColor: AppColors.primary,
-                          onTap: () => controller.remove(product),
-                        ),
-                      ],
                     ),
-                  );
-                },
-                itemCount: controller.productList.length,
-              ),
+                    actions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Editar',
+                        color: Colors.transparent,
+                        icon: FontAwesomeIcons.edit,
+                        foregroundColor: AppColors.primary,
+                        onTap: () => controller.goToEditPage(product),
+                      ),
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Excluir',
+                        color: Colors.transparent,
+                        icon: FontAwesomeIcons.trashAlt,
+                        foregroundColor: AppColors.primary,
+                        onTap: () => controller.remove(product),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: controller.productList!.length,
             ),
           ),
         ],

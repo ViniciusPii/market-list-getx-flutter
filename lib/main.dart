@@ -8,7 +8,7 @@ import 'package:market_list/modules/save/save_module.dart';
 import 'package:market_list/modules/splash/splash_module.dart';
 import 'package:market_list/theme/app_theme.dart';
 
-import 'application/app_binding.dart';
+import 'core/bindings/app_binding.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

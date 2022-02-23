@@ -1,49 +1,79 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:market_list/core/exceptions/app_exception.dart';
+import 'package:market_list/core/exceptions/app_exceptions_code.dart';
 import 'package:market_list/models/product_model.dart';
 
 class ProductListRepository {
-  final CollectionReference<Map<String, dynamic>> _productCL =
-      FirebaseFirestore.instance.collection('users');
+  final FirebaseFirestore _instance = FirebaseFirestore.instance;
+  final String collectionUser = 'users';
+  final String collectionProducts = 'products';
 
-  final List<ProductModel> _productList = <ProductModel>[];
-
-  Future<List<ProductModel>> readAll(String userId) async {
-    final QuerySnapshot<Map<String, dynamic>> snap = await _productCL
+  Stream<List<ProductModel>> readAll(String userId) {
+    return _instance
+        .collection(collectionUser)
         .doc(userId)
-        .collection('products')
+        .collection(collectionProducts)
         .orderBy('timestamp', descending: true)
-        .get();
-
-    _productList.clear();
-
-    for (final QueryDocumentSnapshot<Map<String, dynamic>> item in snap.docs) {
-      _productList.add(ProductModel.fromDocument(item));
-    }
-
-    return _productList;
+        .snapshots()
+        .map((QuerySnapshot<Map<String, dynamic>> querySnapshot) => querySnapshot.docs
+            .map(
+                (QueryDocumentSnapshot<Map<String, dynamic>> doc) => ProductModel.fromDocument(doc))
+            .toList());
   }
 
   Future<void> save(String userId, ProductModel product) async {
-    await _productCL.doc(userId).collection('products').doc().set(product.toJson());
+    try {
+      await _instance
+          .collection(collectionUser)
+          .doc(userId)
+          .collection(collectionProducts)
+          .doc()
+          .set(product.toJson())
+          .timeout(const Duration(seconds: 5));
+    } catch (e) {
+      throw AppException(message: AppExceptionsCode.yourConnectionInstabilityMessage);
+    }
   }
 
   Future<void> update(String userId, ProductModel product) async {
-    await _productCL.doc(userId).collection('products').doc(product.id).update(
-          product.toJson(),
-        );
+    try {
+      await _instance
+          .collection(collectionUser)
+          .doc(userId)
+          .collection(collectionProducts)
+          .doc(product.id)
+          .update(product.toJson())
+          .timeout(const Duration(seconds: 5));
+    } catch (e) {
+      throw AppException(message: AppExceptionsCode.yourConnectionInstabilityMessage);
+    }
   }
 
   Future<void> remove(String userId, ProductModel product) async {
-    await _productCL.doc(userId).collection('products').doc(product.id).delete();
+    await _instance
+        .collection(collectionUser)
+        .doc(userId)
+        .collection(collectionProducts)
+        .doc(product.id)
+        .delete();
   }
 
   Future<void> removeAll(String userId) async {
-    final QuerySnapshot<Map<String, dynamic>> snapshot =
-        await _productCL.doc(userId).collection('products').get();
-    for (final QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-      doc.reference.delete();
-    }
+    final WriteBatch batch = _instance.batch();
+
+    await _instance
+        .collection(collectionUser)
+        .doc(userId)
+        .collection(collectionProducts)
+        .get()
+        .then((QuerySnapshot<Map<String, dynamic>> querySnapshot) {
+      for (final QueryDocumentSnapshot<Map<String, dynamic>> doc in querySnapshot.docs) {
+        batch.delete(doc.reference);
+      }
+    });
+
+    return await batch.commit();
   }
 }

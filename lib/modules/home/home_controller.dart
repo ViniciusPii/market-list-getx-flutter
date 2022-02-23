@@ -1,30 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:market_list/application/auth_service.dart';
+import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/repositories/login_repository.dart';
 import 'package:market_list/repositories/product_list_repository.dart';
 
 class HomeController extends GetxController {
-  HomeController(
-      {required ProductListRepository productListRepository,
-      required LoginRepository loginRepository,
-      required AuthService authService})
-      : _productListRepository = productListRepository,
+  HomeController({
+    required AuthService authService,
+    required LoginRepository loginRepository,
+    required ProductListRepository productListRepository,
+  })  : _authService = authService,
         _loginRepository = loginRepository,
-        _authService = authService;
+        _productListRepository = productListRepository;
 
-  final ProductListRepository _productListRepository;
-  final LoginRepository _loginRepository;
   final AuthService _authService;
-
-  final RxList<ProductModel> _productList = <ProductModel>[].obs;
-  List<ProductModel> get productList => _productList;
+  final LoginRepository _loginRepository;
+  final ProductListRepository _productListRepository;
 
   final RxBool loading = false.obs;
+  final Rxn<List<ProductModel>> _productList = Rxn<List<ProductModel>>();
 
-  late final User _user = _authService.user!;
-  User get user => _user;
+  User? get user => _authService.user;
+  List<ProductModel>? get productList => _productList.value;
 
   @override
   void onInit() {
@@ -32,41 +30,30 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  bool isLoading() {
-    return loading.value = !loading.value;
-  }
-
-  Future<List<ProductModel>> readAll() async {
-    isLoading();
-    _productList.value = await _productListRepository.readAll(_user.uid);
-    isLoading();
-    return _productList;
+  void readAll() {
+    loading.toggle();
+    _productList.bindStream(_productListRepository.readAll(user!.uid));
   }
 
   Future<void> remove(ProductModel product) async {
-    isLoading();
-    await _productListRepository.remove(_user.uid, product);
-    isLoading();
-    readAll();
+    await _productListRepository.remove(user!.uid, product);
   }
 
   Future<void> removeAll() async {
     Get.back<dynamic>();
-    isLoading();
-    await _productListRepository.removeAll(_user.uid);
-    isLoading();
-    readAll();
+    loading.toggle();
+    await _productListRepository.removeAll(user!.uid);
   }
 
   Future<void> signOut() async {
     await _loginRepository.logout();
   }
 
-  int listAmountsCalculate() => _productList
+  int listAmountsCalculate() => productList!
       .map((ProductModel product) => product.quantity)
       .reduce((int firstValue, int lastValue) => firstValue + lastValue);
 
-  double listFullPriceCalculate() => _productList
+  double listFullPriceCalculate() => productList!
       .map((ProductModel product) => product.fullPrice)
       .reduce((double firstValue, double lastValue) => firstValue + lastValue);
 
