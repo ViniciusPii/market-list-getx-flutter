@@ -15,7 +15,7 @@ class AppColors {
 
   //AppBaseColors
   static final MaterialColor appPrimary = color.generateMaterialColor(pink.shade400.value);
-  static final MaterialColor appSecondary = color.generateMaterialColor(orange.shade400.value);
+  static final MaterialColor appSecondary = color.generateMaterialColor(pink.shade200.value);
   static final MaterialColor appBackground = color.generateMaterialColor(celeste.shade200.value);
 
   //Extensions
