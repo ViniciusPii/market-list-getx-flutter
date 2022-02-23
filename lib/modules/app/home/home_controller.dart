@@ -18,7 +18,7 @@ class HomeController extends GetxController {
   final LoginRepository _loginRepository;
   final ProductListRepository _productListRepository;
 
-  final RxBool loading = false.obs;
+  final RxBool loading = RxBool(false);
   final Rxn<List<ProductModel>> _productList = Rxn<List<ProductModel>>();
 
   User? get user => _authService.user;
@@ -31,7 +31,6 @@ class HomeController extends GetxController {
   }
 
   void readAll() {
-    loading.toggle();
     _productList.bindStream(_productListRepository.readAll(user!.uid));
   }
 
@@ -46,7 +45,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> signOut() async {
-    await _loginRepository.logout();
+    await _loginRepository.signOut();
   }
 
   int listAmountsCalculate() => productList!

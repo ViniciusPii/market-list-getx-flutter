@@ -22,10 +22,10 @@ class EditController extends GetxController {
   ProductModel get product => _product;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
-  final TextEditingController productEC = TextEditingController();
-  final TextEditingController quantityEC = TextEditingController();
   final TextEditingController priceEC = TextEditingController();
   final TextEditingController weightEC = TextEditingController();
+  final TextEditingController productEC = TextEditingController();
+  final TextEditingController quantityEC = TextEditingController();
 
   @override
   void onInit() {
@@ -38,22 +38,18 @@ class EditController extends GetxController {
 
   @override
   void onClose() {
-    productEC.dispose();
-    quantityEC.dispose();
     priceEC.dispose();
     weightEC.dispose();
+    productEC.dispose();
+    quantityEC.dispose();
     super.onClose();
   }
 
-  final RxBool loading = false.obs;
-
-  bool isLoading() {
-    return loading.value = !loading.value;
-  }
+  final RxBool loading = RxBool(false);
 
   Future<void> editProduct() async {
     if (form.currentState!.validate()) {
-      isLoading();
+      loading.toggle();
       final String id = _product.id;
       final String productName = productEC.text.trim();
       final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);

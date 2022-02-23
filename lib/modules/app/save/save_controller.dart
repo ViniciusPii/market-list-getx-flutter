@@ -37,9 +37,9 @@ class SaveController extends GetxController {
   User? get user => _authService.user!;
 
   bool isSelected() {
-    quantityEC.clear();
     weightEC.clear();
-    return selected.value = !selected.value;
+    quantityEC.clear();
+    return selected(!selected.value);
   }
 
   Future<void> saveProduct() async {

@@ -16,7 +16,7 @@ class LoginRepository {
     throw Exception('Erro ao realizar login com Google');
   }
 
-  Future<void> logout() async {
+  Future<void> signOut() async {
     await GoogleSignIn().signOut();
     FirebaseAuth.instance.signOut();
   }
