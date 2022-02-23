@@ -23,7 +23,7 @@ class CardProductComponent extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: AppColors.neutral[200]!,
+              color: AppColors.neutral.shade200,
               blurRadius: 10,
               offset: const Offset(1, 5),
             ),
@@ -46,12 +46,12 @@ class CardProductComponent extends StatelessWidget {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.pink[100],
+                        color: AppColors.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(AppDimension.dm_16),
                       ),
                       child: Icon(
                         FontAwesomeIcons.shoppingBasket,
-                        color: AppColors.pink[300],
+                        color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(width: AppDimension.dm_16),
@@ -61,21 +61,20 @@ class CardProductComponent extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             productModel.productName,
-                            style: AppFonts.size_4(
-                              weight: FontWeight.w500,
-                              color: AppColors.neutral[700],
+                            style: AppFonts.sizeBold_4(
+                              color: AppColors.textColor,
                             ),
                           ),
                           Text(
                             _changeText(),
-                            style: AppFonts.size_2(color: AppColors.neutral[700]),
+                            style: AppFonts.size_2(color: AppColors.textColor),
                           ),
                           const SizedBox(height: AppDimension.dm_4),
                           Text(
                             productModel.isSelected
                                 ? '${ProductModel.formatCurrency(productModel.price)} Kg'
                                 : '${ProductModel.formatCurrency(productModel.price)} cada',
-                            style: AppFonts.size_1(color: AppColors.pink[400]),
+                            style: AppFonts.sizeMedium_1(color: AppColors.primary),
                           ),
                         ],
                       ),
@@ -86,7 +85,7 @@ class CardProductComponent extends StatelessWidget {
               const SizedBox(width: AppDimension.dm_8),
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.pink[50],
+                  color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppDimension.dm_16),
                 ),
                 child: Padding(
@@ -96,9 +95,8 @@ class CardProductComponent extends StatelessWidget {
                   ),
                   child: Text(
                     ProductModel.formatCurrency(productModel.fullPrice),
-                    style: AppFonts.size_3(
-                      color: AppColors.pink[400],
-                      weight: FontWeight.w500,
+                    style: AppFonts.sizeMedium_3(
+                      color: AppColors.primary,
                     ),
                   ),
                 ),

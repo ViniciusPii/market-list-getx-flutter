@@ -25,11 +25,11 @@ class AlertDialogComponent extends StatelessWidget {
     return AlertDialog(
       title: Text(
         title,
-        style: AppFonts.size_5(color: AppColors.pink[400]),
+        style: AppFonts.size_5(color: AppColors.primary),
       ),
       content: Text(
         content,
-        style: AppFonts.size_3(color: AppColors.neutral[600]),
+        style: AppFonts.size_3(color: AppColors.textLightColor),
       ),
       actions: <Widget>[
         TextButton(
@@ -37,7 +37,7 @@ class AlertDialogComponent extends StatelessWidget {
           child: Text(primaryButtonText),
           style: TextButton.styleFrom(
             textStyle: AppFonts.size_3(),
-            primary: AppColors.neutral[700],
+            primary: AppColors.textColor,
           ),
         ),
         TextButton(
@@ -46,7 +46,7 @@ class AlertDialogComponent extends StatelessWidget {
           style: TextButton.styleFrom(
             textStyle: AppFonts.size_3(),
             primary: AppColors.white,
-            backgroundColor: AppColors.pink[400],
+            backgroundColor: AppColors.primary,
           ),
         ),
       ],

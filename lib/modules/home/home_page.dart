@@ -19,7 +19,7 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return StatusBarComponent(
       child: Scaffold(
-        backgroundColor: AppColors.celeste[200],
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -70,7 +70,7 @@ class HomePage extends GetView<HomeController> {
                 Text(
                   'Seja bem-vindo(a)',
                   style: AppFonts.size_4(
-                    color: AppColors.neutral[600],
+                    color: AppColors.textLightColor,
                   ),
                 ),
               ],
@@ -138,9 +138,9 @@ class HomePage extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
+                  const Icon(
                     FontAwesomeIcons.exclamationTriangle,
-                    color: AppColors.neutral[800],
+                    color: AppColors.textColor,
                     size: AppDimension.dm_32,
                   ),
                   const SizedBox(height: AppDimension.dm_16),
@@ -151,7 +151,7 @@ class HomePage extends GetView<HomeController> {
                   const SizedBox(height: AppDimension.dm_16),
                   Text(
                     'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
-                    style: AppFonts.size_3(color: AppColors.neutral[600]),
+                    style: AppFonts.size_3(color: AppColors.textLightColor),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -185,11 +185,11 @@ class HomePage extends GetView<HomeController> {
         children: <Widget>[
           Text(
             'Valor total',
-            style: AppFonts.size_2(color: AppColors.neutral[600]),
+            style: AppFonts.size_2(color: AppColors.textLightColor),
           ),
           Text(
             ProductModel.formatCurrency(controller.listFullPriceCalculate()),
-            style: AppFonts.size_10(color: AppColors.pink[400]),
+            style: AppFonts.size_10(color: AppColors.primary),
           ),
         ],
       ),
@@ -208,7 +208,7 @@ class HomePage extends GetView<HomeController> {
                 controller.listAmountsCalculate() == 1
                     ? '${controller.listAmountsCalculate()} item no seu carrinho!'
                     : '${controller.listAmountsCalculate()} itens no seu carrinho!',
-                style: AppFonts.size_4(weight: FontWeight.bold, color: AppColors.neutral[700]),
+                style: AppFonts.sizeBold_4(color: AppColors.textColor),
               ),
               IconButton(
                 onPressed: () => showDialog<AlertDialog>(
@@ -222,7 +222,7 @@ class HomePage extends GetView<HomeController> {
                     secondaryFunction: () => controller.removeAll(),
                   ),
                 ),
-                icon: Icon(FontAwesomeIcons.trashAlt, color: AppColors.pink[400]),
+                icon: Icon(FontAwesomeIcons.trashAlt, color: AppColors.primary),
               )
             ],
           ),
@@ -249,7 +249,7 @@ class HomePage extends GetView<HomeController> {
                           caption: 'Editar',
                           color: Colors.transparent,
                           icon: FontAwesomeIcons.edit,
-                          foregroundColor: AppColors.pink[400],
+                          foregroundColor: AppColors.primary,
                           onTap: () => controller.goToEditPage(product),
                         ),
                       ],
@@ -258,7 +258,7 @@ class HomePage extends GetView<HomeController> {
                           caption: 'Excluir',
                           color: Colors.transparent,
                           icon: FontAwesomeIcons.trashAlt,
-                          foregroundColor: AppColors.pink[400],
+                          foregroundColor: AppColors.primary,
                           onTap: () => controller.remove(product),
                         ),
                       ],

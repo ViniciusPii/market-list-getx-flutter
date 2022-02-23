@@ -17,7 +17,7 @@ class FloatingButtonComponent extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.pink[400]!,
+            color: AppColors.primary,
             blurRadius: 10,
             offset: const Offset(3, 3),
           ),
@@ -27,6 +27,7 @@ class FloatingButtonComponent extends StatelessWidget {
         ),
       ),
       child: FloatingActionButton(
+        backgroundColor: AppColors.primary,
         onPressed: action,
         elevation: 0,
         child: const Icon(

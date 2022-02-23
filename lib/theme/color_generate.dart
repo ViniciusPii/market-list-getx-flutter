@@ -3,33 +3,33 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ColorGenerate {
-  MaterialColor generateMaterialColor(Color color) {
+  MaterialColor generateMaterialColor(int color) {
     return MaterialColor(
-      color.value,
+      Color(color).value,
       <int, Color>{
         //shades 25%
-        50: tintColor(color, 0.95),
-        100: tintColor(color, 0.9),
-        200: tintColor(color, 0.75),
-        300: tintColor(color, 0.5),
-        400: tintColor(color, 0.25),
-        500: color,
-        600: shadeColor(color, 0.2),
-        700: shadeColor(color, 0.4),
-        800: shadeColor(color, 0.6),
-        900: shadeColor(color, 0.8),
+        50: tintColor(Color(color), 0.95),
+        100: tintColor(Color(color), 0.9),
+        200: tintColor(Color(color), 0.75),
+        300: tintColor(Color(color), 0.5),
+        400: tintColor(Color(color), 0.25),
+        500: Color(color),
+        600: shadeColor(Color(color), 0.2),
+        700: shadeColor(Color(color), 0.4),
+        800: shadeColor(Color(color), 0.6),
+        900: shadeColor(Color(color), 0.8),
 
-        //ligh shades
-        // 50: tintColor(color, 0.874),
-        // 100: tintColor(color, 0.8),
-        // 200: tintColor(color, 0.6),
-        // 300: tintColor(color, 0.4),
-        // 400: tintColor(color, 0.2),
-        // 500: color,
-        // 600: shadeColor(color, 0.1),
-        // 700: shadeColor(color, 0.2),
-        // 800: shadeColor(color, 0.3),
-        // 900: shadeColor(color, 0.4),
+        // ligh shades
+        // 50: tintColor(Color(color), 0.874),
+        // 100: tintColor(Color(color), 0.8),
+        // 200: tintColor(Color(color), 0.6),
+        // 300: tintColor(Color(color), 0.4),
+        // 400: tintColor(Color(color), 0.2),
+        // 500: Color(color),
+        // 600: shadeColor(Color(color), 0.1),
+        // 700: shadeColor(Color(color), 0.2),
+        // 800: shadeColor(Color(color), 0.3),
+        // 900: shadeColor(Color(color), 0.4),
       },
     );
   }

@@ -5,6 +5,7 @@ mixin FormValidators {
     if (itemName!.isEmpty) {
       return 'Informe Produto';
     }
+    return null;
   }
 
   static String? checkAmount(String? amount) {
@@ -13,6 +14,7 @@ mixin FormValidators {
     } else if (int.parse(amount) <= 0) {
       return 'Valor inválido para quantidade';
     }
+    return null;
   }
 
   static String? checkWeight(String? weight) {
@@ -21,6 +23,7 @@ mixin FormValidators {
     } else if (TextInputMasks.unMaskWeightFormatted(weight) <= 0) {
       return 'Valor inválido para peso';
     }
+    return null;
   }
 
   static String? checkPrice(String? price) {
@@ -29,5 +32,6 @@ mixin FormValidators {
     } else if (TextInputMasks.unMaskCurrencyFormatted(price) <= 0) {
       return 'Valor não válido para um produto';
     }
+    return null;
   }
 }

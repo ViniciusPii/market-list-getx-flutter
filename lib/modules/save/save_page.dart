@@ -16,7 +16,7 @@ class SavePage extends GetView<SaveController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.celeste[200],
+      backgroundColor: AppColors.background,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -33,9 +33,8 @@ class SavePage extends GetView<SaveController> {
                   children: <Widget>[
                     Text(
                       'Adicione seu produto!',
-                      style: AppFonts.size_4(
-                        weight: FontWeight.bold,
-                        color: AppColors.neutral[700],
+                      style: AppFonts.sizeBold_4(
+                        color: AppColors.textColor,
                       ),
                     ),
                     const SizedBox(height: AppDimension.dm_32),
@@ -96,7 +95,7 @@ class SavePage extends GetView<SaveController> {
                         width: AppDimension.dm_24,
                         height: AppDimension.dm_24,
                         child: CircularProgressIndicator(
-                          color: AppColors.pink[400],
+                          color: AppColors.primary,
                         ),
                       )
                     else
@@ -104,7 +103,6 @@ class SavePage extends GetView<SaveController> {
                         onPressed: () => controller.saveProduct(),
                         child: const Text('Adicionar'),
                         style: ElevatedButton.styleFrom(
-                          primary: AppColors.pink[400],
                           textStyle: AppFonts.size_3(),
                         ),
                       ),
@@ -113,7 +111,6 @@ class SavePage extends GetView<SaveController> {
                       onPressed: () => Get.back<dynamic>(),
                       child: const Text('Voltar ao inicio'),
                       style: TextButton.styleFrom(
-                        primary: AppColors.pink[400],
                         textStyle: AppFonts.size_3(),
                       ),
                     ),

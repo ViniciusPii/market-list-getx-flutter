@@ -14,7 +14,7 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return StatusBarComponent(
       child: Scaffold(
-        backgroundColor: AppColors.celeste[200],
+        backgroundColor: AppColors.background,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +26,7 @@ class LoginPage extends GetView<LoginController> {
               const SizedBox(height: AppDimension.dm_8),
               Text(
                 'É rapidinho ;)',
-                style: AppFonts.size_4(color: AppColors.neutral[600]),
+                style: AppFonts.size_4(color: AppColors.textLightColor),
               ),
               const SizedBox(height: AppDimension.dm_48),
               Obx(
@@ -35,7 +35,7 @@ class LoginPage extends GetView<LoginController> {
                         width: AppDimension.dm_24,
                         height: AppDimension.dm_24,
                         child: CircularProgressIndicator(
-                          color: AppColors.pink[400],
+                          color: AppColors.primary,
                         ),
                       )
                     : Container(
@@ -47,7 +47,7 @@ class LoginPage extends GetView<LoginController> {
                             'Faça Login com o Google!',
                           ),
                           style: ElevatedButton.styleFrom(
-                            primary: AppColors.pink[400],
+                            primary: AppColors.primary,
                             textStyle: AppFonts.size_3(),
                           ),
                         ),

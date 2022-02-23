@@ -15,7 +15,7 @@ class SplashPage extends GetView<SplashController> {
       brightness: Brightness.light,
       child: Scaffold(
         body: Container(
-          color: AppColors.pink[400],
+          color: AppColors.primary,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppDimension.dm_24),
             child: Center(
@@ -24,7 +24,7 @@ class SplashPage extends GetView<SplashController> {
                 children: <Widget>[
                   Text(
                     'Olá!',
-                    style: AppFonts.size_10(weight: FontWeight.bold, color: AppColors.white),
+                    style: AppFonts.sizeBold_10(color: AppColors.white),
                   ),
                   const SizedBox(height: AppDimension.dm_16),
                   Text(

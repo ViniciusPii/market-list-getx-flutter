@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: AppTheme(context).defaultTheme,
+      theme: AppTheme.defaultTheme,
       getPages: <GetPage<WidgetBuilder>>[
         SplashModule().route,
         LoginModule().route,

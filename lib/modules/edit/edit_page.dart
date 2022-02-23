@@ -15,7 +15,7 @@ class EditPage extends GetView<EditController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.celeste[200],
+      backgroundColor: AppColors.background,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -31,9 +31,8 @@ class EditPage extends GetView<EditController> {
                 children: <Widget>[
                   Text(
                     'Você está alterando ${controller.product.productName}!',
-                    style: AppFonts.size_4(
-                      weight: FontWeight.bold,
-                      color: AppColors.neutral[700],
+                    style: AppFonts.sizeBold_4(
+                      color: AppColors.textColor,
                     ),
                   ),
                   const SizedBox(height: AppDimension.dm_32),
@@ -87,14 +86,13 @@ class EditPage extends GetView<EditController> {
                             width: AppDimension.dm_24,
                             height: AppDimension.dm_24,
                             child: CircularProgressIndicator(
-                              color: AppColors.pink[400],
+                              color: AppColors.primary,
                             ),
                           )
                         : ElevatedButton(
                             onPressed: () => controller.editProduct(),
                             child: const Text('Editar'),
                             style: ElevatedButton.styleFrom(
-                              primary: AppColors.pink[400],
                               textStyle: AppFonts.size_3(),
                             ),
                           ),
@@ -104,7 +102,7 @@ class EditPage extends GetView<EditController> {
                     onPressed: () => Get.back<dynamic>(),
                     child: const Text('Voltar ao inicio'),
                     style: TextButton.styleFrom(
-                      primary: AppColors.pink[400],
+                      primary: AppColors.primary,
                       textStyle: AppFonts.size_3(),
                     ),
                   ),

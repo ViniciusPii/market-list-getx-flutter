@@ -28,7 +28,7 @@ class CheckboxComponent extends StatelessWidget {
             height: AppDimension.dm_24,
             width: AppDimension.dm_24,
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.pink[400] : null,
+              color: isSelected ? AppColors.primary : null,
               border: isSelected
                   ? Border.all(color: AppColors.pink[400]!)
                   : Border.all(color: AppColors.neutral[600]!),
