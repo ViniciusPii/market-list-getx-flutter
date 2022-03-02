@@ -21,7 +21,7 @@ class LoginPage extends GetView<LoginController> {
             children: <Widget>[
               Text(
                 'Faça seu login!',
-                style: AppFonts.titleMedium(),
+                style: AppFonts.titleLarge(),
               ),
               const SizedBox(height: AppDimension.size_1),
               Text(
@@ -30,7 +30,7 @@ class LoginPage extends GetView<LoginController> {
               ),
               const SizedBox(height: AppDimension.size_6),
               Obx(
-                () => controller.loading.value
+                () => controller.loading
                     ? Container(
                         width: AppDimension.size_3,
                         height: AppDimension.size_3,

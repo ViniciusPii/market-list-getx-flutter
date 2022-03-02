@@ -3,19 +3,15 @@ import 'package:get/get.dart';
 import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/services/product/product_service.dart';
-import 'package:market_list/services/user/user_service.dart';
 
 class HomeController extends GetxController {
   HomeController({
     required AuthService authService,
-    required UserService userService,
     required ProductService productService,
   })  : _authService = authService,
-        _userService = userService,
         _productService = productService;
 
   final AuthService _authService;
-  final UserService _userService;
   final ProductService _productService;
 
   final RxBool loading = RxBool(false);
@@ -42,14 +38,6 @@ class HomeController extends GetxController {
     Get.back<dynamic>();
     loading.toggle();
     await _productService.removeAll(user!.uid);
-  }
-
-  Future<void> signOut() async {
-    await _userService.signOut();
-  }
-
-  Future<void> updateDisplayName(String name) async {
-    await _userService.updateDisplayName(name);
   }
 
   int listAmountsCalculate() => productList!

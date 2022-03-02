@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/text_input_component.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
+import 'package:market_list/core/utils/validators/form_validators.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/utils/masks/text_input_masks.dart';
-import 'package:market_list/utils/validators/form_validators.dart';
 import './edit_controller.dart';
 
 class EditPage extends GetView<EditController> {
@@ -81,7 +81,7 @@ class EditPage extends GetView<EditController> {
                   ),
                   const SizedBox(height: AppDimension.size_3),
                   Obx(
-                    () => controller.loading.value
+                    () => controller.loading
                         ? Container(
                             width: AppDimension.size_3,
                             height: AppDimension.size_3,

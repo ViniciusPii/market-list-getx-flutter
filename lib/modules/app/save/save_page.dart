@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/checkbox_component.dart';
 import 'package:market_list/components/text_input_component.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
+import 'package:market_list/core/utils/validators/form_validators.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/utils/masks/text_input_masks.dart';
-import 'package:market_list/utils/validators/form_validators.dart';
 import './save_controller.dart';
 
 class SavePage extends GetView<SaveController> {
@@ -48,7 +48,7 @@ class SavePage extends GetView<SaveController> {
                       validators: FormValidators.checkNotEmptyProductName,
                     ),
                     const SizedBox(height: AppDimension.size_2),
-                    if (controller.selected.value)
+                    if (controller.selected)
                       TextInputComponent(
                         label: 'Peso',
                         hint: 'Ex: Kg 0,500',
@@ -86,11 +86,11 @@ class SavePage extends GetView<SaveController> {
                       action: () {
                         controller.isSelected();
                       },
-                      isSelected: controller.selected.value,
+                      isSelected: controller.selected,
                       label: 'Calcular por peso',
                     ),
                     const SizedBox(height: AppDimension.size_3),
-                    if (controller.loading.value)
+                    if (controller.loading)
                       Container(
                         width: AppDimension.size_3,
                         height: AppDimension.size_3,

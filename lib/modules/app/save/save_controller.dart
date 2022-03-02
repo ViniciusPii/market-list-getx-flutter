@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/auth/auth_service.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/services/product/product_service.dart';
-import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class SaveController extends GetxController {
   SaveController({
@@ -22,6 +22,13 @@ class SaveController extends GetxController {
   final TextEditingController productEC = TextEditingController();
   final TextEditingController quantityEC = TextEditingController(text: '1');
 
+  final RxBool _loading = RxBool(false);
+  final RxBool _selected = RxBool(false);
+
+  bool get loading => _loading.value;
+  User? get user => _authService.user!;
+  bool get selected => _selected.value;
+
   @override
   void onClose() {
     priceEC.dispose();
@@ -31,30 +38,25 @@ class SaveController extends GetxController {
     super.onClose();
   }
 
-  final RxBool loading = RxBool(false);
-  final RxBool selected = RxBool(false);
-
-  User? get user => _authService.user!;
-
   bool isSelected() {
     weightEC.clear();
     quantityEC.clear();
-    return selected(!selected.value);
+    return _selected(!_selected.value);
   }
 
   Future<void> saveProduct() async {
     if (form.currentState!.validate()) {
-      loading.toggle();
+      _loading.toggle();
       final String productName = productEC.text.trim();
       final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);
       final double weight =
           weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(weightEC.text);
-      final int quantity = selected.value ? 1 : int.parse(quantityEC.text);
-      final double fullPrice = selected.value
+      final int quantity = _selected.value ? 1 : int.parse(quantityEC.text);
+      final double fullPrice = _selected.value
           ? ProductModel.changeFullPriceWeight(price, weight)
           : ProductModel.changeFullPriceQuantity(price, quantity);
       final DateTime timestamp = DateTime.now();
-      final bool isSelected = selected.value;
+      final bool isSelected = _selected.value;
 
       await _productService.save(
         user!.uid,

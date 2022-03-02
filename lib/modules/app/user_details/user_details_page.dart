@@ -6,12 +6,12 @@ import 'package:market_list/components/card_user_component.dart';
 import 'package:market_list/components/loading_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/components/text_input_component.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import 'package:market_list/theme/app_icons.dart';
-import 'package:market_list/utils/masks/text_input_masks.dart';
 import 'package:validatorless/validatorless.dart';
 import 'user_details_controller.dart';
 

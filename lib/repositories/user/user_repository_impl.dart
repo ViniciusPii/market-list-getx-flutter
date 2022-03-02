@@ -34,7 +34,6 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<void> updateDisplayName(String name) async {
-    final User? user = _auth.currentUser;
-    await user!.updateDisplayName(name);
+    await _auth.currentUser!.updateDisplayName(name);
   }
 }

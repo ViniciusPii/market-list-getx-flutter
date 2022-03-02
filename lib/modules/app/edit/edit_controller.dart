@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/auth/auth_service.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/services/product/product_service.dart';
-import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class EditController extends GetxController {
   EditController({
@@ -16,16 +16,19 @@ class EditController extends GetxController {
   final AuthService _authService;
   final ProductService _productService;
 
-  final ProductModel _product = Get.arguments as ProductModel;
-
-  User? get user => _authService.user!;
-  ProductModel get product => _product;
-
   final GlobalKey<FormState> form = GlobalKey<FormState>();
   final TextEditingController priceEC = TextEditingController();
   final TextEditingController weightEC = TextEditingController();
   final TextEditingController productEC = TextEditingController();
   final TextEditingController quantityEC = TextEditingController();
+
+  final ProductModel _product = Get.arguments as ProductModel;
+
+  final RxBool _loading = RxBool(false);
+
+  bool get loading => _loading.value;
+  User? get user => _authService.user!;
+  ProductModel get product => _product;
 
   @override
   void onInit() {
@@ -45,11 +48,9 @@ class EditController extends GetxController {
     super.onClose();
   }
 
-  final RxBool loading = RxBool(false);
-
   Future<void> editProduct() async {
     if (form.currentState!.validate()) {
-      loading.toggle();
+      _loading.toggle();
       final String id = _product.id;
       final String productName = productEC.text.trim();
       final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);

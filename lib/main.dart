@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
         EditModule().route,
         UserDetailsModule().route,
       ],
-      debugShowCheckedModeBanner: false,
+      initialRoute: '/splash',
       initialBinding: AppBinding(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

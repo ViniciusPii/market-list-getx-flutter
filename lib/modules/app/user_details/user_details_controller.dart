@@ -20,8 +20,8 @@ class UserDetailsController extends GetxController {
 
   final RxBool _loader = RxBool(false);
 
-  User? get user => _authService.user;
   bool get loader => _loader.value;
+  User? get user => _authService.user;
 
   Future<void> updateDisplayName() async {
     if (formKey.currentState!.validate()) {

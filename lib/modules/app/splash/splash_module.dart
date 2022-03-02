@@ -6,7 +6,7 @@ import 'splash_page.dart';
 
 class SplashModule {
   final GetPage<WidgetBuilder> route = GetPage<WidgetBuilder>(
-    name: '/',
+    name: '/splash',
     page: () => const SplashPage(),
     binding: SplashBindings(),
   );

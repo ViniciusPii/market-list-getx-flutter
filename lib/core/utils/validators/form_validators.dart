@@ -1,4 +1,4 @@
-import 'package:market_list/utils/masks/text_input_masks.dart';
+import 'package:market_list/core/utils/masks/text_input_masks.dart';
 
 mixin FormValidators {
   static String? checkNotEmptyProductName(String? itemName) {

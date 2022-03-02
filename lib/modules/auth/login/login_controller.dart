@@ -10,14 +10,16 @@ class LoginController extends GetxController {
 
   final UserService _userService;
 
-  final RxBool loading = RxBool(false);
+  final RxBool _loading = RxBool(false);
+
+  bool get loading => _loading.value;
 
   Future<void> login() async {
     try {
-      loading.toggle();
+      _loading.toggle();
       await _userService.login();
     } catch (e) {
-      loading.toggle();
+      _loading.toggle();
       log('Error $e');
     }
   }
