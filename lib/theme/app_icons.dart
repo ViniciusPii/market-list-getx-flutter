@@ -12,17 +12,15 @@
 ///       - asset: fonts/AppIcons.ttf
 ///
 ///
-/// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
-///         Author:    Dave Gandy
-///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
-///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 /// * Font Awesome 4, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
+/// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
+///         Author:    Dave Gandy
+///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
+///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/widgets.dart';
 
 class AppIcons {
@@ -31,9 +29,13 @@ class AppIcons {
   static const String _kFontFam = 'AppIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData eye = IconData(0xf06e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData eye_slash = IconData(0xf070, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData angle_left =
-      IconData(0xf104, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pencil = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData check = IconData(0xf00c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData plus = IconData(0xf067, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData exclamation_triangle =
+      IconData(0xf071, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData google = IconData(0xf1a0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shopping_basket =
+      IconData(0xf291, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData trash_alt = IconData(0xf2ed, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

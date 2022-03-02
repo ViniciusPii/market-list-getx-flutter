@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
+import 'package:market_list/theme/app_icons.dart';
 
 class FloatingButtonComponent extends StatelessWidget {
   const FloatingButtonComponent({
@@ -31,7 +31,7 @@ class FloatingButtonComponent extends StatelessWidget {
         onPressed: action,
         elevation: 0,
         child: const Icon(
-          FontAwesomeIcons.plus,
+          AppIcons.plus,
           size: AppDimension.size_2,
         ),
       ),

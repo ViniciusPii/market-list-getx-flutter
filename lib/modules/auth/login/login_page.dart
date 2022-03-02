@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/theme/app_icons.dart';
 import './login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -42,7 +42,7 @@ class LoginPage extends GetView<LoginController> {
                         width: Get.width * .9,
                         child: ElevatedButton.icon(
                           onPressed: () => controller.login(),
-                          icon: const Icon(FontAwesomeIcons.google),
+                          icon: const Icon(AppIcons.google),
                           label: const Text(
                             'Faça Login com o Google!',
                           ),

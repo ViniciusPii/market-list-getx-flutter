@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/theme/app_icons.dart';
 
 class CardProductComponent extends StatelessWidget {
   const CardProductComponent({
@@ -51,7 +51,7 @@ class CardProductComponent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppDimension.size_2),
                       ),
                       child: Icon(
-                        FontAwesomeIcons.shoppingBasket,
+                        AppIcons.shopping_basket,
                         color: AppExtension.primary,
                       ),
                     ),

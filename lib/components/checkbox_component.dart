@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/theme/app_icons.dart';
 
 class CheckboxComponent extends StatelessWidget {
   const CheckboxComponent({
@@ -37,7 +37,7 @@ class CheckboxComponent extends StatelessWidget {
             ),
             child: isSelected
                 ? Icon(
-                    FontAwesomeIcons.check,
+                    AppIcons.check,
                     color: AppColors.white,
                     size: iconSize,
                   )

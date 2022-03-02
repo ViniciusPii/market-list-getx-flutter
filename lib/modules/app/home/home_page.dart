@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/alert_dialog_component.dart';
 import 'package:market_list/components/card_product_component.dart';
@@ -11,6 +10,7 @@ import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/theme/app_icons.dart';
 import './home_controller.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -141,7 +141,7 @@ class HomePage extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    FontAwesomeIcons.exclamationTriangle,
+                    AppIcons.exclamation_triangle,
                     color: AppExtension.textColor,
                     size: AppDimension.size_4,
                   ),
@@ -225,7 +225,7 @@ class HomePage extends GetView<HomeController> {
                   ),
                 ),
                 icon: Icon(
-                  FontAwesomeIcons.trashAlt,
+                  AppIcons.trash_alt,
                   color: AppExtension.primary,
                   size: 20,
                 ),
@@ -252,7 +252,7 @@ class HomePage extends GetView<HomeController> {
                       IconSlideAction(
                         caption: 'Editar',
                         color: Colors.transparent,
-                        icon: FontAwesomeIcons.edit,
+                        icon: AppIcons.pencil,
                         foregroundColor: AppExtension.primary,
                         onTap: () => controller.goToEditPage(product),
                       ),
@@ -261,7 +261,7 @@ class HomePage extends GetView<HomeController> {
                       IconSlideAction(
                         caption: 'Excluir',
                         color: Colors.transparent,
-                        icon: FontAwesomeIcons.trashAlt,
+                        icon: AppIcons.trash_alt,
                         foregroundColor: AppExtension.primary,
                         onTap: () => controller.remove(product),
                       ),
