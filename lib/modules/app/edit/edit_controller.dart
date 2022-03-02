@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_list/core/services/auth_service.dart';
+import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/services/product/product_service.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';

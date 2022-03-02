@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:market_list/core/services/auth_service.dart';
+import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/services/product/product_service.dart';
 import 'package:market_list/services/user/user_service.dart';
@@ -46,6 +46,10 @@ class HomeController extends GetxController {
 
   Future<void> signOut() async {
     await _userService.signOut();
+  }
+
+  Future<void> updateDisplayName(String name) async {
+    await _userService.updateDisplayName(name);
   }
 
   int listAmountsCalculate() => productList!

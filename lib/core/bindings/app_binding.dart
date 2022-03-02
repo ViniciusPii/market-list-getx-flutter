@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:market_list/core/services/auth_service.dart';
+import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/repositories/product/product_repository.dart';
 import 'package:market_list/repositories/product/product_repository_impl.dart';
 import 'package:market_list/repositories/user/user_repository.dart';
@@ -14,10 +14,6 @@ import 'package:market_list/services/user/user_service_impl.dart';
 class AppBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(
-      AuthService(),
-    ).init();
-
     Get.lazyPut(
       () => FirebaseFirestore.instance,
       fenix: true,
@@ -27,6 +23,12 @@ class AppBinding implements Bindings {
       () => FirebaseAuth.instance,
       fenix: true,
     );
+
+    Get.put(
+      AuthService(
+        auth: Get.find(),
+      ),
+    ).authentication();
 
     Get.lazyPut<ProductRepository>(
       () => ProductRepositoryImpl(

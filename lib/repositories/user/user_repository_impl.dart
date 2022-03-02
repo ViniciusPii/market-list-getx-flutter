@@ -11,7 +11,7 @@ class UserRepositoryImpl implements UserRepository {
   final FirebaseAuth _auth;
 
   @override
-  Future<UserCredential> login() async {
+  Future<User?> login() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
@@ -20,7 +20,8 @@ class UserRepositoryImpl implements UserRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      return _auth.signInWithCredential(credential);
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      return userCredential.user;
     }
     throw Exception('Erro ao realizar login com Google');
   }
@@ -29,5 +30,11 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> signOut() async {
     await GoogleSignIn().signOut();
     _auth.signOut();
+  }
+
+  @override
+  Future<void> updateDisplayName(String name) async {
+    final User? user = _auth.currentUser;
+    await user!.updateDisplayName(name);
   }
 }

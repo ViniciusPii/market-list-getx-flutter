@@ -92,6 +92,7 @@ class HomePage extends GetView<HomeController> {
               ],
             ),
             child: GestureDetector(
+              onDoubleTap: () => controller.updateDisplayName('Vini'),
               onTap: () => showDialog<AlertDialog>(
                 context: context,
                 builder: (BuildContext context) => AlertDialogComponent(
