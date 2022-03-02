@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '/theme/app_extension.dart';
+import '/theme/app_fonts.dart';
 
-import '/theme/app_dimension.dart';
-import 'app_colors.dart';
+import 'app_dimension.dart';
 
 class AppTheme {
   AppTheme._();
 
-  static const double _buttonHeight = AppDimension.dm_40;
-
   static ThemeData get defaultTheme => ThemeData(
-        primaryColor: AppColors.appPrimary,
+        primaryColor: AppExtension.primary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.montserratTextTheme(),
-        primaryTextTheme: GoogleFonts.montserratTextTheme(),
+        fontFamily: AppExtension.fontFamily,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(
               double.infinity,
-              _buttonHeight,
+              AppDimension.size_5,
             ),
+            textStyle: AppFonts.bodyLarge(),
           ),
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: AppColors.appPrimary,
-          secondary: AppColors.appSecondary, // Your accent color
+          primary: AppExtension.primary,
+          secondary: AppExtension.secondary, // Your accent color
         ),
       );
 }

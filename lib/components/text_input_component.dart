@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:market_list/theme/app_colors.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 
 class TextInputComponent extends StatelessWidget {
@@ -25,22 +26,21 @@ class TextInputComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: AppFonts.size_3(),
+      style: AppFonts.bodyLarge(),
       decoration: InputDecoration(
-        fillColor: AppColors.white,
         filled: true,
         isDense: true,
         hintText: hint,
         labelText: label,
-        labelStyle: AppFonts.size_3(color: AppColors.primary),
-        hintStyle: AppFonts.size_3(color: AppColors.neutral.shade400),
+        fillColor: AppColors.white,
+        labelStyle: AppFonts.bodyLarge(color: AppExtension.primary),
+        hintStyle: AppFonts.bodyLarge(color: AppColors.neutral.shade400),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primary),
+          borderSide: BorderSide(color: AppExtension.primary),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primary),
+          borderSide: BorderSide(color: AppExtension.primary),
         ),
-        // errorStyle: AppFonts.size_1(color: AppColors.red),
       ),
       autofocus: true,
       keyboardType: type,

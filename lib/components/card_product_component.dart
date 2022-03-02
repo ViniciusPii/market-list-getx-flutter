@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 
 class CardProductComponent extends StatelessWidget {
@@ -29,12 +30,12 @@ class CardProductComponent extends StatelessWidget {
             ),
           ],
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(AppDimension.dm_8),
+          borderRadius: BorderRadius.circular(AppDimension.size_1),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: AppDimension.dm_8,
-            horizontal: AppDimension.dm_16,
+            vertical: AppDimension.size_1,
+            horizontal: AppDimension.size_2,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,35 +47,35 @@ class CardProductComponent extends StatelessWidget {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(AppDimension.dm_16),
+                        color: AppExtension.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(AppDimension.size_2),
                       ),
                       child: Icon(
                         FontAwesomeIcons.shoppingBasket,
-                        color: AppColors.primary,
+                        color: AppExtension.primary,
                       ),
                     ),
-                    const SizedBox(width: AppDimension.dm_16),
+                    const SizedBox(width: AppDimension.size_2),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             productModel.productName,
-                            style: AppFonts.sizeMedium_4(
+                            style: AppFonts.titleMedium(
                               color: AppColors.neutral.shade700,
                             ),
                           ),
                           Text(
                             _changeText(),
-                            style: AppFonts.size_2(color: AppColors.textColor),
+                            style: AppFonts.bodyMedium(color: AppExtension.textColor),
                           ),
-                          const SizedBox(height: AppDimension.dm_4),
+                          const SizedBox(height: AppDimension.size_0),
                           Text(
                             productModel.isSelected
                                 ? '${ProductModel.formatCurrency(productModel.price)} Kg'
                                 : '${ProductModel.formatCurrency(productModel.price)} cada',
-                            style: AppFonts.sizeMedium_1(color: AppColors.primary),
+                            style: AppFonts.bodySmall(color: AppExtension.primary),
                           ),
                         ],
                       ),
@@ -82,21 +83,21 @@ class CardProductComponent extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: AppDimension.dm_8),
+              const SizedBox(width: AppDimension.size_2),
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(AppDimension.dm_16),
+                  color: AppExtension.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(AppDimension.size_2),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: AppDimension.dm_8,
-                    horizontal: AppDimension.dm_16,
+                    vertical: AppDimension.size_1,
+                    horizontal: AppDimension.size_2,
                   ),
                   child: Text(
                     ProductModel.formatCurrency(productModel.fullPrice),
-                    style: AppFonts.sizeMedium_3(
-                      color: AppColors.primary,
+                    style: AppFonts.labelLarge(
+                      color: AppExtension.primary,
                     ),
                   ),
                 ),

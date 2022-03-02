@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/checkbox_component.dart';
 import 'package:market_list/components/text_input_component.dart';
-import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 import 'package:market_list/utils/validators/form_validators.dart';
@@ -16,13 +16,13 @@ class SavePage extends GetView<SaveController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppExtension.background,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: AppDimension.dm_16,
-              horizontal: AppDimension.dm_24,
+              vertical: AppDimension.size_2,
+              horizontal: AppDimension.size_3,
             ),
             child: Obx(
               () => Form(
@@ -33,21 +33,21 @@ class SavePage extends GetView<SaveController> {
                   children: <Widget>[
                     Text(
                       'Adicione seu produto!',
-                      style: AppFonts.sizeBold_4(
-                        color: AppColors.textColor,
+                      style: AppFonts.titleMedium(
+                        color: AppExtension.textColor,
                       ),
                     ),
-                    const SizedBox(height: AppDimension.dm_32),
+                    const SizedBox(height: AppDimension.size_4),
                     TextInputComponent(
                       label: 'Produto',
                       hint: 'Ex: Tomate',
                       formatters: <TextInputFormatter>[
                         TextInputMasks.productNameMask,
                       ],
-                      validators: FormValidators.checkNotEmptyProductName,
                       controller: controller.productEC,
+                      validators: FormValidators.checkNotEmptyProductName,
                     ),
-                    const SizedBox(height: AppDimension.dm_8),
+                    const SizedBox(height: AppDimension.size_2),
                     if (controller.selected.value)
                       TextInputComponent(
                         label: 'Peso',
@@ -56,8 +56,8 @@ class SavePage extends GetView<SaveController> {
                           TextInputMasks.weightMask,
                         ],
                         type: TextInputType.number,
-                        validators: FormValidators.checkWeight,
                         controller: controller.weightEC,
+                        validators: FormValidators.checkWeight,
                       )
                     else
                       TextInputComponent(
@@ -67,10 +67,10 @@ class SavePage extends GetView<SaveController> {
                           FilteringTextInputFormatter.digitsOnly,
                         ],
                         type: TextInputType.number,
-                        validators: FormValidators.checkAmount,
                         controller: controller.quantityEC,
+                        validators: FormValidators.checkAmount,
                       ),
-                    const SizedBox(height: AppDimension.dm_8),
+                    const SizedBox(height: AppDimension.size_2),
                     TextInputComponent(
                       label: 'Preço',
                       hint: 'Ex: R\$ 2,50',
@@ -78,10 +78,10 @@ class SavePage extends GetView<SaveController> {
                         TextInputMasks.currencyMask,
                       ],
                       type: TextInputType.number,
-                      validators: FormValidators.checkPrice,
                       controller: controller.priceEC,
+                      validators: FormValidators.checkPrice,
                     ),
-                    const SizedBox(height: AppDimension.dm_16),
+                    const SizedBox(height: AppDimension.size_2),
                     CheckboxComponent(
                       action: () {
                         controller.isSelected();
@@ -89,13 +89,13 @@ class SavePage extends GetView<SaveController> {
                       isSelected: controller.selected.value,
                       label: 'Calcular por peso',
                     ),
-                    const SizedBox(height: AppDimension.dm_24),
+                    const SizedBox(height: AppDimension.size_3),
                     if (controller.loading.value)
                       Container(
-                        width: AppDimension.dm_24,
-                        height: AppDimension.dm_24,
+                        width: AppDimension.size_3,
+                        height: AppDimension.size_3,
                         child: CircularProgressIndicator(
-                          color: AppColors.primary,
+                          color: AppExtension.primary,
                         ),
                       )
                     else
@@ -103,15 +103,15 @@ class SavePage extends GetView<SaveController> {
                         onPressed: () => controller.saveProduct(),
                         child: const Text('Adicionar'),
                         style: ElevatedButton.styleFrom(
-                          textStyle: AppFonts.size_3(),
+                          textStyle: AppFonts.bodyMedium(),
                         ),
                       ),
-                    const SizedBox(height: AppDimension.dm_16),
+                    const SizedBox(height: AppDimension.size_2),
                     TextButton(
                       onPressed: () => Get.back<dynamic>(),
                       child: const Text('Voltar ao inicio'),
                       style: TextButton.styleFrom(
-                        textStyle: AppFonts.size_3(),
+                        textStyle: AppFonts.bodyMedium(),
                       ),
                     ),
                   ],

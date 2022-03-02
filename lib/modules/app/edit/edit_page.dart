@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/text_input_component.dart';
-import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 import 'package:market_list/utils/validators/form_validators.dart';
@@ -15,13 +15,13 @@ class EditPage extends GetView<EditController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppExtension.background,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: AppDimension.dm_16,
-              horizontal: AppDimension.dm_24,
+              vertical: AppDimension.size_2,
+              horizontal: AppDimension.size_3,
             ),
             child: Form(
               key: controller.form,
@@ -31,11 +31,11 @@ class EditPage extends GetView<EditController> {
                 children: <Widget>[
                   Text(
                     'Você está alterando ${controller.product.productName}!',
-                    style: AppFonts.sizeBold_4(
-                      color: AppColors.textColor,
+                    style: AppFonts.titleMedium(
+                      color: AppExtension.textColor,
                     ),
                   ),
-                  const SizedBox(height: AppDimension.dm_32),
+                  const SizedBox(height: AppDimension.size_3),
                   TextInputComponent(
                     label: 'Produto',
                     hint: 'Ex: Tomate',
@@ -45,7 +45,7 @@ class EditPage extends GetView<EditController> {
                     validators: FormValidators.checkNotEmptyProductName,
                     controller: controller.productEC,
                   ),
-                  const SizedBox(height: AppDimension.dm_8),
+                  const SizedBox(height: AppDimension.size_1),
                   if (controller.product.isSelected)
                     TextInputComponent(
                       label: 'Peso',
@@ -68,7 +68,7 @@ class EditPage extends GetView<EditController> {
                       validators: FormValidators.checkAmount,
                       controller: controller.quantityEC,
                     ),
-                  const SizedBox(height: AppDimension.dm_8),
+                  const SizedBox(height: AppDimension.size_1),
                   TextInputComponent(
                     label: 'Preço',
                     hint: 'Ex: R\$ 2,50',
@@ -79,31 +79,31 @@ class EditPage extends GetView<EditController> {
                     validators: FormValidators.checkPrice,
                     controller: controller.priceEC,
                   ),
-                  const SizedBox(height: AppDimension.dm_24),
+                  const SizedBox(height: AppDimension.size_3),
                   Obx(
                     () => controller.loading.value
                         ? Container(
-                            width: AppDimension.dm_24,
-                            height: AppDimension.dm_24,
+                            width: AppDimension.size_3,
+                            height: AppDimension.size_3,
                             child: CircularProgressIndicator(
-                              color: AppColors.primary,
+                              color: AppExtension.primary,
                             ),
                           )
                         : ElevatedButton(
                             onPressed: () => controller.editProduct(),
                             child: const Text('Editar'),
                             style: ElevatedButton.styleFrom(
-                              textStyle: AppFonts.size_3(),
+                              textStyle: AppFonts.bodyMedium(),
                             ),
                           ),
                   ),
-                  const SizedBox(height: AppDimension.dm_16),
+                  const SizedBox(height: AppDimension.size_2),
                   TextButton(
                     onPressed: () => Get.back<dynamic>(),
                     child: const Text('Voltar ao inicio'),
                     style: TextButton.styleFrom(
-                      primary: AppColors.primary,
-                      textStyle: AppFonts.size_3(),
+                      primary: AppExtension.primary,
+                      textStyle: AppFonts.bodyMedium(),
                     ),
                   ),
                 ],

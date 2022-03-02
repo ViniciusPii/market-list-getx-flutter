@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 
 class CheckboxComponent extends StatelessWidget {
@@ -25,28 +26,28 @@ class CheckboxComponent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: AppDimension.dm_24,
-            width: AppDimension.dm_24,
+            height: 18,
+            width: 18,
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : null,
+              color: isSelected ? AppExtension.primary : null,
               border: isSelected
-                  ? Border.all(color: AppColors.primary)
-                  : Border.all(color: AppColors.textLightColor),
-              borderRadius: BorderRadius.circular(AppDimension.dm_16),
+                  ? Border.all(color: AppExtension.primary)
+                  : Border.all(color: AppExtension.textLightColor),
+              borderRadius: BorderRadius.circular(AppDimension.size_2),
             ),
             child: isSelected
-                ? const Icon(
+                ? Icon(
                     FontAwesomeIcons.check,
                     color: AppColors.white,
                     size: iconSize,
                   )
                 : null,
           ),
-          const SizedBox(width: AppDimension.dm_16),
+          const SizedBox(width: AppDimension.size_2),
           Text(
             label,
-            style: AppFonts.size_4(
-              color: AppColors.textLightColor,
+            style: AppFonts.bodyMedium(
+              color: AppExtension.textLightColor,
             ),
           ),
         ],

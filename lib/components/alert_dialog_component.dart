@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_list/theme/app_colors.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 
 class AlertDialogComponent extends StatelessWidget {
@@ -25,28 +26,28 @@ class AlertDialogComponent extends StatelessWidget {
     return AlertDialog(
       title: Text(
         title,
-        style: AppFonts.size_5(color: AppColors.primary),
+        style: AppFonts.headlineSmall(color: AppExtension.primary),
       ),
       content: Text(
         content,
-        style: AppFonts.size_3(color: AppColors.textLightColor),
+        style: AppFonts.bodyLarge(),
       ),
       actions: <Widget>[
         TextButton(
           onPressed: primaryFunction,
           child: Text(primaryButtonText),
           style: TextButton.styleFrom(
-            textStyle: AppFonts.size_3(),
-            primary: AppColors.textColor,
+            textStyle: AppFonts.bodyMedium(),
+            primary: AppExtension.textColor,
           ),
         ),
         TextButton(
           onPressed: secondaryFunction,
           child: Text(secondaryButtonText),
           style: TextButton.styleFrom(
-            textStyle: AppFonts.size_3(),
+            textStyle: AppFonts.bodyMedium(),
             primary: AppColors.white,
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppExtension.primary,
           ),
         ),
       ],

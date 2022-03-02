@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 
 class FloatingButtonComponent extends StatelessWidget {
   const FloatingButtonComponent({
@@ -17,22 +17,22 @@ class FloatingButtonComponent extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.primary,
+            color: AppExtension.primary,
             blurRadius: 10,
             offset: const Offset(3, 3),
           ),
         ],
         borderRadius: const BorderRadius.all(
-          Radius.circular(AppDimension.dm_32),
+          Radius.circular(AppDimension.size_4),
         ),
       ),
       child: FloatingActionButton(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppExtension.primary,
         onPressed: action,
         elevation: 0,
         child: const Icon(
           FontAwesomeIcons.plus,
-          size: AppDimension.dm_16,
+          size: AppDimension.size_2,
         ),
       ),
     );

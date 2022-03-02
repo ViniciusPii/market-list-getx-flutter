@@ -9,6 +9,7 @@ import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
+import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
 import './home_controller.dart';
 
@@ -19,12 +20,12 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return StatusBarComponent(
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppExtension.background,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: AppDimension.dm_16,
-              horizontal: AppDimension.dm_24,
+              vertical: AppDimension.size_2,
+              horizontal: AppDimension.size_3,
             ),
             child: Column(
               children: <Widget>[
@@ -55,7 +56,7 @@ class HomePage extends GetView<HomeController> {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: AppDimension.dm_8),
+      padding: const EdgeInsets.only(top: AppDimension.size_1),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -65,22 +66,22 @@ class HomePage extends GetView<HomeController> {
               children: <Widget>[
                 Text(
                   'Olá, ${controller.user?.displayName}!',
-                  style: AppFonts.size_8(),
+                  style: AppFonts.headlineSmall(),
                 ),
                 Text(
                   'Seja bem-vindo(a)',
-                  style: AppFonts.size_4(
-                    color: AppColors.textLightColor,
+                  style: AppFonts.bodyLarge(
+                    color: AppExtension.textLightColor,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: AppDimension.dm_16),
+          const SizedBox(width: AppDimension.size_2),
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(
-                Radius.circular(AppDimension.dm_32),
+                Radius.circular(AppDimension.size_4),
               ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -103,7 +104,8 @@ class HomePage extends GetView<HomeController> {
                 ),
               ),
               child: CircleAvatar(
-                radius: AppDimension.dm_32,
+                radius: AppDimension.size_4,
+                backgroundColor: AppExtension.primary,
                 backgroundImage: NetworkImage('${controller.user?.photoURL}'),
               ),
             ),
@@ -117,7 +119,7 @@ class HomePage extends GetView<HomeController> {
     return Expanded(
       child: Column(
         children: const <Widget>[
-          SizedBox(height: AppDimension.dm_8),
+          SizedBox(height: AppDimension.size_1),
           Expanded(
             child: Center(
               child: CircularProgressIndicator(),
@@ -138,20 +140,20 @@ class HomePage extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Icon(
+                  Icon(
                     FontAwesomeIcons.exclamationTriangle,
-                    color: AppColors.textColor,
-                    size: AppDimension.dm_32,
+                    color: AppExtension.textColor,
+                    size: AppDimension.size_4,
                   ),
-                  const SizedBox(height: AppDimension.dm_16),
+                  const SizedBox(height: AppDimension.size_2),
                   Text(
                     'Carrinho vazio!',
-                    style: AppFonts.size_10(),
+                    style: AppFonts.titleLarge(),
                   ),
-                  const SizedBox(height: AppDimension.dm_16),
+                  const SizedBox(height: AppDimension.size_2),
                   Text(
                     'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
-                    style: AppFonts.size_3(color: AppColors.textLightColor),
+                    style: AppFonts.bodyLarge(color: AppExtension.textLightColor),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -168,9 +170,9 @@ class HomePage extends GetView<HomeController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const SizedBox(height: AppDimension.dm_48),
+          const SizedBox(height: AppDimension.size_6),
           _buildPurchaseInfo(),
-          const SizedBox(height: AppDimension.dm_48),
+          const SizedBox(height: AppDimension.size_6),
           _buildListView(context),
         ],
       ),
@@ -185,11 +187,11 @@ class HomePage extends GetView<HomeController> {
         children: <Widget>[
           Text(
             'Valor total',
-            style: AppFonts.size_2(color: AppColors.textLightColor),
+            style: AppFonts.bodyMedium(color: AppExtension.textLightColor),
           ),
           Text(
             ProductModel.formatCurrency(controller.listFullPriceCalculate()),
-            style: AppFonts.size_10(color: AppColors.primary),
+            style: AppFonts.headlineSmall(color: AppExtension.primary),
           ),
         ],
       ),
@@ -208,7 +210,7 @@ class HomePage extends GetView<HomeController> {
                 controller.listAmountsCalculate() == 1
                     ? '${controller.listAmountsCalculate()} item no seu carrinho!'
                     : '${controller.listAmountsCalculate()} itens no seu carrinho!',
-                style: AppFonts.sizeBold_4(color: AppColors.neutral.shade700),
+                style: AppFonts.titleMedium(color: AppColors.neutral.shade700),
               ),
               IconButton(
                 onPressed: () => showDialog<AlertDialog>(
@@ -222,18 +224,22 @@ class HomePage extends GetView<HomeController> {
                     secondaryFunction: () => controller.removeAll(),
                   ),
                 ),
-                icon: Icon(FontAwesomeIcons.trashAlt, color: AppColors.primary),
+                icon: Icon(
+                  FontAwesomeIcons.trashAlt,
+                  color: AppExtension.primary,
+                  size: 20,
+                ),
               )
             ],
           ),
-          const SizedBox(height: AppDimension.dm_8),
+          const SizedBox(height: AppDimension.size_1),
           Expanded(
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 final ProductModel product = controller.productList![index];
                 return Padding(
-                  padding: const EdgeInsets.only(top: AppDimension.dm_8),
+                  padding: const EdgeInsets.only(top: AppDimension.size_1),
                   child: Slidable(
                     actionPane: const SlidableDrawerActionPane(),
                     child: Builder(
@@ -247,7 +253,7 @@ class HomePage extends GetView<HomeController> {
                         caption: 'Editar',
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.edit,
-                        foregroundColor: AppColors.primary,
+                        foregroundColor: AppExtension.primary,
                         onTap: () => controller.goToEditPage(product),
                       ),
                     ],
@@ -256,7 +262,7 @@ class HomePage extends GetView<HomeController> {
                         caption: 'Excluir',
                         color: Colors.transparent,
                         icon: FontAwesomeIcons.trashAlt,
-                        foregroundColor: AppColors.primary,
+                        foregroundColor: AppExtension.primary,
                         onTap: () => controller.remove(product),
                       ),
                     ],
