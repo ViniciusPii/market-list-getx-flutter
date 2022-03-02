@@ -2,20 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/repositories/login_repository.dart';
 import 'package:market_list/services/product/product_service.dart';
+import 'package:market_list/services/user/user_service.dart';
 
 class HomeController extends GetxController {
   HomeController({
     required AuthService authService,
-    required LoginRepository loginRepository,
+    required UserService userService,
     required ProductService productService,
   })  : _authService = authService,
-        _loginRepository = loginRepository,
+        _userService = userService,
         _productService = productService;
 
   final AuthService _authService;
-  final LoginRepository _loginRepository;
+  final UserService _userService;
   final ProductService _productService;
 
   final RxBool loading = RxBool(false);
@@ -45,7 +45,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> signOut() async {
-    await _loginRepository.signOut();
+    await _userService.signOut();
   }
 
   int listAmountsCalculate() => productList!

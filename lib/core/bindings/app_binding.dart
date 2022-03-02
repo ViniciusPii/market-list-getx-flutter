@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
-import 'package:market_list/repositories/login_repository.dart';
 import 'package:market_list/repositories/product/product_repository.dart';
 import 'package:market_list/repositories/product/product_repository_impl.dart';
+import 'package:market_list/repositories/user/user_repository.dart';
+import 'package:market_list/repositories/user/user_repository_impl.dart';
 import 'package:market_list/services/product/product_service.dart';
 import 'package:market_list/services/product/product_service_impl.dart';
+import 'package:market_list/services/user/user_service.dart';
+import 'package:market_list/services/user/user_service_impl.dart';
 
 class AppBinding implements Bindings {
   @override
@@ -16,6 +20,12 @@ class AppBinding implements Bindings {
 
     Get.lazyPut(
       () => FirebaseFirestore.instance,
+      fenix: true,
+    );
+
+    Get.lazyPut(
+      () => FirebaseAuth.instance,
+      fenix: true,
     );
 
     Get.lazyPut<ProductRepository>(
@@ -29,10 +39,20 @@ class AppBinding implements Bindings {
       () => ProductServiceImpl(
         productRepository: Get.find(),
       ),
+      fenix: true,
     );
 
-    Get.lazyPut(
-      () => LoginRepository(),
+    Get.lazyPut<UserRepository>(
+      () => UserRepositoryImpl(
+        auth: Get.find(),
+      ),
+      fenix: true,
+    );
+
+    Get.lazyPut<UserService>(
+      () => UserServiceImpl(
+        userRepository: Get.find(),
+      ),
       fenix: true,
     );
   }
