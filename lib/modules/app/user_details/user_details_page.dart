@@ -28,60 +28,72 @@ class UserDetailsPage extends GetView<UserDetailsController> {
             vertical: AppDimension.size_2,
             horizontal: AppDimension.size_3,
           ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: AppExtension.primary,
-                  backgroundImage: NetworkImage('${controller.user?.photoURL}'),
-                  radius: AppDimension.size_6,
-                ),
-                const SizedBox(
-                  height: AppDimension.size_3,
-                ),
-                CardUserComponent(
-                  label: 'Nome',
-                  title: '${controller.user!.displayName}',
-                  func: () => _buildBottomSheet(),
-                  icon: AppIcons.pencil_1,
-                ),
-                const SizedBox(
-                  height: AppDimension.size_2,
-                ),
-                CardUserComponent(
-                  label: 'E-mail',
-                  title: '${controller.user!.email}',
-                ),
-                const SizedBox(
-                  height: AppDimension.size_6,
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(AppIcons.exit_to_app),
-                  onPressed: () => showDialog<AlertDialog>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialogComponent(
-                      title: 'Atenção!',
-                      content: 'Voce deseja realmente sair?',
-                      primaryButtonText: 'Não',
-                      primaryFunction: () => Get.back<dynamic>(),
-                      secondaryButtonText: 'Sim',
-                      secondaryFunction: () => controller.signOut(),
+          child: Stack(
+            children: <Widget>[
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: AppExtension.primary,
+                      backgroundImage: NetworkImage('${controller.user?.photoURL}'),
+                      radius: AppDimension.size_6,
                     ),
-                  ),
-                  label: const Text('Desconectar-se'),
+                    const SizedBox(
+                      height: AppDimension.size_3,
+                    ),
+                    CardUserComponent(
+                      label: 'Nome',
+                      title: '${controller.user!.displayName}',
+                      func: () => _buildBottomSheet(),
+                      icon: AppIcons.pencil_1,
+                    ),
+                    const SizedBox(
+                      height: AppDimension.size_2,
+                    ),
+                    CardUserComponent(
+                      label: 'E-mail',
+                      title: '${controller.user!.email}',
+                    ),
+                    const SizedBox(
+                      height: AppDimension.size_6,
+                    ),
+                    ElevatedButton.icon(
+                      icon: const Icon(AppIcons.exit_to_app),
+                      onPressed: () => showDialog<AlertDialog>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogComponent(
+                          title: 'Atenção!',
+                          content: 'Voce deseja realmente sair?',
+                          primaryButtonText: 'Não',
+                          primaryFunction: () => Get.back<dynamic>(),
+                          secondaryButtonText: 'Sim',
+                          secondaryFunction: () => controller.signOut(),
+                        ),
+                      ),
+                      label: const Text('Desconectar-se'),
+                    ),
+                    const SizedBox(
+                      height: AppDimension.size_1,
+                    ),
+                    TextButton(
+                      onPressed: () => Get.back<dynamic>(),
+                      child: const Text(
+                        'Voltar ao início',
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: AppDimension.size_1,
+              ),
+              const Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  child: Text('v.3.1.0'),
                 ),
-                TextButton(
-                  onPressed: () => Get.back<dynamic>(),
-                  child: const Text(
-                    'Voltar ao início',
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
