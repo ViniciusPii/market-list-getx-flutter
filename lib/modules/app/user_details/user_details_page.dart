@@ -34,10 +34,18 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: AppExtension.primary,
-                      backgroundImage: NetworkImage('${controller.user?.photoURL}'),
-                      radius: AppDimension.size_6,
+                    Obx(
+                      () => LoadingComponent(
+                        loading: controller.loader,
+                        child: GestureDetector(
+                          onTap: () => controller.updatePhotoProfile(),
+                          child: CircleAvatar(
+                            backgroundColor: AppExtension.primary,
+                            backgroundImage: NetworkImage('${controller.user?.photoURL}'),
+                            radius: AppDimension.size_6,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: AppDimension.size_3,
@@ -90,7 +98,7 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                 left: 0,
                 right: 0,
                 child: Align(
-                  child: Text('v.3.1.0'),
+                  child: Text('v.3.2.0'),
                 ),
               ),
             ],

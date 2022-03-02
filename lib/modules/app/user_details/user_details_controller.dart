@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/services/user/user_service.dart';
@@ -28,6 +31,15 @@ class UserDetailsController extends GetxController {
       _loader.toggle();
       await _userService.updateDisplayName(nameEC.text.trim());
     }
+  }
+
+  Future<void> updatePhotoProfile() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final File file = File(image!.path);
+
+    _loader.toggle();
+    await _userService.updatePhotoProfile(file, user!.uid);
   }
 
   Future<void> signOut() async {
