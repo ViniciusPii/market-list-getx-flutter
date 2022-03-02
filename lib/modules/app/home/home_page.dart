@@ -92,18 +92,7 @@ class HomePage extends GetView<HomeController> {
               ],
             ),
             child: GestureDetector(
-              onDoubleTap: () => controller.updateDisplayName('Vini'),
-              onTap: () => showDialog<AlertDialog>(
-                context: context,
-                builder: (BuildContext context) => AlertDialogComponent(
-                  title: 'Atenção!',
-                  content: 'Voce deseja realmente sair?',
-                  primaryButtonText: 'Não',
-                  primaryFunction: () => Get.back<dynamic>(),
-                  secondaryButtonText: 'Sim',
-                  secondaryFunction: () => controller.signOut(),
-                ),
-              ),
+              onTap: () => Get.toNamed<dynamic>('/user/details'),
               child: CircleAvatar(
                 radius: AppDimension.size_4,
                 backgroundColor: AppExtension.primary,
@@ -253,7 +242,7 @@ class HomePage extends GetView<HomeController> {
                       IconSlideAction(
                         caption: 'Editar',
                         color: Colors.transparent,
-                        icon: AppIcons.pencil,
+                        icon: AppIcons.pencil_1,
                         foregroundColor: AppExtension.primary,
                         onTap: () => controller.goToEditPage(product),
                       ),

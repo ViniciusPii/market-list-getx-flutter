@@ -34,6 +34,7 @@ dependencies:
   google_fonts: ^2.3.1
   google_sign_in: ^5.2.3
   intl: ^0.17.0
+  validatorless: ^1.2.1
 
 flutter_native_splash:
   color: '#EA5C9B'

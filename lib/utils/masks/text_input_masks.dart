@@ -16,7 +16,7 @@ class TextInputMasks {
     symbol: 'Kg',
   );
 
-  static FilteringTextInputFormatter productNameMask = FilteringTextInputFormatter.allow(
+  static FilteringTextInputFormatter onlyLetters = FilteringTextInputFormatter.allow(
     RegExp('[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+|s'),
   );
 

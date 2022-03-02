@@ -42,7 +42,7 @@ class SavePage extends GetView<SaveController> {
                       label: 'Produto',
                       hint: 'Ex: Tomate',
                       formatters: <TextInputFormatter>[
-                        TextInputMasks.productNameMask,
+                        TextInputMasks.onlyLetters,
                       ],
                       controller: controller.productEC,
                       validators: FormValidators.checkNotEmptyProductName,

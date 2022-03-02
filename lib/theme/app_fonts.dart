@@ -13,7 +13,7 @@ class AppFonts {
   static const double _dimension1 = 12;
   static const double _dimension2 = 14;
   static const double _dimension3 = 16;
-  static const double _dimension4 = 22;
+  static const double _dimension4 = 18;
   static const double _dimension5 = 24;
   static const double _dimension6 = 28;
   static const double _dimension7 = 32;

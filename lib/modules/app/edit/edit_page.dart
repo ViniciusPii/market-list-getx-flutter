@@ -40,7 +40,7 @@ class EditPage extends GetView<EditController> {
                     label: 'Produto',
                     hint: 'Ex: Tomate',
                     formatters: <TextInputFormatter>[
-                      TextInputMasks.productNameMask,
+                      TextInputMasks.onlyLetters,
                     ],
                     validators: FormValidators.checkNotEmptyProductName,
                     controller: controller.productEC,
