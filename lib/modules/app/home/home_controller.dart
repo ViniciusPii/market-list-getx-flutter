@@ -3,20 +3,20 @@ import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
 import 'package:market_list/repositories/login_repository.dart';
-import 'package:market_list/repositories/product_list_repository.dart';
+import 'package:market_list/services/product/product_service.dart';
 
 class HomeController extends GetxController {
   HomeController({
     required AuthService authService,
     required LoginRepository loginRepository,
-    required ProductListRepository productListRepository,
+    required ProductService productService,
   })  : _authService = authService,
         _loginRepository = loginRepository,
-        _productListRepository = productListRepository;
+        _productService = productService;
 
   final AuthService _authService;
   final LoginRepository _loginRepository;
-  final ProductListRepository _productListRepository;
+  final ProductService _productService;
 
   final RxBool loading = RxBool(false);
   final Rxn<List<ProductModel>> _productList = Rxn<List<ProductModel>>();
@@ -31,17 +31,17 @@ class HomeController extends GetxController {
   }
 
   void readAll() {
-    _productList.bindStream(_productListRepository.readAll(user!.uid));
+    _productList.bindStream(_productService.readAll(user!.uid));
   }
 
   Future<void> remove(ProductModel product) async {
-    await _productListRepository.remove(user!.uid, product);
+    await _productService.remove(user!.uid, product);
   }
 
   Future<void> removeAll() async {
     Get.back<dynamic>();
     loading.toggle();
-    await _productListRepository.removeAll(user!.uid);
+    await _productService.removeAll(user!.uid);
   }
 
   Future<void> signOut() async {

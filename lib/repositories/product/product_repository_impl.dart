@@ -1,17 +1,22 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:market_list/core/exceptions/app_exception.dart';
 import 'package:market_list/core/exceptions/app_exceptions_code.dart';
 import 'package:market_list/models/product_model.dart';
 
-class ProductListRepository {
-  final FirebaseFirestore _instance = FirebaseFirestore.instance;
+import 'product_repository.dart';
+
+class ProductRepositoryImpl implements ProductRepository {
+  ProductRepositoryImpl({
+    required FirebaseFirestore firestore,
+  }) : _firestore = firestore;
+
+  final FirebaseFirestore _firestore;
   final String collectionUser = 'users';
   final String collectionProducts = 'products';
 
+  @override
   Stream<List<ProductModel>> readAll(String userId) {
-    return _instance
+    return _firestore
         .collection(collectionUser)
         .doc(userId)
         .collection(collectionProducts)
@@ -23,9 +28,10 @@ class ProductListRepository {
             .toList());
   }
 
+  @override
   Future<void> save(String userId, ProductModel product) async {
     try {
-      await _instance
+      await _firestore
           .collection(collectionUser)
           .doc(userId)
           .collection(collectionProducts)
@@ -37,9 +43,10 @@ class ProductListRepository {
     }
   }
 
+  @override
   Future<void> update(String userId, ProductModel product) async {
     try {
-      await _instance
+      await _firestore
           .collection(collectionUser)
           .doc(userId)
           .collection(collectionProducts)
@@ -51,8 +58,9 @@ class ProductListRepository {
     }
   }
 
+  @override
   Future<void> remove(String userId, ProductModel product) async {
-    await _instance
+    await _firestore
         .collection(collectionUser)
         .doc(userId)
         .collection(collectionProducts)
@@ -60,10 +68,11 @@ class ProductListRepository {
         .delete();
   }
 
+  @override
   Future<void> removeAll(String userId) async {
-    final WriteBatch batch = _instance.batch();
+    final WriteBatch batch = _firestore.batch();
 
-    await _instance
+    await _firestore
         .collection(collectionUser)
         .doc(userId)
         .collection(collectionProducts)

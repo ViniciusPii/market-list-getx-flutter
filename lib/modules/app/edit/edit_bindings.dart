@@ -7,7 +7,7 @@ class EditBindings implements Bindings {
     Get.lazyPut(
       () => EditController(
         authService: Get.find(),
-        productListRepository: Get.find(),
+        productService: Get.find(),
       ),
     );
   }

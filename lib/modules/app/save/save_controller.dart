@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_list/core/services/auth_service.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/repositories/product_list_repository.dart';
+import 'package:market_list/services/product/product_service.dart';
 import 'package:market_list/utils/masks/text_input_masks.dart';
 
 class SaveController extends GetxController {
   SaveController({
     required AuthService authService,
-    required ProductListRepository productListRepository,
+    required ProductService productService,
   })  : _authService = authService,
-        _productListRepository = productListRepository;
+        _productService = productService;
 
   final AuthService _authService;
-  final ProductListRepository _productListRepository;
+  final ProductService _productService;
 
   final GlobalKey<FormState> form = GlobalKey<FormState>();
   final TextEditingController priceEC = TextEditingController();
@@ -56,7 +56,7 @@ class SaveController extends GetxController {
       final DateTime timestamp = DateTime.now();
       final bool isSelected = selected.value;
 
-      await _productListRepository.save(
+      await _productService.save(
         user!.uid,
         ProductModel(
           productName: productName,

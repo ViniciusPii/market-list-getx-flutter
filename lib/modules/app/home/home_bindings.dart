@@ -8,7 +8,7 @@ class HomeBindings implements Bindings {
       () => HomeController(
         authService: Get.find(),
         loginRepository: Get.find(),
-        productListRepository: Get.find(),
+        productService: Get.find(),
       ),
     );
   }
