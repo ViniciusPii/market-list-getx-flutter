@@ -1,7 +1,7 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_icons.dart';
 
 class FloatingButtonComponent extends StatelessWidget {
   const FloatingButtonComponent({
@@ -31,8 +31,7 @@ class FloatingButtonComponent extends StatelessWidget {
         onPressed: action,
         elevation: 0,
         child: const Icon(
-          AppIcons.plus,
-          size: AppDimension.size_2,
+          EvaIcons.plus,
         ),
       ),
     );

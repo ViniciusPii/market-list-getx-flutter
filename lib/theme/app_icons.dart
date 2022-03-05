@@ -12,18 +12,10 @@
 ///       - asset: fonts/AppIcons.ttf
 ///
 ///
-/// * Material Design Icons, Copyright (C) Google, Inc
-///         Author:    Google
-///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
-///         Homepage:  https://design.google.com/icons/
 /// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
-/// * Octicons, Copyright (C) 2020 by GitHub Inc.
-///         Author:    GitHub
-///         License:   MIT (http://opensource.org/licenses/mit-license.php)
-///         Homepage:  https://primer.style/octicons/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -33,17 +25,6 @@ class AppIcons {
   static const String _kFontFam = 'AppIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData exit_to_app =
-      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData close = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData edit = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData check = IconData(0xf00c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData plus = IconData(0xf067, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData exclamation_triangle =
-      IconData(0xf071, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData google = IconData(0xf1a0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData shopping_basket =
       IconData(0xf291, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData trash_alt = IconData(0xf2ed, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData pencil_1 = IconData(0xf330, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

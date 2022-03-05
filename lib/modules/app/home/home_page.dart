@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,6 @@ import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/theme/app_icons.dart';
 import './home_controller.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -29,7 +29,7 @@ class HomePage extends GetView<HomeController> {
             ),
             child: Column(
               children: <Widget>[
-                _buildHeader(context),
+                _buildHeader(),
                 Obx(() => _buildView(context)),
               ],
             ),
@@ -54,7 +54,7 @@ class HomePage extends GetView<HomeController> {
     return _buildContentView(context);
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.only(top: AppDimension.size_1),
       child: Row(
@@ -77,11 +77,15 @@ class HomePage extends GetView<HomeController> {
               ],
             ),
           ),
-          const SizedBox(width: AppDimension.size_2),
+          const SizedBox(
+            width: AppDimension.size_2,
+          ),
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(
-                Radius.circular(AppDimension.size_4),
+                Radius.circular(
+                  AppDimension.size_4,
+                ),
               ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -96,7 +100,9 @@ class HomePage extends GetView<HomeController> {
               child: CircleAvatar(
                 radius: AppDimension.size_4,
                 backgroundColor: AppExtension.primary,
-                backgroundImage: NetworkImage('${controller.user?.photoURL}'),
+                backgroundImage: NetworkImage(
+                  '${controller.user?.photoURL}',
+                ),
               ),
             ),
           ),
@@ -109,7 +115,9 @@ class HomePage extends GetView<HomeController> {
     return Expanded(
       child: Column(
         children: const <Widget>[
-          SizedBox(height: AppDimension.size_1),
+          SizedBox(
+            height: AppDimension.size_1,
+          ),
           Expanded(
             child: Center(
               child: CircularProgressIndicator(),
@@ -131,11 +139,13 @@ class HomePage extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    AppIcons.exclamation_triangle,
+                    EvaIcons.alertTriangle,
                     color: AppExtension.textColor,
                     size: AppDimension.size_4,
                   ),
-                  const SizedBox(height: AppDimension.size_2),
+                  const SizedBox(
+                    height: AppDimension.size_2,
+                  ),
                   Text(
                     'Carrinho vazio!',
                     style: AppFonts.titleLarge(),
@@ -143,7 +153,9 @@ class HomePage extends GetView<HomeController> {
                   const SizedBox(height: AppDimension.size_2),
                   Text(
                     'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
-                    style: AppFonts.bodyLarge(color: AppExtension.textLightColor),
+                    style: AppFonts.bodyLarge(
+                      color: AppExtension.textLightColor,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -160,9 +172,13 @@ class HomePage extends GetView<HomeController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const SizedBox(height: AppDimension.size_6),
+          const SizedBox(
+            height: AppDimension.size_6,
+          ),
           _buildPurchaseInfo(),
-          const SizedBox(height: AppDimension.size_6),
+          const SizedBox(
+            height: AppDimension.size_6,
+          ),
           _buildListView(context),
         ],
       ),
@@ -177,11 +193,17 @@ class HomePage extends GetView<HomeController> {
         children: <Widget>[
           Text(
             'Valor total',
-            style: AppFonts.bodyMedium(color: AppExtension.textLightColor),
+            style: AppFonts.bodyMedium(
+              color: AppExtension.textLightColor,
+            ),
           ),
           Text(
-            ProductModel.formatCurrency(controller.listFullPriceCalculate()),
-            style: AppFonts.headlineSmall(color: AppExtension.primary),
+            ProductModel.formatCurrency(
+              controller.listFullPriceCalculate(),
+            ),
+            style: AppFonts.headlineSmall(
+              color: AppExtension.primary,
+            ),
           ),
         ],
       ),
@@ -215,21 +237,24 @@ class HomePage extends GetView<HomeController> {
                   ),
                 ),
                 icon: Icon(
-                  AppIcons.trash_alt,
+                  EvaIcons.trash2,
                   color: AppExtension.primary,
-                  size: 20,
                 ),
               )
             ],
           ),
-          const SizedBox(height: AppDimension.size_1),
+          const SizedBox(
+            height: AppDimension.size_1,
+          ),
           Expanded(
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 final ProductModel product = controller.productList![index];
                 return Padding(
-                  padding: const EdgeInsets.only(top: AppDimension.size_1),
+                  padding: const EdgeInsets.only(
+                    top: AppDimension.size_1,
+                  ),
                   child: Slidable(
                     actionPane: const SlidableDrawerActionPane(),
                     child: Builder(
@@ -242,7 +267,7 @@ class HomePage extends GetView<HomeController> {
                       IconSlideAction(
                         caption: 'Editar',
                         color: Colors.transparent,
-                        icon: AppIcons.pencil_1,
+                        icon: EvaIcons.editOutline,
                         foregroundColor: AppExtension.primary,
                         onTap: () => controller.goToEditPage(product),
                       ),
@@ -251,7 +276,7 @@ class HomePage extends GetView<HomeController> {
                       IconSlideAction(
                         caption: 'Excluir',
                         color: Colors.transparent,
-                        icon: AppIcons.trash_alt,
+                        icon: EvaIcons.trash2Outline,
                         foregroundColor: AppExtension.primary,
                         onTap: () => controller.remove(product),
                       ),

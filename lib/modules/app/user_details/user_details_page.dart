@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,6 @@ import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/theme/app_icons.dart';
 import 'package:validatorless/validatorless.dart';
 import 'user_details_controller.dart';
 
@@ -54,7 +54,7 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                       label: 'Nome',
                       title: '${controller.user!.displayName}',
                       func: () => _buildBottomSheet(),
-                      icon: AppIcons.pencil_1,
+                      icon: EvaIcons.editOutline,
                     ),
                     const SizedBox(
                       height: AppDimension.size_2,
@@ -67,7 +67,7 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                       height: AppDimension.size_6,
                     ),
                     ElevatedButton.icon(
-                      icon: const Icon(AppIcons.exit_to_app),
+                      icon: const Icon(EvaIcons.logOut),
                       onPressed: () => showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) => AlertDialogComponent(
@@ -126,7 +126,7 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                   child: IconButton(
                     onPressed: () => Get.back<dynamic>(),
                     icon: Icon(
-                      AppIcons.close,
+                      EvaIcons.close,
                       size: AppDimension.size_3,
                       color: AppExtension.textColor,
                     ),
