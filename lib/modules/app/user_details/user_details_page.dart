@@ -29,10 +29,10 @@ class UserDetailsPage extends GetView<UserDetailsController> {
             vertical: AppDimension.size_2,
             horizontal: AppDimension.size_3,
           ),
-          child: Stack(
-            children: <Widget>[
-              Obx(
-                () => Center(
+          child: Obx(
+            () => Stack(
+              children: <Widget>[
+                Center(
                   child: LoadingComponent(
                     loading: controller.loader,
                     child: Column(
@@ -95,16 +95,16 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                     ),
                   ),
                 ),
-              ),
-              const Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                  child: Text('v.3.2.0'),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    child: Text(controller.version),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:market_list/core/auth/auth_service.dart';
 import 'package:market_list/services/user/user_service.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class UserDetailsController extends GetxController {
   UserDetailsController({
@@ -22,9 +23,30 @@ class UserDetailsController extends GetxController {
   final TextEditingController nameEC = TextEditingController();
 
   final RxBool _loader = RxBool(false);
+  final RxString _version = RxString('');
 
   bool get loader => _loader.value;
   User? get user => _authService.user;
+  String get version => _version.value;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    final PackageInfo packageInfo = PackageInfo(
+      appName: info.appName,
+      packageName: info.packageName,
+      version: info.version,
+      buildNumber: info.buildNumber,
+      buildSignature: info.buildSignature,
+    );
+
+    _version(packageInfo.version);
+  }
 
   Future<void> updateDisplayName() async {
     if (formKey.currentState!.validate()) {

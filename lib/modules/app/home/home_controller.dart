@@ -53,6 +53,6 @@ class HomeController extends GetxController {
   }
 
   void goToEditPage(ProductModel product) {
-    Get.toNamed<dynamic>('/edit', arguments: product);
+    Get.toNamed<dynamic>('/save', arguments: product);
   }
 }

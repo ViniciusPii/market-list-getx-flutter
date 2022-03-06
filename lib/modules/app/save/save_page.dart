@@ -19,7 +19,7 @@ class SavePage extends GetView<SaveController> {
     return Scaffold(
       backgroundColor: AppExtension.background,
       appBar: AppBarComponent(
-        title: 'Cadastrar',
+        title: controller.product != null ? 'Editar' : 'Cadastrar',
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -36,7 +36,9 @@ class SavePage extends GetView<SaveController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Adicione seu produto!',
+                      controller.product != null
+                          ? 'Alterando ${controller.product!.productName}!'
+                          : 'Adicione seu produto!',
                       style: AppFonts.titleMedium(
                         color: AppExtension.textColor,
                       ),
@@ -52,28 +54,32 @@ class SavePage extends GetView<SaveController> {
                       validators: FormValidators.checkNotEmptyProductName,
                     ),
                     const SizedBox(height: AppDimension.size_2),
-                    if (controller.selected)
-                      TextInputComponent(
+                    Visibility(
+                      visible: controller.selected ||
+                          (controller.product != null && controller.product!.isSelected),
+                      child: TextInputComponent(
                         label: 'Peso',
                         hint: 'Ex: Kg 0,500',
                         formatters: <TextInputFormatter>[
                           TextInputMasks.weightMask,
                         ],
+                        focus: controller.focus,
                         type: TextInputType.number,
                         controller: controller.weightEC,
                         validators: FormValidators.checkWeight,
-                      )
-                    else
-                      TextInputComponent(
+                      ),
+                      replacement: TextInputComponent(
                         label: 'Quantidade',
                         hint: 'Ex: 1',
                         formatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly,
                         ],
+                        focus: controller.focus,
                         type: TextInputType.number,
                         controller: controller.quantityEC,
                         validators: FormValidators.checkAmount,
                       ),
+                    ),
                     const SizedBox(height: AppDimension.size_2),
                     TextInputComponent(
                       label: 'Preço',
@@ -86,12 +92,13 @@ class SavePage extends GetView<SaveController> {
                       validators: FormValidators.checkPrice,
                     ),
                     const SizedBox(height: AppDimension.size_2),
-                    CheckboxComponent(
-                      action: () {
-                        controller.isSelected();
-                      },
-                      isSelected: controller.selected,
-                      label: 'Calcular por peso',
+                    Visibility(
+                      visible: controller.product == null,
+                      child: CheckboxComponent(
+                        action: () => controller.isSelected(),
+                        isSelected: controller.selected,
+                        label: 'Calcular por peso',
+                      ),
                     ),
                     const SizedBox(height: AppDimension.size_3),
                     if (controller.loading)

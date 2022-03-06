@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'core/bindings/app_binding.dart';
-import 'modules/app/edit/edit_module.dart';
 import 'modules/app/home/home_module.dart';
 import 'modules/app/save/save_module.dart';
 import 'modules/app/splash/splash_module.dart';
@@ -21,7 +20,6 @@ class App extends StatelessWidget {
         LoginModule().route,
         HomeModule().route,
         SaveModule().route,
-        EditModule().route,
         UserDetailsModule().route,
       ],
       initialRoute: '/splash',

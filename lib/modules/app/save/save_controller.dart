@@ -22,25 +22,42 @@ class SaveController extends GetxController {
   final TextEditingController productEC = TextEditingController();
   final TextEditingController quantityEC = TextEditingController(text: '1');
 
+  final ProductModel? _product = Get.arguments as ProductModel?;
+
   final RxBool _loading = RxBool(false);
   final RxBool _selected = RxBool(false);
+
+  final FocusNode focus = FocusNode();
 
   bool get loading => _loading.value;
   User? get user => _authService.user!;
   bool get selected => _selected.value;
+  ProductModel? get product => _product;
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (_product != null) {
+      productEC.text = product!.productName;
+      quantityEC.text = product!.quantity.toString();
+      weightEC.text = ProductModel.formatWeight(product!.weight);
+      priceEC.text = ProductModel.formatCurrency(product!.price);
+    }
+  }
 
   @override
   void onClose() {
+    super.onClose();
     priceEC.dispose();
     weightEC.dispose();
     productEC.dispose();
     quantityEC.dispose();
-    super.onClose();
   }
 
   bool isSelected() {
     weightEC.clear();
     quantityEC.clear();
+    focus.requestFocus();
     return _selected(!_selected.value);
   }
 
@@ -52,26 +69,44 @@ class SaveController extends GetxController {
       final double weight =
           weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(weightEC.text);
       final int quantity = _selected.value ? 1 : int.parse(quantityEC.text);
-      final double fullPrice = _selected.value
+      final double fullPrice = _selected.value || (_product != null && _product!.isSelected)
           ? ProductModel.changeFullPriceWeight(price, weight)
           : ProductModel.changeFullPriceQuantity(price, quantity);
       final DateTime timestamp = DateTime.now();
       final bool isSelected = _selected.value;
 
-      await _productService.save(
-        user!.uid,
-        ProductModel(
-          productName: productName,
-          price: price,
-          quantity: quantity,
-          fullPrice: fullPrice,
-          timestamp: timestamp,
-          weight: weight,
-          isSelected: isSelected,
-        ),
-      );
+      if (_product != null) {
+        await _productService.update(
+          user!.uid,
+          ProductModel(
+            id: _product!.id,
+            productName: productName,
+            price: price,
+            quantity: quantity,
+            fullPrice: fullPrice,
+            timestamp: timestamp,
+            weight: weight,
+            isSelected: _product!.isSelected,
+          ),
+        );
 
-      Get.back<dynamic>();
+        Get.back<dynamic>();
+      } else {
+        await _productService.save(
+          user!.uid,
+          ProductModel(
+            productName: productName,
+            price: price,
+            quantity: quantity,
+            fullPrice: fullPrice,
+            timestamp: timestamp,
+            weight: weight,
+            isSelected: isSelected,
+          ),
+        );
+
+        Get.back<dynamic>();
+      }
     }
   }
 }

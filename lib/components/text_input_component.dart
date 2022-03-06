@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:market_list/theme/app_colors.dart';
 import 'package:market_list/theme/app_extension.dart';
 import 'package:market_list/theme/app_fonts.dart';
@@ -7,11 +8,12 @@ import 'package:market_list/theme/app_fonts.dart';
 class TextInputComponent extends StatelessWidget {
   const TextInputComponent({
     Key? key,
+    this.controller,
     required this.label,
     required this.hint,
-    this.controller,
     this.formatters,
     this.type = TextInputType.text,
+    this.focus,
     this.validators,
   }) : super(key: key);
 
@@ -20,6 +22,7 @@ class TextInputComponent extends StatelessWidget {
   final String? hint;
   final List<TextInputFormatter>? formatters;
   final TextInputType type;
+  final FocusNode? focus;
   final String? Function(String?)? validators;
 
   @override
@@ -43,6 +46,7 @@ class TextInputComponent extends StatelessWidget {
         ),
       ),
       autofocus: true,
+      focusNode: focus,
       keyboardType: type,
       validator: validators,
       inputFormatters: formatters,
