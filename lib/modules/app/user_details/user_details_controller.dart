@@ -29,6 +29,7 @@ class UserDetailsController extends GetxController {
   Future<void> updateDisplayName() async {
     if (formKey.currentState!.validate()) {
       _loader.toggle();
+      Get.back<dynamic>();
       await _userService.updateDisplayName(nameEC.text.trim());
     }
   }

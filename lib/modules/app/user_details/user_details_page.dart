@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/alert_dialog_component.dart';
 import 'package:market_list/components/card_user_component.dart';
+import 'package:market_list/components/circle_avatar_component.dart';
 import 'package:market_list/components/loading_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/components/text_input_component.dart';
@@ -30,67 +31,69 @@ class UserDetailsPage extends GetView<UserDetailsController> {
           ),
           child: Stack(
             children: <Widget>[
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Obx(
-                      () => LoadingComponent(
-                        loading: controller.loader,
-                        child: GestureDetector(
-                          onTap: () => controller.updatePhotoProfile(),
-                          child: CircleAvatar(
-                            backgroundColor: AppExtension.primary,
-                            backgroundImage: NetworkImage('${controller.user?.photoURL}'),
-                            radius: AppDimension.size_6,
+              Obx(
+                () => Center(
+                  child: LoadingComponent(
+                    loading: controller.loader,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        LoadingComponent(
+                          loading: controller.loader,
+                          child: GestureDetector(
+                            onTap: () => controller.updatePhotoProfile(),
+                            child: CircleAvatarComponent(
+                              url: '${controller.user?.photoURL}',
+                              size: AppDimension.size_6,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: AppDimension.size_3,
-                    ),
-                    CardUserComponent(
-                      label: 'Nome',
-                      title: '${controller.user!.displayName}',
-                      func: () => _buildBottomSheet(),
-                      icon: EvaIcons.editOutline,
-                    ),
-                    const SizedBox(
-                      height: AppDimension.size_2,
-                    ),
-                    CardUserComponent(
-                      label: 'E-mail',
-                      title: '${controller.user!.email}',
-                    ),
-                    const SizedBox(
-                      height: AppDimension.size_6,
-                    ),
-                    ElevatedButton.icon(
-                      icon: const Icon(EvaIcons.logOut),
-                      onPressed: () => showDialog<AlertDialog>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialogComponent(
-                          title: 'Atenção!',
-                          content: 'Voce deseja realmente sair?',
-                          primaryButtonText: 'Não',
-                          primaryFunction: () => Get.back<dynamic>(),
-                          secondaryButtonText: 'Sim',
-                          secondaryFunction: () => controller.signOut(),
+                        const SizedBox(
+                          height: AppDimension.size_3,
                         ),
-                      ),
-                      label: const Text('Desconectar-se'),
+                        CardUserComponent(
+                          label: 'Nome',
+                          title: '${controller.user!.displayName}',
+                          func: () => _buildBottomSheet(),
+                          icon: EvaIcons.editOutline,
+                        ),
+                        const SizedBox(
+                          height: AppDimension.size_2,
+                        ),
+                        CardUserComponent(
+                          label: 'E-mail',
+                          title: '${controller.user!.email}',
+                        ),
+                        const SizedBox(
+                          height: AppDimension.size_6,
+                        ),
+                        ElevatedButton.icon(
+                          icon: const Icon(EvaIcons.logOut),
+                          onPressed: () => showDialog<AlertDialog>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialogComponent(
+                              title: 'Atenção!',
+                              content: 'Voce deseja realmente sair?',
+                              primaryButtonText: 'Não',
+                              primaryFunction: () => Get.back<dynamic>(),
+                              secondaryButtonText: 'Sim',
+                              secondaryFunction: () => controller.signOut(),
+                            ),
+                          ),
+                          label: const Text('Desconectar-se'),
+                        ),
+                        const SizedBox(
+                          height: AppDimension.size_1,
+                        ),
+                        TextButton(
+                          onPressed: () => Get.back<dynamic>(),
+                          child: const Text(
+                            'Voltar ao início',
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: AppDimension.size_1,
-                    ),
-                    TextButton(
-                      onPressed: () => Get.back<dynamic>(),
-                      child: const Text(
-                        'Voltar ao início',
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               const Positioned(
@@ -158,13 +161,11 @@ class UserDetailsPage extends GetView<UserDetailsController> {
                         const SizedBox(
                           height: AppDimension.size_3,
                         ),
-                        Obx(
-                          () => LoadingComponent(
-                            loading: controller.loader,
-                            child: ElevatedButton(
-                              onPressed: () => controller.updateDisplayName(),
-                              child: const Text('Alterar Nome'),
-                            ),
+                        LoadingComponent(
+                          loading: controller.loader,
+                          child: ElevatedButton(
+                            onPressed: () => controller.updateDisplayName(),
+                            child: const Text('Alterar Nome'),
                           ),
                         ),
                       ],

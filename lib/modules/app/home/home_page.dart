@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/alert_dialog_component.dart';
 import 'package:market_list/components/card_product_component.dart';
+import 'package:market_list/components/circle_avatar_component.dart';
 import 'package:market_list/components/floating_button_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/models/product_model.dart';
@@ -97,12 +99,8 @@ class HomePage extends GetView<HomeController> {
             ),
             child: GestureDetector(
               onTap: () => Get.toNamed<dynamic>('/user/details'),
-              child: CircleAvatar(
-                radius: AppDimension.size_4,
-                backgroundColor: AppExtension.primary,
-                backgroundImage: NetworkImage(
-                  '${controller.user?.photoURL}',
-                ),
+              child: CircleAvatarComponent(
+                url: '${controller.user?.photoURL}',
               ),
             ),
           ),
