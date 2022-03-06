@@ -12,6 +12,7 @@ class SplashPage extends GetView<SplashController> {
   Widget build(BuildContext context) {
     return StatusBarComponent(
       brightness: Brightness.light,
+      navigationColor: AppExtension.primary,
       child: Scaffold(
         body: Container(
           color: AppExtension.primary,
