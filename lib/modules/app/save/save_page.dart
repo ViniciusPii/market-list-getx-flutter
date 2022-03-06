@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:market_list/components/app_bar_component.dart';
 import 'package:market_list/components/checkbox_component.dart';
 import 'package:market_list/components/text_input_component.dart';
 import 'package:market_list/core/utils/masks/text_input_masks.dart';
@@ -17,6 +18,9 @@ class SavePage extends GetView<SaveController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppExtension.background,
+      appBar: AppBarComponent(
+        title: 'Cadastrar',
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -106,14 +110,6 @@ class SavePage extends GetView<SaveController> {
                           textStyle: AppFonts.bodyMedium(),
                         ),
                       ),
-                    const SizedBox(height: AppDimension.size_2),
-                    TextButton(
-                      onPressed: () => Get.back<dynamic>(),
-                      child: const Text('Voltar ao inicio'),
-                      style: TextButton.styleFrom(
-                        textStyle: AppFonts.bodyMedium(),
-                      ),
-                    ),
                   ],
                 ),
               ),
