@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,12 +26,12 @@ class SaveController extends GetxController {
 
   final ProductModel? _product = Get.arguments as ProductModel?;
 
-  final RxBool _loading = RxBool(false);
+  final RxBool _loader = RxBool(false);
   final RxBool _selected = RxBool(false);
 
   final FocusNode focus = FocusNode();
 
-  bool get loading => _loading.value;
+  bool get loader => _loader.value;
   User? get user => _authService.user!;
   bool get selected => _selected.value;
   ProductModel? get product => _product;
@@ -62,51 +64,56 @@ class SaveController extends GetxController {
   }
 
   Future<void> saveProduct() async {
-    if (form.currentState!.validate()) {
-      _loading.toggle();
-      final String productName = productEC.text.trim();
-      final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);
-      final double weight =
-          weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(weightEC.text);
-      final int quantity = _selected.value ? 1 : int.parse(quantityEC.text);
-      final double fullPrice = _selected.value || (_product != null && _product!.isSelected)
-          ? ProductModel.changeFullPriceWeight(price, weight)
-          : ProductModel.changeFullPriceQuantity(price, quantity);
-      final DateTime timestamp = DateTime.now();
-      final bool isSelected = _selected.value;
+    try {
+      if (form.currentState!.validate()) {
+        _loader.toggle();
+        final String productName = productEC.text.trim();
+        final double price = TextInputMasks.unMaskCurrencyFormatted(priceEC.text);
+        final double weight =
+            weightEC.text.isEmpty ? 0 : TextInputMasks.unMaskWeightFormatted(weightEC.text);
+        final int quantity = _selected.value ? 1 : int.parse(quantityEC.text);
+        final double fullPrice = _selected.value || (_product != null && _product!.isSelected)
+            ? ProductModel.changeFullPriceWeight(price, weight)
+            : ProductModel.changeFullPriceQuantity(price, quantity);
+        final DateTime timestamp = DateTime.now();
+        final bool isSelected = _selected.value;
 
-      if (_product != null) {
-        await _productService.update(
-          user!.uid,
-          ProductModel(
-            id: _product!.id,
-            productName: productName,
-            price: price,
-            quantity: quantity,
-            fullPrice: fullPrice,
-            timestamp: timestamp,
-            weight: weight,
-            isSelected: _product!.isSelected,
-          ),
-        );
+        if (_product != null) {
+          await _productService.update(
+            user!.uid,
+            ProductModel(
+              id: _product!.id,
+              productName: productName,
+              price: price,
+              quantity: quantity,
+              fullPrice: fullPrice,
+              timestamp: timestamp,
+              weight: weight,
+              isSelected: _product!.isSelected,
+            ),
+          );
 
-        Get.back<dynamic>();
-      } else {
-        await _productService.save(
-          user!.uid,
-          ProductModel(
-            productName: productName,
-            price: price,
-            quantity: quantity,
-            fullPrice: fullPrice,
-            timestamp: timestamp,
-            weight: weight,
-            isSelected: isSelected,
-          ),
-        );
+          Get.back<dynamic>();
+        } else {
+          await _productService.save(
+            user!.uid,
+            ProductModel(
+              productName: productName,
+              price: price,
+              quantity: quantity,
+              fullPrice: fullPrice,
+              timestamp: timestamp,
+              weight: weight,
+              isSelected: isSelected,
+            ),
+          );
 
-        Get.back<dynamic>();
+          Get.back<dynamic>();
+        }
       }
+    } catch (e) {
+      log(e.toString());
+      Get.back<dynamic>();
     }
   }
 }

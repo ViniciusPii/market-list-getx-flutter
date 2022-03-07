@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_list/components/loading_component.dart';
 import 'package:market_list/components/status_bar_component.dart';
 import 'package:market_list/theme/app_dimension.dart';
 import 'package:market_list/theme/app_extension.dart';
@@ -15,45 +16,57 @@ class LoginPage extends GetView<LoginController> {
     return StatusBarComponent(
       child: Scaffold(
         backgroundColor: AppExtension.background,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Faça seu login!',
-                style: AppFonts.titleLarge(),
-              ),
-              const SizedBox(height: AppDimension.size_1),
-              Text(
-                'É rapidinho ;)',
-                style: AppFonts.bodyLarge(color: AppExtension.textLightColor),
-              ),
-              const SizedBox(height: AppDimension.size_6),
-              Obx(
-                () => controller.loading
-                    ? Container(
-                        width: AppDimension.size_3,
-                        height: AppDimension.size_3,
-                        child: CircularProgressIndicator(
-                          color: AppExtension.primary,
-                        ),
-                      )
-                    : Container(
-                        width: Get.width * .9,
-                        child: ElevatedButton.icon(
-                          onPressed: () => controller.login(),
-                          icon: const Icon(EvaIcons.google),
-                          label: const Text(
-                            'Faça Login com o Google!',
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: AppExtension.primary,
-                            textStyle: AppFonts.bodyMedium(),
-                          ),
-                        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppDimension.size_2,
+            horizontal: AppDimension.size_3,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: AppDimension.size_2,
+                ),
+                Text(
+                  'MarketList',
+                  style: AppFonts.titleLarge(),
+                ),
+                const SizedBox(
+                  height: AppDimension.size_2,
+                ),
+                Image.asset('assets/images/login.png'),
+                const SizedBox(
+                  height: AppDimension.size_3,
+                ),
+                Text(
+                  'Login',
+                  style: AppFonts.titleLarge(),
+                ),
+                Text(
+                  'Faça seu login e aproveite!',
+                  style: AppFonts.bodyLarge(
+                    color: AppExtension.textLightColor,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: AppDimension.size_6,
+                ),
+                Obx(
+                  () => LoadingComponent(
+                    loading: controller.loader,
+                    child: ElevatedButton.icon(
+                      onPressed: () => controller.login(),
+                      icon: const Icon(EvaIcons.google),
+                      label: const Text(
+                        'Login com o Google!',
                       ),
-              ),
-            ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

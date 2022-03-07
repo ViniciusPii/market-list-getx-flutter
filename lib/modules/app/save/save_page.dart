@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:market_list/components/app_bar_component.dart';
 import 'package:market_list/components/checkbox_component.dart';
+import 'package:market_list/components/loading_component.dart';
 import 'package:market_list/components/text_input_component.dart';
 import 'package:market_list/core/utils/masks/text_input_masks.dart';
 import 'package:market_list/core/utils/validators/form_validators.dart';
@@ -101,22 +102,13 @@ class SavePage extends GetView<SaveController> {
                       ),
                     ),
                     const SizedBox(height: AppDimension.size_3),
-                    if (controller.loading)
-                      Container(
-                        width: AppDimension.size_3,
-                        height: AppDimension.size_3,
-                        child: CircularProgressIndicator(
-                          color: AppExtension.primary,
-                        ),
-                      )
-                    else
-                      ElevatedButton(
+                    LoadingComponent(
+                      loading: controller.loader,
+                      child: ElevatedButton(
                         onPressed: () => controller.saveProduct(),
                         child: const Text('Adicionar'),
-                        style: ElevatedButton.styleFrom(
-                          textStyle: AppFonts.bodyMedium(),
-                        ),
                       ),
+                    ),
                   ],
                 ),
               ),

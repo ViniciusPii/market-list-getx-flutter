@@ -127,39 +127,29 @@ class HomePage extends GetView<HomeController> {
 
   Widget _buildEmptyView() {
     return Expanded(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    EvaIcons.alertTriangle,
-                    color: AppExtension.textColor,
-                    size: AppDimension.size_4,
-                  ),
-                  const SizedBox(
-                    height: AppDimension.size_2,
-                  ),
-                  Text(
-                    'Carrinho vazio!',
-                    style: AppFonts.titleLarge(),
-                  ),
-                  const SizedBox(height: AppDimension.size_2),
-                  Text(
-                    'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
-                    style: AppFonts.bodyLarge(
-                      color: AppExtension.textLightColor,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset('assets/images/empty.png'),
+            const SizedBox(
+              height: AppDimension.size_2,
             ),
-          )
-        ],
+            Text(
+              'Carrinho vazio!',
+              style: AppFonts.titleLarge(),
+            ),
+            const SizedBox(height: AppDimension.size_2),
+            Text(
+              'Você ainda não possui produtos em seu carrinho, clique em adicionar e faça já suas compras!',
+              style: AppFonts.bodyLarge(
+                color: AppExtension.textLightColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

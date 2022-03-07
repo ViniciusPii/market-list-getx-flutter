@@ -16,7 +16,7 @@ class AppExtension {
 
   //Text Color
   static Color textColor = AppColors.neutral.shade800;
-  static Color textLightColor = AppColors.neutral.shade600;
+  static Color textLightColor = AppColors.neutral.shade500;
 
   //Font
   static String? fontFamily = GoogleFonts.montserrat().fontFamily;
