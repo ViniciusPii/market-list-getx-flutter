@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_list/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
 
 class AppBarComponent extends AppBar {
   AppBarComponent({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:market_list/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
 
 class StatusBarComponent extends StatelessWidget {
   const StatusBarComponent({

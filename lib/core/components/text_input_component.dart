@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:market_list/theme/app_colors.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_colors.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 
 class TextInputComponent extends StatelessWidget {
   const TextInputComponent({

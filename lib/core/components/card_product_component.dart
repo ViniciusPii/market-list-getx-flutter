@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/theme/app_colors.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
-import 'package:market_list/theme/app_icons.dart';
+import 'package:market_list/core/theme/app_colors.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_icons.dart';
 
 class CardProductComponent extends StatelessWidget {
   const CardProductComponent({

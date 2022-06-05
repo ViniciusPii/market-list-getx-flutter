@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
 
 class CircleAvatarComponent extends StatelessWidget {
   const CircleAvatarComponent({

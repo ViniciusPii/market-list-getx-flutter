@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_list/components/status_bar_component.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
+import 'package:market_list/core/components/status_bar_component.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
 import './splash_controller.dart';
 
 class SplashPage extends GetView<SplashController> {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 
 class CardUserComponent extends StatelessWidget {
   const CardUserComponent({

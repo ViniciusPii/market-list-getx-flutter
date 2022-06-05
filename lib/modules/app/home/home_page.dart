@@ -2,16 +2,16 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:market_list/components/alert_dialog_component.dart';
-import 'package:market_list/components/card_product_component.dart';
-import 'package:market_list/components/circle_avatar_component.dart';
-import 'package:market_list/components/floating_button_component.dart';
-import 'package:market_list/components/status_bar_component.dart';
+import 'package:market_list/core/components/alert_dialog_component.dart';
+import 'package:market_list/core/components/card_product_component.dart';
+import 'package:market_list/core/components/circle_avatar_component.dart';
+import 'package:market_list/core/components/floating_button_component.dart';
+import 'package:market_list/core/components/status_bar_component.dart';
 import 'package:market_list/models/product_model.dart';
-import 'package:market_list/theme/app_colors.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_colors.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 import './home_controller.dart';
 
 class HomePage extends GetView<HomeController> {

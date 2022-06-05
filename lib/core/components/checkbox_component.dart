@@ -1,9 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:market_list/theme/app_colors.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_colors.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 
 class CheckboxComponent extends StatelessWidget {
   const CheckboxComponent({

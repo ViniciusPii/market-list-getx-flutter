@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:market_list/components/app_bar_component.dart';
-import 'package:market_list/components/checkbox_component.dart';
-import 'package:market_list/components/loading_component.dart';
-import 'package:market_list/components/text_input_component.dart';
+import 'package:market_list/core/components/app_bar_component.dart';
+import 'package:market_list/core/components/checkbox_component.dart';
+import 'package:market_list/core/components/loading_component.dart';
+import 'package:market_list/core/components/text_input_component.dart';
 import 'package:market_list/core/utils/masks/text_input_masks.dart';
 import 'package:market_list/core/utils/validators/form_validators.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 import './save_controller.dart';
 
 class SavePage extends GetView<SaveController> {

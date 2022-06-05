@@ -1,11 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_list/components/loading_component.dart';
-import 'package:market_list/components/status_bar_component.dart';
-import 'package:market_list/theme/app_dimension.dart';
-import 'package:market_list/theme/app_extension.dart';
-import 'package:market_list/theme/app_fonts.dart';
+import 'package:market_list/core/components/loading_component.dart';
+import 'package:market_list/core/components/status_bar_component.dart';
+import 'package:market_list/core/theme/app_dimension.dart';
+import 'package:market_list/core/theme/app_extension.dart';
+import 'package:market_list/core/theme/app_fonts.dart';
 import './login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {
