@@ -37,7 +37,7 @@ class TextInputComponent extends StatelessWidget {
         labelText: label,
         fillColor: AppColors.white,
         labelStyle: AppFonts.bodyLarge(color: AppExtension.primary),
-        hintStyle: AppFonts.bodyLarge(color: AppColors.neutral.shade400),
+        hintStyle: AppFonts.bodyLarge(color: AppColors.neutral400),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppExtension.primary),
         ),

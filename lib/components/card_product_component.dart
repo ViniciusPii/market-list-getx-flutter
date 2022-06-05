@@ -24,7 +24,7 @@ class CardProductComponent extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: AppColors.neutral.shade200,
+              color: AppColors.neutral200,
               blurRadius: 10,
               offset: const Offset(1, 5),
             ),
@@ -63,7 +63,7 @@ class CardProductComponent extends StatelessWidget {
                           Text(
                             productModel.productName,
                             style: AppFonts.titleMedium(
-                              color: AppColors.neutral.shade700,
+                              color: AppColors.neutral700,
                             ),
                           ),
                           Text(

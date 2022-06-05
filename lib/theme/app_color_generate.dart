@@ -1,9 +1,10 @@
+import 'dart:developer' as log;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ColorGenerate {
-  ColorGenerate._();
+class AppColorGenerate {
+  AppColorGenerate._();
 
   static MaterialColor color(int color) {
     return MaterialColor(
@@ -34,6 +35,17 @@ class ColorGenerate {
         // 900: shadeColor(Color(color), 0.4),
       },
     );
+  }
+
+  static generateLog(int hexa, String colorName) {
+    List<int> shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+    MaterialColor colorLog = color(hexa);
+
+    log.log('static const Color $colorName = ${colorLog[shades[5]]}');
+    for (int i = 0; i < shades.length; i++) {
+      log.log('static const Color $colorName${shades[i]} = ${colorLog[shades[i]]}');
+    }
   }
 
   static int tintValue(int value, double factor) =>

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '/theme/app_extension.dart';
+
+import 'app_extension.dart';
 
 class AppFonts {
   AppFonts._();
 
-  static final Color _colorDefault = AppExtension.textColor;
+  static const Color _colorDefault = AppExtension.textColor;
 
   static const FontWeight _normal = FontWeight.normal;
   static const FontWeight _medium = FontWeight.w600;

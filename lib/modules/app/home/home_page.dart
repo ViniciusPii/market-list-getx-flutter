@@ -209,7 +209,7 @@ class HomePage extends GetView<HomeController> {
                 controller.listAmountsCalculate() == 1
                     ? '${controller.listAmountsCalculate()} item no seu carrinho!'
                     : '${controller.listAmountsCalculate()} itens no seu carrinho!',
-                style: AppFonts.titleMedium(color: AppColors.neutral.shade700),
+                style: AppFonts.titleMedium(color: AppColors.neutral700),
               ),
               IconButton(
                 onPressed: () => showDialog<AlertDialog>(

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '/theme/app_extension.dart';
-import '/theme/app_fonts.dart';
 
 import 'app_dimension.dart';
+import 'app_extension.dart';
+import 'app_fonts.dart';
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData get defaultTheme => ThemeData(
-        primaryColor: AppExtension.primary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: AppExtension.fontFamily,
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -22,7 +21,7 @@ class AppTheme {
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: AppExtension.primary,
-          secondary: AppExtension.secondary, // Your accent color
+          secondary: AppExtension.secondary,
         ),
       );
 }
